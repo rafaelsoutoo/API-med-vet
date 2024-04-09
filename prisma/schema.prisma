@@ -12,3 +12,92 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  ADMIN
+  STUDENT
+  TEACHER
+  SECRETARY
+}
+
+model Student {
+  id           String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name         String
+  cpf          String   @unique
+  password     String
+  email        String?  @unique
+  registration String   @unique
+  course       String?
+  shift        String?
+  period       String?
+  phone        String?
+  role         Role     @default(STUDENT)
+  created_at   DateTime @default(now())
+
+  @@map("students") //trocar o nome da tabela 
+}
+
+model Teacher {
+  id           String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name         String
+  cpf          String   @unique
+  password     String
+  email        String?  @unique
+  registration String   @unique
+  course       String?
+  shift        String?
+  phone        String?
+  role         Role     @default(TEACHER)
+  created_at   DateTime @default(now())
+
+  @@map("teachers")
+}
+
+model Secratary {
+  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name       String
+  cpf        String   @unique
+  password   String
+  email      String?  @unique
+  phone      String?
+  role       Role     @default(SECRETARY)
+  created_at DateTime @default(now())
+
+  @@map("secratarys")
+}
+
+model Tutor {
+  id          String    @id @default(uuid()) @map("_id") @db.ObjectId
+  name        String
+  cpf         String    @unique
+  password    String
+  email       String?   @unique
+  phone       String
+  description String?
+  animals     Animal[]
+  consult     Consult[]
+  created_at  DateTime  @default(now())
+
+  @@map("tutors")
+}
+
+model Animal {
+  id         String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name       String
+  created_at DateTime @default(now())
+  tutor      Tutor    @relation(fields: [tutor_id], references: [id])
+  tutor_id   String   @db.ObjectId
+
+  @@map("animals")
+}
+
+model Consult {
+  id          String   @id @default(uuid()) @map("_id") @db.ObjectId
+  date        String
+  description String?
+  tutor       Tutor    @relation(fields: [tutor_id], references: [id])
+  tutor_id    String   @db.ObjectId
+  created_at  DateTime @default(now())
+
+  @@map("consults")
+}
