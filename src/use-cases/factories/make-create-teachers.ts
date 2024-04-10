@@ -1,9 +1,9 @@
 import { PrismaUsersRepository } from '@/repositories/Prisma/prisma-users-repository'  
-import { CreateStudentsUseCase } from '@/use-cases/createStudents'
+import { CreateTeachersUseCase } from '@/use-cases/createTeachers'
 
 export function makeRegisterUseCase() {
   const usersRepository = new PrismaUsersRepository() //istanciar meu repositório
-  const useCase = new  CreateStudentsUseCase(usersRepository)
+  const useCase = new CreateTeachersUseCase(usersRepository)
 
   return useCase
 }

@@ -1,35 +1,34 @@
 import { UsersRepository } from '@/repositories/users-repository'
 
-import { Student } from '@prisma/client'  //tipagem propria do prisma
+import { Teacher} from '@prisma/client'  //tipagem propria do prisma
 import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface RegisterUseCaseRequest {
-    name: string
-    cpf: string
-    password: string
-    email: string | null
-    registration: string
-    course: string | null
-    shift: string | null
-    period: string | null
-    phone: string | null
+    name: string;
+    cpf: string;
+    password: string;
+    email: string | null;
+    registration: string;
+    course: string | null;
+    shift: string | null;
+    phone: string | null;
 }
 
 interface RegisterUseCaseResponse {
-  user: Student
+  user: Teacher
 }
 
 
 
-export class CreateStudentsUseCase {  //cada classe tem um método
+export class CreateTeachersUseCase {  //cada classe tem um método
   constructor(private usersRepository: UsersRepository) {}   //receber as dependencia dentro do construtor
                                                                     //retorna isso
-  async execute({ name, email, cpf, password, registration, course, shift, period, phone}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ name, email, cpf, password, registration, course, shift, phone}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
     const password_hash = await hash(password, 6)
 
-    const userWithSameEmail = await this.usersRepository.findByCpfStudent(cpf)
+    const userWithSameEmail = await this.usersRepository.findByCpfTeacher(cpf)
 
     if (userWithSameEmail) { //se o usuario existe
         throw new UserAlreadyExistsError()
@@ -37,7 +36,7 @@ export class CreateStudentsUseCase {  //cada classe tem um método
   
    
                      //recebendo repositorio do construtor
-    const user = await this.usersRepository.createStudent({   //cria o usuario no banco de dados
+    const user = await this.usersRepository.createTeachers({   //cria o usuario no banco de dados
       name,
       email,
       cpf,
@@ -45,7 +44,6 @@ export class CreateStudentsUseCase {  //cada classe tem um método
       registration,
       course,
       shift,
-      period,
       phone
     })
 

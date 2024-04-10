@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase } from '@/use-cases/factories/make-create-students'
+import { makeRegisterUseCase} from '@/use-cases/factories/make-create-teachers'
 import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 
 
@@ -26,7 +26,7 @@ function isValidCPF(cpf: string): boolean {
     return true;
 }
 
-export async function createStudent(request: FastifyRequest, reply: FastifyReply) {
+export async function createTeacher(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
         name: z.string(),
         email: z.string().email(),
@@ -37,11 +37,10 @@ export async function createStudent(request: FastifyRequest, reply: FastifyReply
         registration: z.string(),
         course: z.string().nullable(),
         shift: z.string().nullable(), // Certifique-se de que este campo está definido como nullable
-        period: z.string().nullable(),
         phone: z.string().nullable(),
     });
 
-    const { name, email, cpf, password, registration, course, shift, period, phone } = registerBodySchema.parse(request.body);
+    const { name, email, cpf, password, registration, course, shift, phone } = registerBodySchema.parse(request.body);
 
     try {
 
@@ -55,7 +54,6 @@ export async function createStudent(request: FastifyRequest, reply: FastifyReply
             registration,
             course,
             shift,
-            period,
             phone
         })
     } catch (err) {
