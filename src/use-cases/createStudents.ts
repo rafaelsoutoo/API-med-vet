@@ -29,9 +29,9 @@ export class CreateStudentsUseCase {  //cada classe tem um método
 
     const password_hash = await hash(password, 6)
 
-    const userWithSameEmail = await this.usersRepository.findByCpfStudent(cpf)
+    const userWithSameCpf = await this.usersRepository.findByCpfStudent(cpf)
 
-    if (userWithSameEmail) { //se o usuario existe
+    if (userWithSameCpf) { //se o usuario existeSSS
         throw new UserAlreadyExistsError()
       }
   
