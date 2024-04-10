@@ -5,15 +5,15 @@ import { hash } from 'bcryptjs'
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface RegisterUseCaseRequest {
-    name: string;
-    cpf: string;
-    password: string;
-    email: string | null;
-    registration: string;
-    course: string | null;
-    shift: string | null;
-    period: string | null;
-    phone: string | null;
+    name: string
+    cpf: string
+    password: string
+    email: string | null
+    registration: string
+    course: string | null
+    shift: string | null
+    period: string | null
+    phone: string | null
 }
 
 interface RegisterUseCaseResponse {
@@ -29,7 +29,7 @@ export class RegisterUseCase {  //cada classe tem um método
 
     const password_hash = await hash(password, 6)
 
-    const userWithSameEmail = await this.usersRepository.findByEmailStudent(cpf)
+    const userWithSameEmail = await this.usersRepository.findByCpfStudent(cpf)
 
     if (userWithSameEmail) { //se o usuario existe
         throw new UserAlreadyExistsError()

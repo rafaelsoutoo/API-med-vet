@@ -36,11 +36,10 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
         password: z.string(),
         registration: z.string(),
         course: z.string().nullable(),
-        shift: z.string().nullable(),
+        shift: z.string().nullable(), // Certifique-se de que este campo está definido como nullable
         period: z.string().nullable(),
         phone: z.string().nullable(),
-
-    })
+    });
 
     const { name, email, cpf, password, registration, course, shift, period, phone } = registerBodySchema.parse(request.body);
 

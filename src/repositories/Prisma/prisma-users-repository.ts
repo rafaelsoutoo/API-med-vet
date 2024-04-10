@@ -17,7 +17,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
 
 
-  async findByEmailStudent(cpf: string) {
+  async findByCpfStudent(cpf: string) {
     const user = await prisma.student.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
       where: {
         cpf,
