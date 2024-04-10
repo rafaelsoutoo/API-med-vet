@@ -11,7 +11,7 @@ interface AuthenticateUseCaseRequest {  //para se autenticar na aplicação
 
 
 interface AuthenticateUseCaseResponse {
-    user: Teacher | Student| Secretary | null
+    user: Teacher | Student| Secretary 
 }
 
 export class AuthenticateUseCase {

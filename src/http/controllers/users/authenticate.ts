@@ -50,8 +50,23 @@ export async function authenticate(
       password
     })
 
+    
+    const token = await reply.jwtSign( //resposta, criar o novo token
+    {
+      role: user.role,
+    },
+    {
+      sign: {
+        sub: user.id,
+      },
+    },
+  )
+
+
+
     return reply.status(200).send({
-        user
+        user,
+        token,
     });
 
 

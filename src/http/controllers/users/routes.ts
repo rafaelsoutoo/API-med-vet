@@ -3,6 +3,8 @@ import { createTeacher } from '@/http/controllers/users/createTeachers'
 import { createSecretary } from '@/http/controllers/users/createSecretary'
 import { authenticate } from '@/http/controllers/users/authenticate'
 
+
+
 import { FastifyInstance } from 'fastify'
 
 export async function  usersRoutes(app: FastifyInstance) {
