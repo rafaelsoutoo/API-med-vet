@@ -38,6 +38,16 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async findByCpfSecretary(cpf: string) {
+    const user = await prisma.secretary.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
+      where: {
+        cpf,
+      },
+    })
+
+    return user
+  }
+
   async createStudent(data: Prisma.StudentCreateInput) {  //cria no banco de dados
     const user = await prisma.student.create({
       data,
@@ -54,8 +64,12 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async createSecretarys(data: Prisma.TeacherCreateInput) {  //cria no banco de dados
+    const user = await prisma.secretary.create({
+      data,
+    })
 
-
- 
+    return user
+  }
 
 }
