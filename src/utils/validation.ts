@@ -22,7 +22,9 @@ export class Validation {
       return true;
   };
 
-  //static isValidPhoneNumber(number: string): boolean {
-    //if number
-  //}
+  static isValidPhoneNumber(numberPhone: string): boolean{
+      const regexPhone = /^\(\d{2}\)9\d{4}-\d{4}$/;
+
+      return regexPhone.test(numberPhone);
+  }
 }
