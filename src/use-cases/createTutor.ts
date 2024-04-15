@@ -1,15 +1,15 @@
 import { TutorAlreadyExistsError } from './errors/tutor-already-exists';
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { Tutor } from '@prisma/client'
+import { PrismaAnimalsRepository } from '@/repositories/Prisma/prisma-animals-repository'
+import { error } from 'console';
 
 interface RegisterUseCaseRequest {
     name: string,
     cpf: string,
     email: string,
     phone: string,
-	  description: string | null,
-	  animals: string | null,
-	  consult: string | null,
+    animals: string
 }
 
 interface RegisterUseCaseResponse {
@@ -19,31 +19,40 @@ interface RegisterUseCaseResponse {
 
 
 export class CreateTutorsUseCase {  //cada classe tem um método
-  constructor(private tutorRepository: TutorRepository) {}   //receber as dependência dentro do construtor
-                                                                    //retorna isso
-  async execute({ name, email, cpf, description, animals, consult, phone}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  constructor(
+    private tutorRepository: TutorRepository,
+    private animals: PrismaAnimalsRepository
+  ){}
+
+  async execute({ name, email, cpf, animals, phone}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
-    const tutorWithSameCpf = await this.tutorRepository.findByCpfTutor(cpf)
+    const tutorWithSameCpf = await this.tutorRepository.findByCpfTutor(cpf);
 
-    if (tutorWithSameCpf) { //se o usuário existe
-        throw new TutorAlreadyExistsError()
-      }
-  
-  //criar logica para relacionar animal e consultas ao Tutor
+    if (tutorWithSameCpf) {
+      throw new TutorAlreadyExistsError()
+      };
 
-
-                     //recebendo repositório do construtor
-    const tutor = await this.tutorRepository.createTutor({   //cria o usuário no banco de dados
+    const tutor = await this.tutorRepository.createTutor({
       name,
       email,
       cpf,
       email,
       phone,
-      description,
-      animals,
-      consult
-    })
+    });
+
+    const tutor_id = tutor.id
+
+    try {
+      let name = animals
+
+      await this.animals.createAnimal({
+        tutor_id,
+        name
+      })
+    } catch(err) {
+      throw new Error
+    }
 
     return {
       tutor

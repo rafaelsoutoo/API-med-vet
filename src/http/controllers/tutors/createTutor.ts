@@ -16,12 +16,10 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			message: "Numero de contato inválido",
 		}),
 		email: z.string().email(),
-		description: z.string().nullable(),
 		animals: z.string().nullable(),
-		consults: z.string().nullable(),
 	});
 
-	const { name, cpf, phone, email, description, animals, consults } = registerBodySchema.parse(request.body);
+	const { name, cpf, phone, email, animals } = registerBodySchema.parse(request.body);
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
@@ -31,9 +29,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			cpf,
 			phone,
 			email,
-			description,
 			animals,
-			consults
 		})
 	} catch(err) {
 		if (err instanceof TutorAlreadyExistsError) {

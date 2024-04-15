@@ -32,9 +32,10 @@ export class PrismaTutorsRepository implements TutorRepository {
   async createTutor(data: Prisma.TutorCreateInput) {  //cria no banco de dados
     const tutor = await prisma.tutor.create({
       data,
-    })
+    });
+
 
     return tutor
-  }
 
+  }
 }
