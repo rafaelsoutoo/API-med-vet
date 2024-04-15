@@ -1,6 +1,6 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { prisma } from '@/lib/prisma'
-import { Prisma,  Student, Secretary, Teacher } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 
 
