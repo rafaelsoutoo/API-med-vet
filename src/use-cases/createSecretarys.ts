@@ -30,8 +30,8 @@ export class CreateSecretarysUseCase {  //cada classe tem um método
     if (userWithSameCpf) { //se o usuario existe
         throw new UserAlreadyExistsError()
       }
-  
-   
+
+
                      //recebendo repositorio do construtor
     const user = await this.usersRepository.createSecretarys({   //cria o usuario no banco de dados
       name,

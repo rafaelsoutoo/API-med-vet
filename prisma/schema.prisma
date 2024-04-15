@@ -34,7 +34,7 @@ model Student {
   role          Role     @default(STUDENT)
   created_at    DateTime @default(now())
 
-  @@map("students") //trocar o nome da tabela 
+  @@map("students") //trocar o nome da tabela
 }
 
 model Teacher {
@@ -70,10 +70,8 @@ model Tutor {
   id          String    @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   cpf         String    @unique
-  password    String
   email       String?   @unique
   phone       String
-  description String?
   animals     Animal[]
   consult     Consult[]
   created_at  DateTime  @default(now())
@@ -82,11 +80,11 @@ model Tutor {
 }
 
 model Animal {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  name       String
-  created_at DateTime @default(now())
-  tutor      Tutor    @relation(fields: [tutor_id], references: [id])
-  tutor_id   String   @db.ObjectId
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  created_at   DateTime @default(now())
+  tutor        Tutor    @relation(fields: [tutor_id], references: [id])
+  tutor_id     String   @db.ObjectId
 
   @@map("animals")
 }
