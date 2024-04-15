@@ -15,7 +15,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
-		email: z.string().email(),
+		email: z.string().email().nullable(),
 		animals: z.string().nullable(),
 	});
 

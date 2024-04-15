@@ -7,9 +7,9 @@ import { error } from 'console';
 interface RegisterUseCaseRequest {
     name: string,
     cpf: string,
-    email: string,
+    email: string | null
     phone: string,
-    animals: string
+    animals: string | null
 }
 
 interface RegisterUseCaseResponse {
@@ -24,7 +24,7 @@ export class CreateTutorsUseCase {  //cada classe tem um método
     private animals: PrismaAnimalsRepository
   ){}
 
-  async execute({ name, email, cpf, animals, phone}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ name, email, cpf, animals, phone,}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
     const tutorWithSameCpf = await this.tutorRepository.findByCpfTutor(cpf);
@@ -35,7 +35,6 @@ export class CreateTutorsUseCase {  //cada classe tem um método
 
     const tutor = await this.tutorRepository.createTutor({
       name,
-      email,
       cpf,
       email,
       phone,
@@ -43,16 +42,16 @@ export class CreateTutorsUseCase {  //cada classe tem um método
 
     const tutor_id = tutor.id
 
-    try {
-      let name = animals
-
+   
+    if (animals !== null) {
+      let name: string = animals;
+    
       await this.animals.createAnimal({
         tutor_id,
         name
-      })
-    } catch(err) {
-      throw new Error
-    }
+      });
+    } 
+
 
     return {
       tutor
