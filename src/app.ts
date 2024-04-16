@@ -8,6 +8,7 @@ import { env } from '@/env'
 
 import { usersRoutes } from '@/http/controllers/users/routes'
 import { tutorRoutes } from '@/http/controllers/tutors/routes'
+import { consultRoutes } from '@/http/controllers/consults/routes'
 
 
 
@@ -69,6 +70,7 @@ app.register(require('@fastify/swagger'), {
 
 app.register(usersRoutes)
 app.register(tutorRoutes)
+app.register(consultRoutes)
 
 
 

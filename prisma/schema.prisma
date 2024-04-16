@@ -67,24 +67,24 @@ model Secretary {
 }
 
 model Tutor {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  cpf         String    @unique
-  email       String?   @unique
-  phone       String
-  animals     Animal[]
-  consult     Consult[]
-  created_at  DateTime  @default(now())
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  cpf        String?   @unique
+  email      String?   @unique
+  phone      String
+  animals    Animal[]
+  consult    Consult[]
+  created_at DateTime  @default(now())
 
   @@map("tutors")
 }
 
 model Animal {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  name         String
-  created_at   DateTime @default(now())
-  tutor        Tutor    @relation(fields: [tutor_id], references: [id])
-  tutor_id     String   @db.ObjectId
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  created_at DateTime @default(now())
+  tutor      Tutor    @relation(fields: [tutor_id], references: [id])
+  tutor_id   String   @db.ObjectId
 
   @@map("animals")
 }
@@ -92,6 +92,9 @@ model Animal {
 model Consult {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   date        String
+  nameAnimal  String
+  phone       String
+  species     String
   description String?
   tutor       Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id    String   @db.ObjectId
