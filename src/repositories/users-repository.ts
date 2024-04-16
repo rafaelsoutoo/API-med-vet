@@ -1,4 +1,4 @@
-import { Prisma, Secretary, Student, Teacher} from '@prisma/client'
+import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 export interface UsersRepository {
   findById(id: string): Promise<Student | null>

@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { GetAllTeachersUseCase } from "@/use-cases/getAllTeachers"; 
-import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository"; 
+import { GetAllTeachersUseCase } from "@/use-cases/getTeachers";
+import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 
 export async function getAllTeachers(request: FastifyRequest, reply: FastifyReply) {
   try {

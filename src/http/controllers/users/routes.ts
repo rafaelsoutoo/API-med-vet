@@ -9,8 +9,8 @@ import { secretarySchema } from "@/docs/swagger/secretarySchema";
 import { sessionsSchema } from "@/docs/swagger/sessionsSchema";
 
 import { FastifyInstance } from "fastify";
-import { getAllStudent } from "./getAllStudent";
-import { getAllTeachers } from "./getAllTeachers";
+import { getAllStudent, getStudentById } from "./getStudent";
+import { getAllTeachers } from "./getTeachers";
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post("/users/student", { schema: studentSchema }, createStudent);
@@ -21,6 +21,10 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.get("/get/student", getAllStudent);
   app.get("/get/teachers", getAllTeachers);
+
+
+  app.get("/get/student/:id", getStudentById); // buscar pelo id
+
 
   app.post("/sessions", { schema: sessionsSchema }, authenticate); //seção de autnhenticate
 }
