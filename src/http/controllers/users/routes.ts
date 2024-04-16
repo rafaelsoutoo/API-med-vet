@@ -12,6 +12,7 @@ import { sessionsSchema} from '@/docs/swagger/sessionsSchema'
 
 
 import { FastifyInstance } from 'fastify'
+import { getAllStudent } from './getAllStudent'
 
 export async function  usersRoutes(app: FastifyInstance) {
     app.post('/users/student', { schema: studentSchema }, createStudent)
@@ -20,6 +21,7 @@ export async function  usersRoutes(app: FastifyInstance) {
 
     app.post('/users/secretary',{ schema: secretarySchema },  createSecretary )
 
+    app.get("/get/student", getAllStudent)
     
     app.post('/sessions',{ schema: sessionsSchema }, authenticate) //seção de autnhenticate
 
