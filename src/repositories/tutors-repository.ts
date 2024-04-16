@@ -4,4 +4,5 @@ export interface TutorRepository {
   findById(id: string): Promise<Tutor | null>
   findByCpfTutor(cpf: string): Promise<Tutor | null>
   createTutor(data: Prisma.TutorCreateInput): Promise<Tutor>
+  getAllTutors(page: number, numberOfItems:number): Promise<Tutor[]>
 }

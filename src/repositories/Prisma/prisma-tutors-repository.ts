@@ -17,7 +17,6 @@ export class PrismaTutorsRepository implements TutorRepository {
   }
 
 
-
   async findByCpfTutor(cpf: string) {
     const tutor = await prisma.tutor.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
       where: {
@@ -37,5 +36,17 @@ export class PrismaTutorsRepository implements TutorRepository {
 
     return tutor
 
+  }
+
+
+  async getAllTutors(page: number, numberOfItems: number) {
+    const skipItens = (page - 1) * numberOfItems
+
+    const alltutors = await prisma.tutor.findMany({
+      take: numberOfItems,
+      skip: skipItens
+    })
+
+    return alltutors
   }
 }
