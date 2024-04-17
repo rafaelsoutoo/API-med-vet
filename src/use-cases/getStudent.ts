@@ -3,8 +3,8 @@ import { UsersRepository } from "@/repositories/users-repository";
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute() {
-    const users = await this.usersRepository.findAllStudent();
+  async execute(page: number, numberOfItems:number) {
+    const users = await this.usersRepository.findAllStudent(page, numberOfItems);
     return users;
   }
 }
