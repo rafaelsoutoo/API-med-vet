@@ -16,13 +16,25 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async findAllStudent() {
-    const users = await prisma.student.findMany();
+  async findAllStudent(page: number, numberOfItems: number) {
+
+    const skipItens = (page - 1) * numberOfItems
+
+    const users = await prisma.student.findMany({
+      take: numberOfItems,
+      skip: skipItens
+    });
     return users;
   }
 
-  async findAllTeachers() {
-    const users = await prisma.teacher.findMany();
+  async findAllTeachers(page: number, numberOfItems: number) {
+
+    const skipItens = (page - 1) * numberOfItems
+
+    const users = await prisma.teacher.findMany({
+      take: numberOfItems,
+      skip: skipItens
+    });
     return users;
   }
 

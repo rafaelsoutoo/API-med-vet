@@ -1,17 +1,27 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { GetAllStudentsUseCase, GetStudentByIdUseCase } from "@/use-cases/getStudent";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
+import { z } from "zod";
 
 interface Params {
   id: string;
 }
 
+
 export async function getAllStudent(request: FastifyRequest, reply: FastifyReply) {
+
+  const getQuerySchema = z.object({
+    page: z.coerce.number(),
+  numberOfItems: z.coerce.number()
+  });
+
+  const { page, numberOfItems } = getQuerySchema.parse(request.query);
+
   try {
     const prismaUsersRepository = new PrismaUsersRepository();
     const getUsersUseCase = new GetAllStudentsUseCase(prismaUsersRepository);
 
-    const users = await getUsersUseCase.execute();
+    const users = await getUsersUseCase.execute(page, numberOfItems);
 
     if (users.length === 0) {
       return reply.status(200).send({ message: "No Students." });
