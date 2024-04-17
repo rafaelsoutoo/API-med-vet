@@ -5,14 +5,31 @@ import { Prisma } from '@prisma/client'
 
 
 export class PrismaConsultsRepository implements ConsultsRepository {
+  
+  async createConsults(data: Prisma.ConsultUncheckedCreateInput) {
 
-   
-  async createConsults(data: Prisma.ConsultUncheckedCreateInput) {  //cria no banco de dados
-    const user = await prisma.consult.create({
+    const consult = await prisma.consult.create({
       data,
     })
 
-    return user
+    return consult
+  }
+
+  async getAllConsultsDone(page: number, numberOfItems: number) {
+    const skipItens = (page - 1) * numberOfItems
+    
+    const consults = await prisma.consult.findMany({
+      where: {
+        done: false
+      },
+      orderBy: {
+        date: 'asc'
+      },
+      take: numberOfItems,
+      skip: skipItens
+    })
+
+    return consults
   }
 
 

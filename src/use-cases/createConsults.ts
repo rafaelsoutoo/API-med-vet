@@ -8,7 +8,7 @@ import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface RegisterUseCaseRequest {
     nameAnimal: string
-    date : string
+    stringDate : string
     species : string
     phone: string
     description: string | null
@@ -25,7 +25,7 @@ export class CreateConsultsUseCase {  //cada classe tem um método
   constructor(private consultsRepository: ConsultsRepository,
     private tutorRepository: TutorRepository ) {}   //receber as dependencia dentro do construtor
                                                                     //retorna isso
-  async execute({ nameAnimal, date, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
     const name = nameTutor
@@ -55,20 +55,32 @@ export class CreateConsultsUseCase {  //cada classe tem um método
 
     const tutor_id = tutor.id
 
-                     //recebendo repositorio do construtor
-    const consults = await this.consultsRepository.createConsults({   //cria o usuario no banco de dados
-      nameAnimal,
-      date,
-      description, 
-      species, 
-      phone,
-      tutor_id
-    })
+    //transformar string em um Date object
+    const dateData = (stringDate).split("/");
 
-    return {
-      consults
-    }
+    
+    const day = parseInt(dateData[0], 10);
+    const month = parseInt(dateData[1], 10) - 1;
+    const year = parseInt(dateData[2], 10);
 
+    if (day > 0 && day <= 31 && month >= 0 && month < 12){
 
+      const date = new Date(year, month, day);
+
+      const consults = await this.consultsRepository.createConsults({
+        nameAnimal,
+        date,
+        description, 
+        species, 
+        phone,
+        tutor_id
+      });
+  
+      return {
+        consults
+      }
+    } else {
+      throw new Error(`data invalida ${day}, ${month}, ${year}`)
+    };
   }
 }
