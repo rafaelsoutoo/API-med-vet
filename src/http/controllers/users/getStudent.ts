@@ -12,7 +12,7 @@ export async function getAllStudent(request: FastifyRequest, reply: FastifyReply
 
   const getQuerySchema = z.object({
     page: z.coerce.number(),
-  numberOfItems: z.coerce.number()
+    numberOfItems: z.coerce.number()
   });
 
   const { page, numberOfItems } = getQuerySchema.parse(request.query);
