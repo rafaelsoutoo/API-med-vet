@@ -15,6 +15,15 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+  async findByRegistrationStudent(registration: string) {
+    const user = await prisma.student.findUnique({
+      where: {
+        registration,
+      },
+    })
+
+    return user
+  }
 
   async findAllStudent(page: number, numberOfItems: number) {
 

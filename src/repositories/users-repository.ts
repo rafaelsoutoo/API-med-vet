@@ -2,6 +2,7 @@ import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 export interface UsersRepository {
   findById(id: string): Promise<Student | null>
+  findByRegistrationStudent(registration: string): Promise<Student | null>
   findAllStudent(page: number, numberOfItems: number): Promise<Student[]>;
   findAllTeachers(page: number, numberOfItems: number): Promise<Teacher[]>;
   findByCpfStudent(cpf: string): Promise<Student | null>

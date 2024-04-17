@@ -3,7 +3,7 @@ import { UsersRepository } from "@/repositories/users-repository";
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute(page: number, numberOfItems:number) {
+  async execute(page: number, numberOfItems: number) {
     const users = await this.usersRepository.findAllStudent(page, numberOfItems);
     return users;
   }
@@ -15,6 +15,19 @@ export class GetStudentByIdUseCase {
 
   async execute(id: string) {
     const user = await this.usersRepository.findById(id);
+
+    if (!user) {
+      throw new Error('Student not found');
+    }
+
+    return user;
+  }
+}
+export class GetStudentByRegistrationUseCase {
+  constructor(private usersRepository: UsersRepository) { }
+
+  async execute(registration: string) {
+    const user = await this.usersRepository.findByRegistrationStudent(registration);
 
     if (!user) {
       throw new Error('Student not found');
