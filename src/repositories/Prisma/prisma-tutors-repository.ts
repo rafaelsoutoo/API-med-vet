@@ -37,6 +37,16 @@ export class PrismaTutorsRepository implements TutorRepository {
     return tutor
   }
 
+  async findByNameTutor(name: string) {
+    const tutor = await prisma.tutor.findFirst({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
+      where: {
+        name,
+      },
+    })
+
+    return tutor
+  }
+
 
   async createTutor(data: Prisma.TutorCreateInput) {  //cria no banco de dados
     const tutor = await prisma.tutor.create({
@@ -58,5 +68,19 @@ export class PrismaTutorsRepository implements TutorRepository {
     })
 
     return alltutors
+  }
+
+  async searchManyPhone(query: string, page: number) { //buscar pelo nome e retorna a academia
+    const gyms = await prisma.tutor.findMany({
+      where: {
+        phone: {
+          contains: query, //se o titulo contem a query digitada
+        },
+      },
+      take: 5,
+      skip: (page - 1) * 5,
+    })
+
+    return gyms
   }
 }
