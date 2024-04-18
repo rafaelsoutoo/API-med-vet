@@ -37,9 +37,9 @@ git clone https://github.com/rafaelsoutoo/API-med-vet
   `mongodb+srv://username:<password>@<database-name>.msilvm8.mongodb.net/<database-name>?retryWrites=true&w=majority&appName=<database-name>`
   
   Remember to change the fields 
-   - <username>;
-   - <password>;
-   - <database-name>;
+   - username;
+   - password;
+   - database-name;
 
   with data from your database, you can see your data in your mongoAtlas login
 
