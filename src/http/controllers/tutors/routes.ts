@@ -6,7 +6,7 @@ import { FastifyInstance } from 'fastify'
 
 export async function tutorRoutes(app: FastifyInstance) {
     app.post('/tutor', createTutor)
-    app.get('/tutor', getAllTutors)
+    app.get('/get/tutor', getAllTutors)
     app.get('/tutor/searchphone', searchPhoneTutors)
 }
 
