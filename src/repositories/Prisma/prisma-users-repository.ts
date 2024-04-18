@@ -22,20 +22,31 @@ export class PrismaUsersRepository implements UsersRepository {
 
     const users = await prisma.student.findMany({
       take: numberOfItems,
-      skip: skipItens
+      skip: skipItens,
     });
-    return users;
+
+    const usersWithPasswordHash = users.map(user => ({
+      ...user,
+      password_hash: '',
+    }));
+
+    return usersWithPasswordHash;
   }
 
   async findAllTeachers(page: number, numberOfItems: number) {
-
-    const skipItens = (page - 1) * numberOfItems
+    const skipItems = (page - 1) * numberOfItems;
 
     const users = await prisma.teacher.findMany({
       take: numberOfItems,
-      skip: skipItens
+      skip: skipItems,
     });
-    return users;
+
+    const usersWithPasswordHash = users.map(user => ({
+      ...user,
+      password_hash: '',
+    }));
+
+    return usersWithPasswordHash;
   }
 
 
