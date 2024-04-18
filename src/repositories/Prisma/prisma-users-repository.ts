@@ -15,8 +15,26 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+  async findTeacherById(id: string) {
+    const user = await prisma.teacher.findUnique({ //pelo teacher retorna o usuário
+      where: {
+        id,
+      },
+    })
+
+    return user
+  }
   async findByRegistrationStudent(registration: string) {
     const user = await prisma.student.findUnique({
+      where: {
+        registration,
+      },
+    })
+
+    return user
+  }
+  async findByRegistrationTeachers(registration: string) {
+    const user = await prisma.teacher.findUnique({
       where: {
         registration,
       },
