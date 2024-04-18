@@ -16,7 +16,7 @@ export async function createExistTutorConsultsUseCase(request: FastifyRequest, r
 	const registerBodySchema = z.object({
 		nameAnimal: z.string(),
         species: z.string(),
-        date: z.string(),
+        stringDate: z.string(),
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
@@ -25,14 +25,14 @@ export async function createExistTutorConsultsUseCase(request: FastifyRequest, r
 		
 	});
 
-	const { nameAnimal, date, description, species, phone } = registerBodySchema.parse(request.body);
+	const { nameAnimal, stringDate, description, species, phone } = registerBodySchema.parse(request.body);
     const { tutor_id } = validateIdParamsSchema.parse(request.params)
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
 
 		await registerUserCase.execute({
-			nameAnimal, date, description, species, phone, tutor_id
+			nameAnimal, stringDate, description, species, phone, tutor_id
 		})
 	} catch(err) {
 		if (err instanceof TutorNoExistsError) {

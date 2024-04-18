@@ -31,22 +31,22 @@ export class CreateConsultsUseCase {  //cada classe tem um método
     const name = nameTutor
 
 
-    const tutorWithSameCpf = await this.tutorRepository.findByPhoneTutor(phone);
+    const tutorWithSamePhoneandName = await this.tutorRepository.findByPhoneandNameTutor(phone, name);
 
-    // if (tutorWithSameCpf) {
-    //   throw new TutorAlreadyExistsError()
-    //   };
-
-    const tutorWithSameName = await this.tutorRepository.findByNameTutor(name);
-
-    // if (tutorWithSameName) {
-    //   throw new TutorAlreadyExistsError()
-    //   };
-
-
-    if (tutorWithSameCpf && tutorWithSameName && tutorWithSameCpf.id === tutorWithSameName.id) {
+    if ( tutorWithSamePhoneandName) {
       throw new TutorAlreadyExistsError()
-    }
+      };
+
+    // const tutorWithSameName = await this.tutorRepository.findByNameTutor(name);
+
+    // // if (tutorWithSameName) {
+    // //   throw new TutorAlreadyExistsError()
+    // //   };
+
+
+    // if (tutorWithSamePhone && tutorWithSameName && tutorWithSamePhone.id === tutorWithSameName.id) {
+    //   throw new TutorAlreadyExistsError()
+    // }
 
     const tutor = await this.tutorRepository.createTutor({
         name,
