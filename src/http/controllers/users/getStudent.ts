@@ -1,10 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { GetAllStudentsUseCase, GetStudentByIdUseCase } from "@/use-cases/getStudent";
+import { GetAllStudentsUseCase, GetStudentByIdUseCase, GetStudentByRegistrationUseCase } from "@/use-cases/getStudent";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
 
 interface Params {
   id: string;
+  registration: string;
 }
 
 
@@ -45,7 +46,35 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
       return reply.status(404).send({ message: "Student not found." });
     }
 
-    return reply.status(200).send(user);
+    return reply.status(200).send({
+      user: {
+        ...user,
+        password_hash: undefined
+      }
+    });
+  } catch (error) {
+    return reply.status(500).send();
+  }
+}
+export async function getStudentByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+  try {
+    const prismaUsersRepository = new PrismaUsersRepository();
+    const getStudentByRegistrationUseCase = new GetStudentByRegistrationUseCase(prismaUsersRepository);
+
+    const { registration } = request.params;
+
+    const user = await getStudentByRegistrationUseCase.execute(registration);
+
+    if (!user) {
+      return reply.status(404).send({ message: "Student not found." });
+    }
+
+    return reply.status(200).send({
+      user: {
+        ...user,
+        password_hash: undefined
+      }
+    });
   } catch (error) {
     return reply.status(500).send();
   }
