@@ -8,25 +8,23 @@ import { Validation } from '@/utils/validation'
 export async function createConsult(request: FastifyRequest, reply: FastifyReply) {
 
 	const registerBodySchema = z.object({
+        stringDate: z.string(),
 		nameAnimal: z.string(),
-        species: z.string(),
-        nameTutor: z.string(),
-        date: z.string(),
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
-		
+		species: z.string(),
 		description: z.string().nullable(),
-		
+		nameTutor: z.string(),
 	});
 
-	const { nameAnimal, date, description, species, phone, nameTutor  } = registerBodySchema.parse(request.body);
+	const { nameAnimal, stringDate, description, species, phone, nameTutor  } = registerBodySchema.parse(request.body);
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
 
 		await registerUserCase.execute({
-			nameAnimal, date, description, species, phone, nameTutor
+			nameAnimal, stringDate, description, species, phone, nameTutor
 		})
 	} catch(err) {
 		if (err instanceof TutorAlreadyExistsError) {

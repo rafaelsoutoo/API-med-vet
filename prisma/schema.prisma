@@ -91,11 +91,12 @@ model Animal {
 
 model Consult {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  date        String
+  date        DateTime
   nameAnimal  String
   phone       String
   species     String
   description String?
+  done        Boolean @default(false)
   tutor       Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id    String   @db.ObjectId
   created_at  DateTime @default(now())
