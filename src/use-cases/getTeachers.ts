@@ -15,9 +15,6 @@ export class GetTeacherByIdUseCase {
   async execute(id: string) {
     const user = await this.usersRepository.findTeacherById(id);
 
-    if (!user) {
-      throw new Error('Teacher not found');
-    }
 
     return user;
   }
@@ -28,10 +25,6 @@ export class GetTeachersByRegistrationUseCase {
 
   async execute(registration: string) {
     const user = await this.usersRepository.findByRegistrationTeachers(registration);
-
-    if (!user) {
-      throw new Error('Teacher not found');
-    }
 
     return user;
   }
