@@ -7,5 +7,6 @@ export interface TutorRepository {
   createTutor(data: Prisma.TutorCreateInput): Promise<Tutor>
   getAllTutors(page: number, numberOfItems:number): Promise<Tutor[]>
   findByNameTutor(name: string): Promise<Tutor | null>
+  findByPhoneandNameTutor(phone: string, name: string): Promise<Tutor | null>
   searchManyPhone(query: string, page: number): Promise<Tutor[]>
 }

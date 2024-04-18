@@ -47,6 +47,17 @@ export class PrismaTutorsRepository implements TutorRepository {
     return tutor
   }
 
+  async findByPhoneandNameTutor(phone: string ,name: string) {
+    const tutor = await prisma.tutor.findFirst({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
+      where: {
+        name,
+        phone
+      },
+    })
+
+    return tutor
+  }
+
 
   async createTutor(data: Prisma.TutorCreateInput) {  //cria no banco de dados
     const tutor = await prisma.tutor.create({
