@@ -13,7 +13,7 @@ import {createTutorSchema} from "@/docs/swagger/createTutorSchema";
 
 export async function tutorRoutes(app: FastifyInstance) {
     app.post('/tutor', { schema: createTutorSchema } , createTutor)
-    app.get('/tutor', getAllTutors)
+    app.get('/tutor', { schema: getAllTutorsSchema} , getAllTutors)
     app.get('/tutor/searchphone', { schema: searchPhoneTutorsSchema } ,searchPhoneTutors)
 }
 

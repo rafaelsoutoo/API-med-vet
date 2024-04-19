@@ -13,7 +13,7 @@ export const getAllTutorsSchema = {
     response: {
         200: {
             description: 'Busca realizada com sucesso',
-            type: 'object',
+            type: 'array', // Alterado de 'object' para 'array'
             items: {
                 type: 'object',
                 properties: {
