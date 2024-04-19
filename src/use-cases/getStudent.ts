@@ -14,11 +14,7 @@ export class GetStudentByIdUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
   async execute(id: string) {
-    const user = await this.usersRepository.findById(id);
-
-    if (!user) {
-      throw new Error('Student not found');
-    }
+    const user = await this.usersRepository.findById(id)
 
     return user;
   }
@@ -28,10 +24,6 @@ export class GetStudentByRegistrationUseCase {
 
   async execute(registration: string) {
     const user = await this.usersRepository.findByRegistrationStudent(registration);
-
-    if (!user) {
-      throw new Error('Student not found');
-    }
 
     return user;
   }

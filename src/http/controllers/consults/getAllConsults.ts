@@ -4,17 +4,17 @@ import { getAllConsultsError } from '@/use-cases/errors/get-all-consults';
 import { z } from 'zod';
 
 export async function getAllConsults(request: FastifyRequest, reply: FastifyReply) {
-	const getAllQuerySchema = z.object({
-        page: z.coerce.number(),
-		numberOfItems: z.coerce.number()
-    });
+	// const getAllQuerySchema = z.object({
+    //     page: z.coerce.number(),
+	// 	numberOfItems: z.coerce.number()
+    // });
 
-    const { page, numberOfItems } = getAllQuerySchema.parse(request.query);
+    // const { page, numberOfItems } = getAllQuerySchema.parse(request.query);
 
 	try {
 				
 		const getAllConsults = getAllConsultsUseCase();
-		const data = await getAllConsults.execute(page, numberOfItems);
+		const data = await getAllConsults.execute();
 
 		return data;
 

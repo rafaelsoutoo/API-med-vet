@@ -42,10 +42,6 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
 
     const user = await getStudentByIdUseCase.execute(id);
 
-    if (!user) {
-      return reply.status(404).send({ message: "Student not found." });
-    }
-
     return reply.status(200).send({
       user: {
         ...user,
@@ -53,7 +49,7 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
       }
     });
   } catch (error) {
-    return reply.status(500).send();
+    return reply.status(404).send({ message: "Student Not Found" });
   }
 }
 export async function getStudentByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
@@ -65,10 +61,6 @@ export async function getStudentByRegistration(request: FastifyRequest<{ Params:
 
     const user = await getStudentByRegistrationUseCase.execute(registration);
 
-    if (!user) {
-      return reply.status(404).send({ message: "Student not found." });
-    }
-
     return reply.status(200).send({
       user: {
         ...user,
@@ -76,6 +68,6 @@ export async function getStudentByRegistration(request: FastifyRequest<{ Params:
       }
     });
   } catch (error) {
-    return reply.status(500).send();
+    return reply.status(404).send({ message: "Student not found." });
   }
 }
