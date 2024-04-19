@@ -4,9 +4,16 @@ import { searchPhoneTutors } from '@/http/controllers/tutors/getPhoneTutors'
 
 import { FastifyInstance } from 'fastify'
 
+
+import {searchPhoneTutorsSchema} from "@/docs/swagger/getPhoneTutorsSchema";
+import {getAllTutorsSchema} from "@/docs/swagger/getAllTutorsSchema";
+import {createTutorSchema} from "@/docs/swagger/createTutorSchema";
+
+
+
 export async function tutorRoutes(app: FastifyInstance) {
-    app.post('/tutor', createTutor)
-    app.get('/get/tutor', getAllTutors)
-    app.get('/tutor/searchphone', searchPhoneTutors)
+    app.post('/tutor', { schema: createTutorSchema } , createTutor)
+    app.get('/get/tutor', { schema: getAllTutorsSchema} , getAllTutors)
+    app.get('/tutor/searchphone', { schema: searchPhoneTutorsSchema } ,searchPhoneTutors)
 }
 
