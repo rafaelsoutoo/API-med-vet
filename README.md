@@ -17,9 +17,9 @@ Before you begin, you'll need to have the following installed on your machine:
 
 
 1. Clone this repository on your machine: 
-```bash
-git clone https://github.com/rafaelsoutoo/API-med-vet
-```
+	```bash
+	git clone https://github.com/rafaelsoutoo/API-med-vet
+	```
 
 3. Navigate to the backend directory:
 
@@ -62,7 +62,7 @@ Once the environment is set up, you can start the backend using Docker Compose.
 ```
 
 ``` bash
-npm run dev.
+  npm run dev.
 ```
 
 2. After successful initialization, you'll see messages indicating that the backend is running. You can access it at `http://localhost:3333`.
