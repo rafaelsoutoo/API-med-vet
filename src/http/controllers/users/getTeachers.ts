@@ -24,7 +24,7 @@ export async function getAllTeachers(request: FastifyRequest, reply: FastifyRepl
     const users = await getUsersUseCase.execute(page, numberOfItems);
 
     if (users.length === 0) {
-      return reply.status(200).send({ message: "No Teachers." });
+      return reply.status(204).send({ message: "No Teachers." });
     }
     return reply.status(200).send(users);
   } catch (error) {
