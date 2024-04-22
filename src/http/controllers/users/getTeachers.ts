@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { GetAllTeachersUseCase, GetTeacherByIdUseCase, GetTeachersByRegistrationUseCase } from "@/use-cases/getTeachers";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
+import { NoExistsUsersError } from "@/use-cases/errors/no-exists-users-error";
 
 interface Params {
   id: string;
@@ -23,12 +24,11 @@ export async function getAllTeachers(request: FastifyRequest, reply: FastifyRepl
 
     const users = await getUsersUseCase.execute(page, numberOfItems);
 
-    if (users.length === 0) {
-      return reply.status(204).send({ message: "No Teachers." });
-    }
     return reply.status(200).send(users);
   } catch (error) {
-    return reply.status(500).send();
+    if (error instanceof NoExistsUsersError) {
+      return reply.status(404).send({ message: error.message })
+    }
   }
 }
 
