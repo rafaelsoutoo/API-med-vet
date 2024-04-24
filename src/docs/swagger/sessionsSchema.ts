@@ -16,21 +16,57 @@ export const sessionsSchema =  {
             type: 'object',
             properties: {
                 user: {
-                    type: 'object',
-                    properties: {
-                        id: { type: 'string', description: 'ID do usuário' },
-                        name: { type: 'string', description: 'Nome do usuário' },
-                        cpf: { type: 'string', description: 'CPF do usuário' },
-                        password_hash: { type: 'string', description: 'Hash da senha do usuário' },
-                        email: { type: 'string', description: 'Email do usuário' },
-                        registration: { type: 'string', description: 'Registro do usuário' },
-                        course: { type: 'string', description: 'Curso do usuário' },
-                        shift: { type: 'string', description: 'Turno do usuário' },
-                        phone: { type: 'string', description: 'Telefone do usuário' },
-                        role: { type: 'string', description: 'Função do usuário' },
-                        created_at: { type: 'string', description: 'Data de criação do usuário' },
-                    },
-                    required: ['id', 'name', 'cpf', 'password_hash', 'email', 'registration', 'course', 'shift', 'phone', 'role', 'created_at']
+                    oneOf: [
+                        {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string', description: 'ID do usuário' },
+                                name: { type: 'string', description: 'Nome do usuário' },
+                                cpf: { type: 'string', description: 'CPF do usuário' },
+                                password_hash: { type: 'string', description: 'Hash da senha do usuário' },
+                                email: { type: 'string', description: 'Email do usuário', nullable: true },
+                                registration: { type: 'string', description: 'Registro do usuário' },
+                                course: { type: 'string', description: 'Curso do usuário', nullable: true },
+                                shift: { type: 'string', description: 'Turno do usuário', nullable: true },
+                                phone: { type: 'string', description: 'Telefone do usuário', nullable: true },
+                                role: { type: 'string', description: 'Função do usuário' },
+                                created_at: { type: 'string', description: 'Data de criação do usuário' },
+                            },
+                            required: ['id', 'name', 'cpf', 'password_hash', 'role', 'created_at']
+                        },
+                        {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string', description: 'ID do usuário' },
+                                name: { type: 'string', description: 'Nome do usuário' },
+                                cpf: { type: 'string', description: 'CPF do usuário' },
+                                password_hash: { type: 'string', description: 'Hash da senha do usuário' },
+                                email: { type: 'string', description: 'Email do usuário', nullable: true },
+                                phone: { type: 'string', description: 'Telefone do usuário', nullable: true },
+                                role: { type: 'string', description: 'Função do usuário' },
+                                created_at: { type: 'string', description: 'Data de criação do usuário' },
+                            },
+                            required: ['id', 'name', 'cpf', 'password_hash', 'role', 'created_at']
+                        },
+                        {
+                            type: 'object',
+                            properties: {
+                                id: { type: 'string', description: 'ID do usuário' },
+                                name: { type: 'string', description: 'Nome do usuário' },
+                                cpf: { type: 'string', description: 'CPF do usuário' },
+                                password_hash: { type: 'string', description: 'Hash da senha do usuário' },
+                                email: { type: 'string', description: 'Email do usuário', nullable: true },
+                                registration: { type: 'string', description: 'Registro do usuário' },
+                                course: { type: 'string', description: 'Curso do usuário', nullable: true },
+                                shift: { type: 'string', description: 'Turno do usuário', nullable: true },
+                                period: { type: 'string', description: 'Período do usuário', nullable: true },
+                                phone: { type: 'string', description: 'Telefone do usuário', nullable: true },
+                                role: { type: 'string', description: 'Função do usuário' },
+                                created_at: { type: 'string', description: 'Data de criação do usuário' },
+                            },
+                            required: ['id', 'name', 'cpf', 'password_hash', 'registration', 'role', 'created_at']
+                        }
+                    ]
                 },
                 token: { type: 'string', description: 'Token JWT' },
             }
