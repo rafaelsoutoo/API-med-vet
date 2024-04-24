@@ -96,6 +96,7 @@ model Animal {
 
 model Consult {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  sequence    String   @unique
   date        DateTime
   nameAnimal  String
   phone       String

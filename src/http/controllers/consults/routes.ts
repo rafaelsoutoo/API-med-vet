@@ -8,7 +8,7 @@ import { createConsultSchema } from "@/docs/swagger/createConsultSchema";
 import { consultsSchema } from "@/docs/swagger/createExistTutorConsultsSchema";
 
 export async function consultRoutes(app: FastifyInstance) {
-    app.post('/create/consults',  { schema: createConsultSchema }, createConsult)
+    app.post('/create/consults', { schema: createConsultSchema }, createConsult)
     app.get('/get/consults', getAllConsults)
     app.post('/create/:tutor_id/consults', { schema: consultsSchema }, createExistTutorConsultsUseCase)
 }
