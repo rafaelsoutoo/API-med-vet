@@ -1,7 +1,7 @@
-import { TutorAlreadyExistsError } from '@/use-cases/errors/tutor-already-exists';
+import { TutorAlreadyExistsError } from '@/use-cases/errors/tutorErros';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase } from '@/use-cases/factories/make-create-tutors';
+import { makeRegisterUseCase } from '@/use-cases/factories/tutor/make-create-tutors';
 import { Validation } from '@/utils/validation'
 
 
@@ -16,10 +16,9 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			message: "Numero de contato inválido",
 		}),
 		email: z.string().email().nullable(),
-		animals: z.string().nullable(),
 	});
 
-	const { name, cpf, phone, email, animals } = registerBodySchema.parse(request.body);
+	const { name, cpf, phone, email } = registerBodySchema.parse(request.body);
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
@@ -28,8 +27,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			name,
 			cpf,
 			phone,
-			email,
-			animals,
+			email
 		})
 	} catch(err) {
 		if (err instanceof TutorAlreadyExistsError) {

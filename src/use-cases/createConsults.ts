@@ -1,10 +1,8 @@
 import {ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 
-
-import { Consult } from '@prisma/client'  //tipagem propria do prisma
-import { TutorAlreadyExistsError } from './errors/tutor-already-exists';
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { Consult } from '@prisma/client'
+import { TutorAlreadyExistsError } from './errors/tutorErros';
 
 interface RegisterUseCaseRequest {
     nameAnimal: string
@@ -37,16 +35,6 @@ export class CreateConsultsUseCase {  //cada classe tem um método
       throw new TutorAlreadyExistsError()
       };
 
-    // const tutorWithSameName = await this.tutorRepository.findByNameTutor(name);
-
-    // // if (tutorWithSameName) {
-    // //   throw new TutorAlreadyExistsError()
-    // //   };
-
-
-    // if (tutorWithSamePhone && tutorWithSameName && tutorWithSamePhone.id === tutorWithSameName.id) {
-    //   throw new TutorAlreadyExistsError()
-    // }
 
     const tutor = await this.tutorRepository.createTutor({
         name,

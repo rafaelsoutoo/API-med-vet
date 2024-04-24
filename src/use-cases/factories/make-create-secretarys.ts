@@ -2,7 +2,7 @@ import { PrismaUsersRepository } from '@/repositories/Prisma/prisma-users-reposi
 import { CreateSecretarysUseCase} from '@/use-cases/createSecretarys'
 
 export function makeRegisterUseCase() {
-  const usersRepository = new PrismaUsersRepository() //istanciar meu repositório
+  const usersRepository = new PrismaUsersRepository()
   const useCase = new  CreateSecretarysUseCase(usersRepository)
 
   return useCase

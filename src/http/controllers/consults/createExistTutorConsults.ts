@@ -1,7 +1,7 @@
-import { TutorNoExistsError } from '@/use-cases/errors/tutor-no-already-exists';
+import { TutorNotExistsError } from '@/use-cases/errors/tutorErros';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase } from '@/use-cases/factories/make-createExistTutorConsults';
+import { makeRegisterUseCase } from '@/use-cases/factories/tutor/make-create-tutors';
 import { Validation } from '@/utils/validation'
 
 
@@ -35,7 +35,7 @@ export async function createExistTutorConsultsUseCase(request: FastifyRequest, r
 			nameAnimal, stringDate, description, species, phone, tutor_id
 		})
 	} catch(err) {
-		if (err instanceof TutorNoExistsError) {
+		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
 		}
 
