@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { getPhoneTutors } from '@/use-cases/factories/make-getPhoneTutors'
+import { getPhoneTutors } from '@/use-cases/factories/tutor/make-getPhoneTutors'
 
 export async function searchPhoneTutors(request: FastifyRequest, reply: FastifyReply) {
   const searchGymsQuerySchema = z.object({

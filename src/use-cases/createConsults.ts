@@ -1,7 +1,6 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 
-
 import { Consult, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
 import { TutorAlreadyExistsError } from './errors/tutor-already-exists';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
@@ -45,16 +44,6 @@ export class CreateConsultsUseCase {  //cada classe tem um método
       throw new TutorAlreadyExistsError()
     };
 
-    // const tutorWithSameName = await this.tutorRepository.findByNameTutor(name);
-
-    // // if (tutorWithSameName) {
-    // //   throw new TutorAlreadyExistsError()
-    // //   };
-
-
-    // if (tutorWithSamePhone && tutorWithSameName && tutorWithSamePhone.id === tutorWithSameName.id) {
-    //   throw new TutorAlreadyExistsError()
-    // }
 
     const tutor = await this.tutorRepository.createTutor({
       name,

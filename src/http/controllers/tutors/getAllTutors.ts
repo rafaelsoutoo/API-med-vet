@@ -1,6 +1,6 @@
-import { getAllTutorUseCase } from '@/use-cases/factories/get-all-tutors';
+import { getAllTutorUseCase } from '@/use-cases/factories/tutor/make-getall-tutors';
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getAllTutorsError } from '@/use-cases/errors/get-all-tutor'
+import { getAllTutorsError } from '@/use-cases/errors/tutorErros';
 import { z } from 'zod';
 
 export async function getAllTutors(request: FastifyRequest, reply: FastifyReply) {
