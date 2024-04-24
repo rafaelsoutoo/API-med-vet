@@ -2,7 +2,7 @@ import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 
 import { Consult, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
-import { TutorAlreadyExistsError } from './errors/tutor-already-exists';
+import { TutorAlreadyExistsError } from './errors/tutorErros';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error'
 
 interface RegisterUseCaseRequest {

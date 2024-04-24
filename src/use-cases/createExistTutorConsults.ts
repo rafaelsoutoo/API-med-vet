@@ -40,7 +40,7 @@ export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
     const day = parseInt(dateData[0], 10);
     const month = parseInt(dateData[1], 10) - 1;
     const year = parseInt(dateData[2], 10);
-
+    const sequence = "1"
 
     if (day > 0 && day <= 31 && month >= 0 && month < 12) {
 
@@ -48,6 +48,7 @@ export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
 
       //recebendo repositorio do construtor
       const consults = await this.consultsRepository.createConsults({   //cria o usuario no banco de dados
+        sequence,
         nameAnimal,
         date,
         description,

@@ -82,7 +82,7 @@ model Animal {
   gender       String
   age          String
   coat         String?
-  tutor        Tutor    @relation(fields: [tutor_id], references: [id])
+  tutor        Tutor    @relation(fields: [tutor_id], references: [id], onDelete: Cascade)
   tutor_id     String   @db.ObjectId
   enchiridion  Enchiridion[]
   @@map("animals")

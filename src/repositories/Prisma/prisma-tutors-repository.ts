@@ -9,7 +9,7 @@ export class PrismaTutorsRepository implements TutorRepository {
   async findById(id: string) {
     const tutor = await prisma.tutor.findUnique({
       where: {
-        id,
+        id: id,
       },
     })
 
@@ -116,5 +116,13 @@ export class PrismaTutorsRepository implements TutorRepository {
     });
 
     return tutorUpdated
+  }
+
+  async deleteTutor(id: string) {
+    await prisma.tutor.delete({
+      where: {
+        id: id,
+      }
+    });
   }
 }

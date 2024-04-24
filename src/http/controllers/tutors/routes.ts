@@ -9,6 +9,7 @@ import {searchPhoneTutorsSchema} from "@/docs/swagger/getPhoneTutorsSchema";
 import {getAllTutorsSchema} from "@/docs/swagger/getAllTutorsSchema";
 import {createTutorSchema} from "@/docs/swagger/createTutorSchema";
 import { updateTutor } from './updateTutor';
+import { deleteTutor } from './deleteTutor';
 
 
 
@@ -19,6 +20,8 @@ export async function tutorRoutes(app: FastifyInstance) {
     app.get('/tutor/searchphone', { schema: searchPhoneTutorsSchema } ,searchPhoneTutors)
 
     app.put('/put/tutor', updateTutor)
+
+    app.delete('/del/tutor', deleteTutor)
 }
 
 

@@ -1,6 +1,6 @@
 import {PrismaConsultsRepository} from '@/repositories/Prisma/prisma-consults-repository'  
-import { CreateExistTutorConsultsUseCase } from '@/use-cases/tutor/createExistTutorConsults';
-import { PrismaTutorsRepository } from '../../../repositories/Prisma/prisma-tutors-repository';
+import { CreateExistTutorConsultsUseCase } from '@/use-cases/createExistTutorConsults';
+import { PrismaTutorsRepository } from '../../repositories/Prisma/prisma-tutors-repository';
 
 export function makeRegisterUseCase() {
 const tutorsRepository = new PrismaTutorsRepository()

@@ -23,5 +23,4 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return animal
   }
-
 }

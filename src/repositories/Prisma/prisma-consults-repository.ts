@@ -19,7 +19,7 @@ export class PrismaConsultsRepository implements ConsultsRepository {
     // const skipItens = (page - 1) * numberOfItems
     
     const consults = await prisma.consult.findMany({
-      where: {
+      where: {  
         done: false
       },
       orderBy: {
