@@ -1,4 +1,4 @@
-import { TutorRepository } from './../repositories/tutors-repository';
+import { TutorRepository } from '../../repositories/tutors-repository';
 import { ConsultsRepository } from "@/repositories/consult-repository"
 
 export class GetAllConsultsUseCase {

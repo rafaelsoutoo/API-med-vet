@@ -1,5 +1,5 @@
 import { UsersRepository } from "@/repositories/users-repository";
-import { NoExistsUsersError } from "./errors/no-exists-users-error";
+import { NoExistsUsersError } from "../../errors/no-exists-users-error";
 
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }

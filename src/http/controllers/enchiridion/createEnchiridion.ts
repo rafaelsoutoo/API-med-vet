@@ -1,4 +1,4 @@
-import { InvalidDateError} from '@/use-cases/errors/invalidDateError';
+import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
@@ -57,8 +57,8 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         })
     } catch (err) {
         if (err instanceof InvalidDateError) {
-			return reply.status(409).send({ message: err.message })
-		}
+            return reply.status(409).send({ message: err.message })
+        }
 
         throw err
     }

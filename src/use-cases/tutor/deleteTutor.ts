@@ -1,4 +1,4 @@
-import { TutorNotExistsError } from '../errors/tutorErrors'
+import { TutorNotExistsError } from '../errors/tutor-error'
 import { TutorRepository } from '@/repositories/tutors-repository'
 
 interface DeleteUseCaseRequest {
@@ -7,16 +7,16 @@ interface DeleteUseCaseRequest {
 
 
 export class DeleteTutorUseCase {
-  
-    constructor(
-      private tutorRepository: TutorRepository
-      ) { }
 
-  async execute({id}: DeleteUseCaseRequest) {
+  constructor(
+    private tutorRepository: TutorRepository
+  ) { }
 
-    
+  async execute({ id }: DeleteUseCaseRequest) {
+
+
     // const tutorExists = await this.tutorRepository.findById(id)
-    
+
 
     // if (!tutorExists) { 
     //   throw new TutorNotExistsError()

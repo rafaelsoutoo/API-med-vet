@@ -1,4 +1,4 @@
-import { TutorAlreadyExistsError } from '@/use-cases/errors/tutorErrors';
+import { TutorAlreadyExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/tutor/make-create-tutors';
@@ -29,7 +29,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			phone,
 			email
 		})
-	} catch(err) {
+	} catch (err) {
 		if (err instanceof TutorAlreadyExistsError) {
 			return reply.status(409).send({ message: err.message })
 		}

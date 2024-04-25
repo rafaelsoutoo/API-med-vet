@@ -11,45 +11,45 @@ export async function authenticate(
 ) {
   const authenticateBodySchema = z.object({
     cpf: z.string().refine(Validation.isValidCPF, {
-        message: "CPF inválido",
+      message: "CPF inválido",
     }),
     password: z.string().min(6)
   })
 
-  const {  cpf, password } = authenticateBodySchema.parse(request.body)
+  const { cpf, password } = authenticateBodySchema.parse(request.body)
 
   try {
     const authenticateUseCase = makeAuthenticateUseCase()
 
-    const { user } = await authenticateUseCase.execute({  //esse caso de uso retorna o user
+    const { user } = await authenticateUseCase.execute({
       cpf,
       password
     })
 
 
-    const token = await reply.jwtSign( //resposta, criar o novo token
-    {
-      role: user.role,
-    },
-    {
-      sign: {
-        sub: user.id,
+    const token = await reply.jwtSign(
+      {
+        role: user.role,
       },
-    },
-  )
+      {
+        sign: {
+          sub: user.id,
+        },
+      },
+    )
 
 
 
     return reply.status(200).send({
-        user,
-        token,
+      user,
+      token,
     });
 
 
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {  //se for um erro do erro personalizado
-        return reply.status(400).send({ message: err.message })
-      }
+      return reply.status(400).send({ message: err.message })
+    }
 
     throw err
   }

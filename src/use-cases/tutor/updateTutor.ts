@@ -1,5 +1,5 @@
 import { Tutor } from '@prisma/client'
-import { TutorNotExistsError } from '../errors/tutorErrors'
+import { TutorNotExistsError } from '../errors/tutor-error'
 import { TutorRepository } from '@/repositories/tutors-repository'
 
 interface UpdateUseCaseRequest {
@@ -15,28 +15,28 @@ interface UpdateUseCaseResponse {
 }
 
 export class UpdateTutorUseCase {
-  
-    constructor(private tutorRepository: TutorRepository) { }
 
-  async execute({id, name, email, cpf, phone }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
+  constructor(private tutorRepository: TutorRepository) { }
 
-    
+  async execute({ id, name, email, cpf, phone }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
+
+
     const tutorExists = await this.tutorRepository.findById(id)
-    
 
-    if (tutorExists) { 
-        const tutor = await this.tutorRepository.updateTutor(id, {
+
+    if (tutorExists) {
+      const tutor = await this.tutorRepository.updateTutor(id, {
         name,
         email,
         cpf,
         phone
-        })
+      })
 
-        return {
-         tutor
-        }
+      return {
+        tutor
+      }
     } else {
-        throw new TutorNotExistsError()
+      throw new TutorNotExistsError()
     }
   }
 }

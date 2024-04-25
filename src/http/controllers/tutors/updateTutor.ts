@@ -1,5 +1,5 @@
 import { MakeUpdateTutorUseCase } from '@/use-cases/factories/tutor/make-update-tutors';
-import { TutorNotExistsError } from '@/use-cases/errors/tutorErrors';
+import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { Validation } from '@/utils/validation'
@@ -31,7 +31,7 @@ export async function updateTutor(request: FastifyRequest, reply: FastifyReply) 
 			phone,
 			email,
 		})
-	} catch(err) {
+	} catch (err) {
 		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
 		}

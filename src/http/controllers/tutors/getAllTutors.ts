@@ -1,24 +1,24 @@
 import { getAllTutorUseCase } from '@/use-cases/factories/tutor/make-getall-tutors';
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getAllTutorsError } from '@/use-cases/errors/tutorErrors';
+import { getAllTutorsError } from '@/use-cases/errors/tutor-error';
 import { z } from 'zod';
 
 export async function getAllTutors(request: FastifyRequest, reply: FastifyReply) {
 	const getAllQuerySchema = z.object({
-        page: z.coerce.number(),
+		page: z.coerce.number(),
 		numberOfItems: z.coerce.number()
-    });
+	});
 
-    const { page, numberOfItems } = getAllQuerySchema.parse(request.query);
+	const { page, numberOfItems } = getAllQuerySchema.parse(request.query);
 
 	try {
-				
+
 		const getTutorUseCase = getAllTutorUseCase();
 		const data = await getTutorUseCase.execute(page, numberOfItems);
 
 		return data;
 
-	} catch(err) {
+	} catch (err) {
 
 		if (err instanceof getAllTutorsError) {
 			return reply.status(413).send({ message: err.message })

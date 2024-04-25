@@ -2,8 +2,8 @@ import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 
 
 
-import { Enchiridion} from '@prisma/client'  //tipagem propria do prisma
-import { InvalidDateError } from '@/use-cases/errors/invalidDateError';
+import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
+import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -38,13 +38,13 @@ interface EnchiridionUseCaseRequest {
 }
 
 interface RegisterUseCaseResponse {
-    enchiridions : Enchiridion
+    enchiridions: Enchiridion
 }
 
 
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
-    constructor(private  enchiridionRepository:  EnchiridionRepository) { }   //receber as dependencia dentro do construtor
+    constructor(private enchiridionRepository: EnchiridionRepository) { }   //receber as dependencia dentro do construtor
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
@@ -61,9 +61,9 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         if (day <= 0 || day > 31 || month < 0 || month >= 12) {
             throw new InvalidDateError(day, month, year);
         }
-    
+
         const date = new Date(year, month, day);
-    
+
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
             animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
         });
