@@ -1,4 +1,5 @@
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
+import { AnimalNoexists} from '@/use-cases/errors/animal-errors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
@@ -57,6 +58,10 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         })
     } catch (err) {
         if (err instanceof InvalidDateError) {
+            return reply.status(409).send({ message: err.message })
+        }
+
+        if (err instanceof AnimalNoexists) {
             return reply.status(409).send({ message: err.message })
         }
 

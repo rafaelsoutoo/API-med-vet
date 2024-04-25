@@ -1,9 +1,11 @@
 import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
+import { AnimalRepository} from '@/repositories/animal-repository'
 
 
 
 import { Enchiridion, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
+import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -52,9 +54,19 @@ async function getNextSequence() {
 
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
-    constructor(private enchiridionRepository: EnchiridionRepository) { }   //receber as dependencia dentro do construtor
+    constructor(private enchiridionRepository: EnchiridionRepository,
+        private animalRepository: AnimalRepository
+    ) { }   //receber as dependencia dentro do construtor
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+
+        const animalINoExists = await this.animalRepository.findById(animal_id);
+
+        if (!animalINoExists) {
+          throw new AnimalNoexists()
+        };
+
+
 
         const sequence = await getNextSequence()
         const dateData = (stringDate).split("/");
