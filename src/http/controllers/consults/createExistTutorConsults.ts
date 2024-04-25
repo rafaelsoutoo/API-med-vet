@@ -1,7 +1,7 @@
-import { TutorNotExistsError } from '@/use-cases/errors/tutorErros';
+import { TutorNotExistsError } from '@/use-cases/errors/tutorErrors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase } from '@/use-cases/factories/tutor/make-create-tutors';
+import { makeRegisterUseCase } from '@/use-cases/factories/make-createExistTutorConsults';
 import { Validation } from '@/utils/validation'
 
 

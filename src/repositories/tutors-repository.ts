@@ -15,4 +15,6 @@ export interface TutorRepository {
   getAllTutors(page: number, numberOfItems:number): Promise<Tutor[]>
   
   updateTutor(id: string, data: Prisma.TutorUpdateInput): Promise<Tutor>
+
+  deleteTutor(id: string): any
 }

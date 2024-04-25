@@ -1,5 +1,5 @@
 import { Tutor } from '@prisma/client'
-import { TutorNotExistsError } from '../errors/tutorErros'
+import { TutorNotExistsError } from '../errors/tutorErrors'
 import { TutorRepository } from '@/repositories/tutors-repository'
 
 interface UpdateUseCaseRequest {
