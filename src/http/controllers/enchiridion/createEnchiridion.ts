@@ -11,8 +11,6 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         stringDate: z.string().refine(Validation.isValidDate, {
             message: "Data inválida",
         }),
-        nameAnimal: z.string(),
-        species: z.string(),
         description: z.string().nullable(),
         nameTutor: z.string(),
         animal_id: z.string(),
