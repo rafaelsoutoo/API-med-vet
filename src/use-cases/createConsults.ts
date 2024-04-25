@@ -5,12 +5,11 @@ import { Consult, PrismaClient } from '@prisma/client'
 import { TutorAlreadyExistsError } from './errors/tutorErrors';
 
 interface RegisterUseCaseRequest {
-  sequence: string
   nameAnimal: string
   stringDate: string
   species: string
   phone: string
-  description: string
+  description: string | null
   nameTutor: string
 }
 
