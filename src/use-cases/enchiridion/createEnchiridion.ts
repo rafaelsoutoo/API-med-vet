@@ -3,8 +3,7 @@ import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 
 
 import { Enchiridion} from '@prisma/client'  //tipagem propria do prisma
-import { TutorAlreadyExistsError } from '../errors/tutor-already-exists';
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { InvalidDateError } from '@/use-cases/errors/invalidDateError';
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -59,19 +58,19 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const month = parseInt(dateData[1], 10) - 1;
         const year = parseInt(dateData[2], 10);
 
-        if (day > 0 && day <= 31 && month >= 0 && month < 12) {
+        if (day <= 0 || day > 31 || month < 0 || month >= 12) {
+            throw new InvalidDateError(day, month, year);
+        }
+    
+        const date = new Date(year, month, day);
+    
+        const enchiridions = await this.enchiridionRepository.createEnchiridion({
+            animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
+        });
 
-            const date = new Date(year, month, day);
 
-            const enchiridions = await this.enchiridionRepository.createEnchiridion({
-                animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
-            });
-
-            return {
-                enchiridions
-            }
-        } else {
-            throw new Error(`data invalida ${day}, ${month}, ${year}`)
+        return {
+            enchiridions
         };
     }
 }

@@ -1,4 +1,4 @@
-import { TutorAlreadyExistsError } from '@/use-cases/errors/tutor-already-exists';
+import { InvalidDateError} from '@/use-cases/errors/invalidDateError';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
@@ -8,7 +8,9 @@ import { Validation } from '@/utils/validation'
 export async function createEnchiridion(request: FastifyRequest, reply: FastifyReply) {
 
     const registerBodySchema = z.object({
-        stringDate: z.string(),
+        stringDate: z.string().refine(Validation.isValidDate, {
+            message: "Data inválida",
+        }),
         nameAnimal: z.string(),
         species: z.string(),
         description: z.string().nullable(),
@@ -18,7 +20,9 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
         vaccination: z.string().nullable(),
-        date_vaccination: z.string().nullable(),
+        date_vaccination: z.string().nullable().refine(Validation.isValidDate, {
+            message: "Data inválida",
+        }),
         deworming: z.string().nullable(),
         date_deworming: z.string().nullable().refine(Validation.isValidDate, {
             message: "Data inválida",
@@ -54,7 +58,9 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
             animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
         })
     } catch (err) {
-      
+        if (err instanceof InvalidDateError) {
+			return reply.status(409).send({ message: err.message })
+		}
 
         throw err
     }
