@@ -2,7 +2,7 @@ import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 
 
 
-import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
+import { Enchiridion, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 
 interface EnchiridionUseCaseRequest {
@@ -41,6 +41,14 @@ interface RegisterUseCaseResponse {
     enchiridions: Enchiridion
 }
 
+const prisma = new PrismaClient();
+
+async function getNextSequence() {
+    const count = await prisma.enchiridion.count();
+    const nextId = count + 1;
+    return nextId.toString();
+}
+
 
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
@@ -48,9 +56,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
-
-
-
+        const sequence = await getNextSequence()
         const dateData = (stringDate).split("/");
 
 
@@ -65,7 +71,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const date = new Date(year, month, day);
 
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
-            animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
+            sequence, animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
         });
 
 

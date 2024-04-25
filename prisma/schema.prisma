@@ -107,6 +107,7 @@ model Consult {
 
 model Enchiridion {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  sequence    String   @unique
   animal       Animal    @relation(fields: [animal_id], references: [id])
   animal_id    String   @db.ObjectId
   teacher       Teacher    @relation(fields: [teacher_id], references: [id])
