@@ -1,6 +1,6 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
-import { TutorNotExistsError } from './errors/tutorErros';
+import { TutorNotExistsError } from './errors/tutorErrors';
 
 import { Consult } from '@prisma/client'  //tipagem propria do prisma
 

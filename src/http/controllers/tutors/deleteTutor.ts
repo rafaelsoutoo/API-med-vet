@@ -1,5 +1,5 @@
 import { MakeDeleteTutorUseCase } from '@/use-cases/factories/tutor/make-delete-tutor';
-import { TutorNotExistsError } from '@/use-cases/errors/tutorErros';
+import { TutorNotExistsError } from '@/use-cases/errors/tutorErrors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 

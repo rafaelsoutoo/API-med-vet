@@ -1,9 +1,8 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 
-import { Consult, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
-import { TutorAlreadyExistsError } from './errors/tutorErros';
-import { UserAlreadyExistsError } from './errors/user-already-exists-error'
+import { Consult, PrismaClient } from '@prisma/client'
+import { TutorAlreadyExistsError } from './errors/tutorErrors';
 
 interface RegisterUseCaseRequest {
   sequence: string
@@ -11,7 +10,7 @@ interface RegisterUseCaseRequest {
   stringDate: string
   species: string
   phone: string
-  description: string | null
+  description: string
   nameTutor: string
 }
 

@@ -1,4 +1,4 @@
-import { TutorAlreadyExistsError } from '@/use-cases/errors/tutorErros';
+import { TutorAlreadyExistsError } from '@/use-cases/errors/tutorErrors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/tutor/make-create-tutors';

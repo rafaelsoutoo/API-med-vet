@@ -1,4 +1,4 @@
-import { TutorAlreadyExistsError } from '../errors/tutorErros';
+import { TutorAlreadyExistsError } from '../errors/tutorErrors';
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { Tutor } from '@prisma/client'
 
