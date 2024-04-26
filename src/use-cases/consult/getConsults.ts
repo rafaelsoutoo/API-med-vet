@@ -82,4 +82,14 @@ export class GetAllConsultsUseCase {
 
     return result
   }
-};
+}
+export class GetConsultBySequenceUseCase {
+  constructor(private usersRepository: ConsultsRepository) { }
+
+  async execute(sequence: string) {
+    const user = await this.usersRepository.findBySequence(sequence);
+
+    return user;
+  }
+}
+

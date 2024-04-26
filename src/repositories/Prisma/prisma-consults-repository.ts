@@ -1,11 +1,21 @@
-import { ConsultsRepository} from '@/repositories/consult-repository'
+import { ConsultsRepository } from '@/repositories/consult-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 
 
 
 export class PrismaConsultsRepository implements ConsultsRepository {
-  
+
+  async findBySequence(sequence: string) {
+    const user = await prisma.consult.findUnique({
+      where: {
+        sequence,
+      },
+    })
+
+    return user
+  }
+
   async createConsults(data: Prisma.ConsultUncheckedCreateInput) {
 
     const consult = await prisma.consult.create({
@@ -17,9 +27,9 @@ export class PrismaConsultsRepository implements ConsultsRepository {
 
   async getAllConsultsDone() {
     // const skipItens = (page - 1) * numberOfItems
-    
+
     const consults = await prisma.consult.findMany({
-      where: {  
+      where: {
         done: false
       },
       orderBy: {
