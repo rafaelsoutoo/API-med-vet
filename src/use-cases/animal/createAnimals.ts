@@ -1,36 +1,46 @@
-// import { animalsrepository } from '@/repositories/animals-repository'
-// import { Animal } from '@prisma/client'  //tipagem propria do prisma
-// import { animalalreadyexistserror } from './errors/animal-already-exists-error'
-
-// interface registerusecaserequest {
-//     name: string
-// }
-
-// interface registerusecaseresponse {
-//   animal: Animal
-// }
+import { AnimalRepository } from '@/repositories/animal-repository'
+import {TutorRepository} from '@/repositories/tutors-repository'
+import { Animal } from '@prisma/client'  //tipagem propria do prisma
+import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 
 
+interface registerusecaserequest {
+    name: string
+    species: string;
+    race: string | null;
+    gender: string;
+    age: string;
+    coat: string | null;
+    tutor_id: string;
+}
 
-// export class createanimalsusecase {  //cada classe tem um método
-//   constructor(private animalrepository: animalsrepository) {}   //receber as dependencia dentro do construtor
-//                                                                     //retorna isso
-//   async execute({ name }: registerusecaserequest): promise<registerusecaseresponse> {
-
-//     const animalwithsameid = await this.animalsrepository.findbyId(id)
-
-//     if (animalwithsameid) { //se o usuario existe
-//         throw new animalalreadyexistserror()
-//       }
+interface registerusecaseresponse {
+  animal: Animal
+}
 
 
-//                      //recebendo repositorio do construtor
-//     const animal = await this.usersrepository.createsecretarys({   //cria o usuario no banco de dados
-//       name
-//     })
 
-//     return {
-//       animal
-//     }
-//   }
-// }
+export class createAnimalsUsecase { 
+  constructor(private animalrepository: AnimalRepository,
+    private tutorRepository: TutorRepository
+  ) {}   
+                                                                    
+  async execute({ name, species, race, gender, age, coat, tutor_id}: registerusecaserequest): Promise<registerusecaseresponse> {
+
+    const tutorWithSameId = await this.tutorRepository.findById(tutor_id);
+
+    if (!tutorWithSameId) {
+      throw new TutorNotExistsError()
+    };
+
+
+                    
+    const animal = await this.animalrepository.createAnimal({ 
+        name, species, race, gender, age, coat, tutor_id
+    })
+
+    return {
+      animal
+    }
+  }
+}
