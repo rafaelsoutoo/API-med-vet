@@ -3,12 +3,10 @@ import { ConsultsNotExitsError } from '../errors/consult-error'
 import { ConsultsRepository } from '@/repositories/consult-repository'
 
 interface UpdateUseCaseRequest {
-    tutor_id: string,
   	id: string,
 		nameAnimal: string,
 		species: string,
 		stringDate: string,
-		phone: string,
 		description:  string | null
 }
 
@@ -20,7 +18,7 @@ export class UpdateConsultUseCase {
 
   constructor(private consultsRepository: ConsultsRepository) { }
 
-  async execute({ id, nameAnimal, tutor_id, species, stringDate, phone, description }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
+  async execute({ id, nameAnimal, species, stringDate, description }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
 
 
     const consultExists = await this.consultsRepository.findById(id)
@@ -41,10 +39,8 @@ export class UpdateConsultUseCase {
 
     const consult = await this.consultsRepository.updateConsult(id, {
         nameAnimal,
-        tutor_id,
         species,
         date,
-        phone,
         description,
     });
 

@@ -10,30 +10,24 @@ export async function updateConsult(request: FastifyRequest, reply: FastifyReply
 	const updateBodySchema = z.object({
 		id: z.string(),
 		nameAnimal: z.string(),
-		tutor_id: z.string(),
 		species: z.string(),
 		stringDate: z.string().refine(Validation.isValidDate, {
 			message: "data inválida"
-		}),
-		phone: z.string().refine(Validation.isValidPhoneNumber, {
-			message: "Numero de contato inválido",
 		}),
 		description: z.string().nullable()
 	});
 
 
-	const { id, nameAnimal, tutor_id, species, stringDate, phone, description } = updateBodySchema.parse(request.body);
+	const { id, nameAnimal, species, stringDate, description } = updateBodySchema.parse(request.body);
 
 	try {
 		const updateUserCase = MakeUpdateConsultUseCase()
 
 		await updateUserCase.execute({
 			id,
-			tutor_id,
 			nameAnimal,
 			species,
 			stringDate,
-			phone,
 			description,
 		})
 	} catch (err) {
