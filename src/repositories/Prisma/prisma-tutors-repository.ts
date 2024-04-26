@@ -45,7 +45,7 @@ export class PrismaTutorsRepository implements TutorRepository {
         }
       },
       take: 10,
-      skip: (page - 1) * 5,
+      skip: (page - 1) * 10,
     })
 
     return tutor
