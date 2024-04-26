@@ -40,11 +40,13 @@ export async function getTutorByName(request: FastifyRequest, reply: FastifyRepl
 
 
 	const { q, page } = searchTutorQuerySchema.parse(request.query)
+	const queryWithoutSpaces = q.replace('-', ' ');
+
 
 	const searchNameTutorUseCase = getNameTutors()
 
 	const { tutors } = await searchNameTutorUseCase.execute({
-		query: q,
+		query: queryWithoutSpaces,
 		page,
 	})
 
