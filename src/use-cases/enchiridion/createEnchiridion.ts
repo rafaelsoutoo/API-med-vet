@@ -1,11 +1,13 @@
 import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 import { AnimalRepository} from '@/repositories/animal-repository'
+import { UsersRepository} from '@/repositories/users-repository'
 
 
 
 import { Enchiridion, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
+import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -55,7 +57,9 @@ async function getNextSequence() {
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
     constructor(private enchiridionRepository: EnchiridionRepository,
-        private animalRepository: AnimalRepository
+        private animalRepository: AnimalRepository,
+        private usersRepository: UsersRepository,
+
     ) { }   //receber as dependencia dentro do construtor
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -64,6 +68,12 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
 
         if (!animalINoExists) {
           throw new AnimalNoexists()
+        };
+
+        const teacherNoExists = await this.usersRepository.findTeacherById(teacher_id);
+
+        if (!teacherNoExists) {
+          throw new teacherNoexists()
         };
 
 
