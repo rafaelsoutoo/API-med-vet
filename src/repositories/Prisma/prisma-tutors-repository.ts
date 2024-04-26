@@ -37,17 +37,21 @@ export class PrismaTutorsRepository implements TutorRepository {
     return tutor
   }
 
-  async findByNameTutor(name: string) {
-    const tutor = await prisma.tutor.findFirst({
+  async searchByNameTutor(query: string, page: number) {
+    const tutor = await prisma.tutor.findMany({
       where: {
-        name,
+        name: {
+          contains: query,
+        }
       },
+      take: 10,
+      skip: (page - 1) * 5,
     })
 
     return tutor
   }
 
-  async findByPhoneandNameTutor(phone: string ,name: string) {
+  async findByPhoneandNameTutor(phone: string, name: string) {
     const tutor = await prisma.tutor.findFirst({
       where: {
         name,

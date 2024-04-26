@@ -1,9 +1,7 @@
 import { createTutor } from '@/http/controllers/tutors/createTutor'
-import { getAllTutors } from '@/http/controllers/tutors/getAllTutors'
-import { searchPhoneTutors } from '@/http/controllers/tutors/getPhoneTutors'
+import { getAllTutors, getTutorByName, searchPhoneTutors } from '@/http/controllers/tutors/getTutors'
 
 import { FastifyInstance } from 'fastify'
-
 
 import { searchPhoneTutorsSchema } from "@/docs/swagger/getPhoneTutorsSchema";
 import { getAllTutorsSchema } from "@/docs/swagger/getAllTutorsSchema";
@@ -18,7 +16,9 @@ export async function tutorRoutes(app: FastifyInstance) {
 
     app.get('/get/tutor', { schema: getAllTutorsSchema }, getAllTutors)
 
-    app.get('/tutor/searchphone', { schema: searchPhoneTutorsSchema }, searchPhoneTutors)
+    app.get('/get/tutor/name', getTutorByName)
+
+    app.get('/get/tutor/searchphone', { schema: searchPhoneTutorsSchema }, searchPhoneTutors)
 
     app.put('/put/tutor', updateTutor)
 
