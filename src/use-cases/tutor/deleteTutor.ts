@@ -15,12 +15,12 @@ export class DeleteTutorUseCase {
   async execute({ id }: DeleteUseCaseRequest) {
 
 
-    // const tutorExists = await this.tutorRepository.findById(id)
+    const tutorExists = await this.tutorRepository.findById(id)
 
 
-    // if (!tutorExists) { 
-    //   throw new TutorNotExistsError()
-    // }
+    if (!tutorExists) { 
+      throw new TutorNotExistsError()
+    }
 
     await this.tutorRepository.deleteTutor(id)
 

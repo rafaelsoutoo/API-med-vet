@@ -1,17 +1,20 @@
 import { createConsult } from '@/http/controllers/consults/createConsult'
 import { createExistTutorConsultsUseCase } from '@/http/controllers/consults/createExistTutorConsults'
 import { FastifyInstance } from 'fastify'
-import { getAllConsults, getConsultBySequnece } from './getConsults'
+import { getAllConsults, getConsultBySequence } from './getConsults'
 
 
 import { createConsultSchema } from "@/docs/swagger/createConsultSchema";
 import { consultsSchema } from "@/docs/swagger/createExistTutorConsultsSchema";
+import { deleteConsult } from './deleteConsult';
 
 export async function consultRoutes(app: FastifyInstance) {
     app.post('/create/consults', { schema: createConsultSchema }, createConsult)
     app.post('/create/consults/:tutor_id', { schema: consultsSchema }, createExistTutorConsultsUseCase)
 
     app.get('/get/consults', getAllConsults)
-    app.get('/get/consults/sequence/:sequence', getConsultBySequnece)
+    app.get('/get/consults/sequence/:sequence', getConsultBySequence)
+
+    app.delete('/delete/consult/:id', deleteConsult)
 }
 
