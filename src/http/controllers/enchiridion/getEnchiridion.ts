@@ -4,10 +4,11 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makegetTutorIdEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-by-tutor'
 import { makegetAnimalIdEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-by-animal'
-import { Validation } from '@/utils/validation'
+import {makegetAllEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-all-enchiridion'
 
 
-export async function getEnchilridionByTutor(request: FastifyRequest, reply: FastifyReply) {
+
+export async function getEnchiridionByTutor(request: FastifyRequest, reply: FastifyReply) {
 
 	const validateIdParamsSchema = z.object({
 		tutor_id: z.string(),
@@ -39,7 +40,7 @@ export async function getEnchilridionByTutor(request: FastifyRequest, reply: Fas
 
 
 
-export async function getEnchilridionByAnimal(request: FastifyRequest, reply: FastifyReply) {
+export async function getEnchiridionByAnimal(request: FastifyRequest, reply: FastifyReply) {
 
 	const validateIdParamsSchema = z.object({
 		animal_id: z.string(),
@@ -68,4 +69,31 @@ export async function getEnchilridionByAnimal(request: FastifyRequest, reply: Fa
 
 	
 }
+
+
+
+
+export async function getAllEnchiridion(request: FastifyRequest, reply: FastifyReply) {
+	const getAllQuerySchema = z.object({
+		page: z.coerce.number(),
+		numberOfItems: z.coerce.number()
+	});
+
+	const { page, numberOfItems } = getAllQuerySchema.parse(request.query);
+
+	try {
+
+		const getEnchiridionUseCase = makegetAllEnchiridionUseCase();
+		const data = await getEnchiridionUseCase.execute(page, numberOfItems);
+
+		return data;
+
+	} catch (err) {
+
+	
+
+		throw err
+	};
+}
+
 

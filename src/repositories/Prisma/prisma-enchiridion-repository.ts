@@ -37,6 +37,23 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     return enchiridion
   }
 
+
+
+  
+  async getAllEnchiridion(page: number, numberOfItems: number) {
+    const skipItens = (page - 1) * numberOfItems
+
+    const allEnchiridion = await prisma.enchiridion.findMany({
+      take: numberOfItems,
+      skip: skipItens,
+      orderBy: {
+        created_at: 'desc' 
+      }
+    })
+
+    return allEnchiridion
+  }
+
  
 
 }
