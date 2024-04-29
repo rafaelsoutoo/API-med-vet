@@ -82,3 +82,17 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
   }
 }
 
+
+
+
+export class getAllEnchiridionUseCase {
+  constructor(private enchiridionRepository: EnchiridionRepository) { }
+
+  async execute(page: number, numberOfItems: number) {
+    const enchiridion = await this.enchiridionRepository.getAllEnchiridion(page, numberOfItems)
+
+    return enchiridion
+  };
+
+}
+
