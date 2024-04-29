@@ -1,6 +1,7 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
+import { DefaultArgs } from '@prisma/client/runtime/library'
 
 
 
@@ -44,6 +45,17 @@ export class PrismaConsultsRepository implements ConsultsRepository {
       where: {
         id
       }
+    });
+
+    return consult
+  }
+
+  async updateConsult(id: string, data: Prisma.ConsultUncheckedUpdateManyInput){
+    const consult = await prisma.consult.update({
+      where: {
+        id: id
+      },
+      data
     });
 
     return consult
