@@ -1,10 +1,11 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase} from '@/use-cases/factories/make-create-teachers'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
+import { makeRegisterUseCase } from '@/use-cases/factories/users/teacher/make-create-teachers';
+import { UserAlreadyExistsError } from '@/use-cases/errors/user-error';
 import { Validation } from '@/utils/validation'
 
-export async function createTeacher(request: FastifyRequest, reply: FastifyReply) {
+export async function createTeacher(request: FastifyRequest, reply: FastifyReply)
+ {
     const registerBodySchema = z.object({
         name: z.string(),
         email: z.string().email(),

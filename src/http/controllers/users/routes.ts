@@ -1,6 +1,6 @@
-import { createStudent } from "@/http/controllers/users/createStudents";
-import { createTeacher } from "@/http/controllers/users/createTeachers";
-import { createSecretary } from "@/http/controllers/users/createSecretary";
+import { createStudent } from "./student/createStudents";
+import { createTeacher } from "./teacher/createTeachers";
+import { createSecretary } from "./secretary/createSecretary";
 import { authenticate } from "@/http/controllers/users/authenticate";
 
 import { studentSchema } from "@/docs/swagger/studentSchema";
@@ -17,8 +17,11 @@ import {getTeachersByRegistrationSchema} from "@/docs/swagger/getTeachersByRegis
 
 
 import { FastifyInstance } from "fastify";
-import { getAllStudent, getStudentById, getStudentByRegistration } from "./getStudent";
-import { getAllTeachers, getTeacherById, getTeachersByRegistration } from "./getTeachers";
+import { getAllStudent, getStudentById, getStudentByRegistration } from "./student/getStudent";
+import { getAllTeachers, getTeacherById, getTeachersByRegistration } from "./teacher/getTeachers";
+import { updateSecretary } from "./secretary/updateSecretary";
+import { updateStudent } from "./student/updateStudent";
+import { updateTeacher } from "./teacher/updateTeacher";
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post("/users/student", { schema: studentSchema }, createStudent);
@@ -38,5 +41,7 @@ export async function usersRoutes(app: FastifyInstance) {
   app.get("/get/teacher/id/:id",{ schema: getTeacherByIdSchema}, getTeacherById); // buscar student pelo id
   app.get("/get/teacher/registration/:registration",{ schema: getTeachersByRegistrationSchema}, getTeachersByRegistration); // buscar student pelo registration
 
-
+  app.put("/put/secretary", updateSecretary)
+  app.put("/put/student", updateStudent)
+  app.put("/put/teacher", updateTeacher)
 }

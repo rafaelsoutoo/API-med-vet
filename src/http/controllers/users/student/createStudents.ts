@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { makeRegisterUseCase } from '@/use-cases/factories/make-create-students'
-import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
+import { makeRegisterUseCase } from '@/use-cases/factories/users/student/make-create-students'
+import { UserAlreadyExistsError } from '@/use-cases/errors/user-error'
 import { Validation } from '@/utils/validation'
 
 
@@ -15,7 +15,7 @@ export async function createStudent(request: FastifyRequest, reply: FastifyReply
         password: z.string(),
         registration: z.string(),
         course: z.string().nullable(),
-        shift: z.string().nullable(), // Certifique-se de que este campo está definido como nullable
+        shift: z.string().nullable(),
         period: z.string().nullable(),
         phone: z.string().nullable(),
     });

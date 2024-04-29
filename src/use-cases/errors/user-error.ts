@@ -3,3 +3,9 @@ export class UserAlreadyExistsError extends Error {
     super('CPF or Registration already exists.')
   }
 }
+
+export class NoExistsUsersError extends Error {
+  constructor() {
+      super('No exists users.')
+  }
+}
