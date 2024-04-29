@@ -38,18 +38,22 @@ export class PrismaTutorsRepository implements TutorRepository {
   }
 
   async searchByNameTutor(query: string, page: number) {
-    const tutor = await prisma.tutor.findMany({
+    const queryNormalized = query.toLowerCase();
+    // função que busca independente se for lower ou upper
+    const tutors = await prisma.tutor.findMany({
       where: {
         name: {
-          contains: query,
+          contains: queryNormalized,
+          mode: 'insensitive',
         }
       },
       take: 10,
       skip: (page - 1) * 10,
-    })
+    });
 
-    return tutor
+    return tutors;
   }
+
 
   async findByPhoneandNameTutor(phone: string, name: string) {
     const tutor = await prisma.tutor.findFirst({
