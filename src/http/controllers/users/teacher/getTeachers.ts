@@ -1,16 +1,15 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { GetAllStudentsUseCase, GetStudentByIdUseCase, GetStudentByRegistrationUseCase } from "@/use-cases/users/student/getStudent";
+import { GetAllTeachersUseCase, GetTeacherByIdUseCase, GetTeachersByRegistrationUseCase } from "@/use-cases/users/teacher/getTeachers";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
-import { NoExistsUsersError } from "@/use-cases/errors/no-exists-users-error";
+import { NoExistsUsersError } from "@/use-cases/errors/user-error";
 
 interface Params {
   id: string;
   registration: string;
 }
 
-
-export async function getAllStudent(request: FastifyRequest, reply: FastifyReply) {
+export async function getAllTeachers(request: FastifyRequest, reply: FastifyReply) {
 
   const getQuerySchema = z.object({
     page: z.coerce.number(),
@@ -21,7 +20,7 @@ export async function getAllStudent(request: FastifyRequest, reply: FastifyReply
 
   try {
     const prismaUsersRepository = new PrismaUsersRepository();
-    const getUsersUseCase = new GetAllStudentsUseCase(prismaUsersRepository);
+    const getUsersUseCase = new GetAllTeachersUseCase(prismaUsersRepository);
 
     const users = await getUsersUseCase.execute(page, numberOfItems);
 
@@ -33,14 +32,15 @@ export async function getAllStudent(request: FastifyRequest, reply: FastifyReply
   }
 }
 
-export async function getStudentById(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+export async function getTeacherById(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
   try {
     const prismaUsersRepository = new PrismaUsersRepository();
-    const getStudentByIdUseCase = new GetStudentByIdUseCase(prismaUsersRepository);
+    const getTeacherByIdUseCase = new GetTeacherByIdUseCase(prismaUsersRepository);
 
     const { id } = request.params;
 
-    const user = await getStudentByIdUseCase.execute(id);
+    const user = await getTeacherByIdUseCase.execute(id);
+
 
     return reply.status(200).send({
       user: {
@@ -49,17 +49,18 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Student Not Found" });
+    return reply.status(404).send({ message: "Teachers not found." });
   }
 }
-export async function getStudentByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+
+export async function getTeachersByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
   try {
     const prismaUsersRepository = new PrismaUsersRepository();
-    const getStudentByRegistrationUseCase = new GetStudentByRegistrationUseCase(prismaUsersRepository);
+    const getTeacherByRegistrationUseCase = new GetTeachersByRegistrationUseCase(prismaUsersRepository);
 
     const { registration } = request.params;
 
-    const user = await getStudentByRegistrationUseCase.execute(registration);
+    const user = await getTeacherByRegistrationUseCase.execute(registration);
 
     return reply.status(200).send({
       user: {
@@ -68,6 +69,7 @@ export async function getStudentByRegistration(request: FastifyRequest<{ Params:
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Student not found." });
+    return reply.status(404).send({ message: "Teachers not found." });
   }
 }
+

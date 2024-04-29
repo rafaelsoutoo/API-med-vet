@@ -17,6 +17,7 @@ export class DeleteTutorUseCase {
 
     const tutorExists = await this.tutorRepository.findById(id)
 
+    // const animalsExists = await this.
 
     if (!tutorExists) { 
       throw new TutorNotExistsError()

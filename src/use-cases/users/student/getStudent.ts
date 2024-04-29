@@ -1,5 +1,5 @@
 import { UsersRepository } from "@/repositories/users-repository";
-import { NoExistsUsersError } from "../../errors/no-exists-users-error";
+import { NoExistsUsersError } from "../../errors/user-error";
 
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }
@@ -20,7 +20,7 @@ export class GetStudentByIdUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
   async execute(id: string) {
-    const user = await this.usersRepository.findById(id)
+    const user = await this.usersRepository.findStudentById(id)
 
     return user;
   }
