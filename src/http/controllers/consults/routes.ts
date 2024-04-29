@@ -6,6 +6,7 @@ import { getAllConsults, getConsultBySequnece } from './getConsults'
 
 import { createConsultSchema } from "@/docs/swagger/createConsultSchema";
 import { consultsSchema } from "@/docs/swagger/createExistTutorConsultsSchema";
+import { updateConsult } from "@/http/controllers/consults/updateConsult";
 
 export async function consultRoutes(app: FastifyInstance) {
     app.post('/create/consults', { schema: createConsultSchema }, createConsult)
@@ -13,5 +14,7 @@ export async function consultRoutes(app: FastifyInstance) {
 
     app.get('/get/consults', getAllConsults)
     app.get('/get/consults/sequence/:sequence', getConsultBySequnece)
+
+    app.put('/put/consults', updateConsult)
 }
 
