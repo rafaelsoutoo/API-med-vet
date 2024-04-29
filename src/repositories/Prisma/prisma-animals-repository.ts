@@ -15,6 +15,20 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return animal
   }
+  async getAllAnimals(page: number, numberOfItems: number) {
+    const skipTtens = (page - 1) * numberOfItems
+
+    const animal = await prisma.animal.findMany({
+      take: numberOfItems,
+      skip: skipTtens,
+    })
+    const usersWithPasswordHash = animal.map(user => ({
+      ...user,
+      password_hash: '',
+    }))
+
+    return usersWithPasswordHash
+  }
 
   async createAnimal(data: Prisma.AnimalUncheckedCreateInput) {  //cria no banco de dados
     const animal = await prisma.animal.create({
@@ -25,7 +39,7 @@ export class PrismaAnimalsRepository implements AnimalRepository {
   }
 
   async findManyIdTutor(tutor_id: string) {
-    
+
     const allanimals = await prisma.animal.findMany({
       where: {
         tutor_id: tutor_id
