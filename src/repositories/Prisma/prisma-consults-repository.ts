@@ -27,7 +27,6 @@ export class PrismaConsultsRepository implements ConsultsRepository {
   }
 
   async getAllConsultsDone() {
-    // const skipItens = (page - 1) * numberOfItems
 
     const consults = await prisma.consult.findMany({
       where: {
@@ -36,8 +35,6 @@ export class PrismaConsultsRepository implements ConsultsRepository {
       orderBy: {
         date: 'desc'
       }
-      // take: numberOfItems,
-      // skip: skipItens
     })
 
     return consults
@@ -64,4 +61,11 @@ export class PrismaConsultsRepository implements ConsultsRepository {
     return consult
   }
 
+  async deleteConsult(id: string) {
+      await prisma.consult.delete({
+        where: {
+          id: id
+        }
+      });
+  }
 }

@@ -26,7 +26,7 @@ export async function getAllConsults(request: FastifyRequest, reply: FastifyRepl
 	};
 }
 
-export async function getConsultBySequnece(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+export async function getConsultBySequence(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
 	try {
 		const prismaConsultRepository = new PrismaConsultsRepository();
 		const getConsultBySequenceUseCase = new GetConsultBySequenceUseCase(prismaConsultRepository)
