@@ -13,6 +13,10 @@ interface EnchiridionUseCaseRequest {
   tutor_id: string
 }
 
+interface EnchiridionAnimalUseCaseRequest {
+  animal_id: string
+}
+
   interface RegisterUseCaseResponse {
     enchiridions: Enchiridion[]
 }
@@ -51,3 +55,30 @@ export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
         };
     }
 }
+
+
+
+export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
+  constructor(private enchiridionRepository: EnchiridionRepository,
+      private animalRepository: AnimalRepository
+  ) { }   //receber as dependencia dentro do construtor
+  //retorna isso
+  async execute({animal_id }: EnchiridionAnimalUseCaseRequest): Promise<RegisterUseCaseResponse> {
+
+      const AnimalNoExists = await this.animalRepository.findById(animal_id);
+
+      if (!AnimalNoExists) {
+        throw new AnimalNoexists()
+      };
+
+   
+
+      const enchiridions = await this.enchiridionRepository.findByIdUniqueAnimalEnchiridion(animal_id);
+
+
+      return {
+          enchiridions
+      };
+  }
+}
+
