@@ -23,4 +23,17 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return animal
   }
+
+  async findManyIdTutor(tutor_id: string) {
+    
+    const allanimals = await prisma.animal.findMany({
+      where: {
+        tutor_id: tutor_id
+      },
+    })
+
+    return allanimals
+  }
+
+
 }
