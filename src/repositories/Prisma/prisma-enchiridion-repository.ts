@@ -16,7 +16,7 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
   }
 
   async  findByIdAnimalEnchiridion(animalsId: string[]) {
-    const tutor = await prisma.enchiridion.findMany({
+    const enchiridions = await prisma.enchiridion.findMany({
       where: {
         animal_id: {
             in: animalsId,
@@ -24,7 +24,17 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     },
     })
 
-    return tutor
+    return enchiridions
+  }
+
+  async  findByIdUniqueAnimalEnchiridion(animal_id: string) {
+    const enchiridion = await prisma.enchiridion.findMany({
+      where: {
+        animal_id: animal_id
+    },
+    })
+
+    return enchiridion
   }
 
  
