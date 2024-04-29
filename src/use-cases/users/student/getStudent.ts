@@ -20,7 +20,7 @@ export class GetStudentByIdUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
   async execute(id: string) {
-    const user = await this.usersRepository.findById(id)
+    const user = await this.usersRepository.findStudentById(id)
 
     return user;
   }
