@@ -54,6 +54,18 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     return allEnchiridion
   }
 
+
+    
+  async findBySequenceEnchiridion(sequence: string) {
+    const user = await prisma.enchiridion.findUnique({
+      where: {
+        sequence: sequence
+    },
+    })
+    
+    return user
+  }
+
  
 
 }

@@ -6,4 +6,5 @@ export interface EnchiridionRepository {
     findByIdAnimalEnchiridion(animalsId: string[]): Promise<Enchiridion[]>
     findByIdUniqueAnimalEnchiridion(animal_id: string): Promise<Enchiridion[]>
     getAllEnchiridion(page: number, numberOfItems: number): Promise<Enchiridion[]>
+    findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null>
   }

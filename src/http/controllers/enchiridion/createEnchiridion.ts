@@ -14,7 +14,6 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
             message: "Data inválida",
         }),
         description: z.string().nullable(),
-        nameTutor: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
         history: z.string().nullable(),

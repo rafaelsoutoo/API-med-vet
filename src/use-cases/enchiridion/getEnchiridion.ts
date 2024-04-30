@@ -8,6 +8,7 @@ import { AnimalRepository} from '@/repositories/animal-repository'
 import { Enchiridion, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
+import { EnchiridionNotExitsError} from '@/use-cases/errors/enchiridion-errors';
 
 interface EnchiridionUseCaseRequest {
   tutor_id: string
@@ -94,5 +95,21 @@ export class getAllEnchiridionUseCase {
     return enchiridion
   };
 
+}
+
+
+export class GetSequenceByEnchiridionUseCase {
+  constructor(private enchiridionRepository: EnchiridionRepository) { }
+
+  async execute(sequence: string) {
+    const enchiridion = await this.enchiridionRepository.findBySequenceEnchiridion(sequence);
+
+    
+    if (enchiridion === null) {
+      throw new EnchiridionNotExitsError()
+    }
+
+    return enchiridion;
+  }
 }
 
