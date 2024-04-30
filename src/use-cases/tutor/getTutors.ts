@@ -42,7 +42,7 @@ export class SearchPhoneTutorUseCase {
   }
 }
 
-export class SearchTutotByNameUseCase {
+export class SearchTutorByNameUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
   async execute({

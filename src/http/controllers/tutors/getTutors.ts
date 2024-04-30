@@ -2,7 +2,7 @@ import { getAllTutorUseCase } from '@/use-cases/factories/tutor/make-getall-tuto
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { getAllTutorsError } from '@/use-cases/errors/tutor-error';
 import { z } from 'zod';
-import { getNameTutors } from '@/use-cases/factories/tutor/meke-get-name-tutor';
+import { getNameTutors } from '@/use-cases/factories/tutor/make-get-name-tutor';
 import { getPhoneTutors } from '@/use-cases/factories/tutor/make-getPhoneTutors'
 
 

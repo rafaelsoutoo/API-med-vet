@@ -129,15 +129,15 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async findTeacherByName(nameTeacher: string, page: number): Promise<Teacher[]>
-    const nameNormalized = nameTeacher.toLowerCase();
+  async findTeacherByName(query: string, page: number): Promise<Teacher[]> {
+    const queryNormalized = query.toLowerCase();
 
     const teacher = await prisma.teacher.findMany({
       where: {
         name: {
-          contains: this.nameNormalized,
+          contains: queryNormalized,
           mode: 'insensitive'
-        },
+          },
         },
         take: 10,
         skip: (page - 1) * 10,
