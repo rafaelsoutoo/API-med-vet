@@ -71,7 +71,15 @@ export class PrismaUsersRepository implements UsersRepository {
     });
 
     return user
-}
+  }
+
+  async deleteStudent(id: string) {
+      await prisma.student.delete({
+        where: {
+          id: id
+        },
+      });
+  }
 
   //Teacher
   async findTeacherById(id: string) {
@@ -138,7 +146,15 @@ export class PrismaUsersRepository implements UsersRepository {
     });
 
     return user
-}
+  }
+
+  async deleteTeacher(id: string) {
+      await prisma.teacher.delete({
+        where: {
+          id: id
+        },
+      });
+  }
 
   //Secretary
   async findSecretaryById(id: string) {
@@ -178,5 +194,13 @@ export class PrismaUsersRepository implements UsersRepository {
       });
 
       return user
+  }
+
+  async deleteSecretary(id: string) {
+      await prisma.secretary.delete({
+        where: {
+          id: id
+        },
+      });
   }
 }
