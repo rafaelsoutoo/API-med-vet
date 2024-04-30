@@ -22,6 +22,9 @@ import { getAllTeachers, getTeacherById, getTeachersByRegistration } from "./tea
 import { updateSecretary } from "./secretary/updateSecretary";
 import { updateStudent } from "./student/updateStudent";
 import { updateTeacher } from "./teacher/updateTeacher";
+import { deleteSecretary } from "./secretary/deleteSecretary";
+import { deleteStudent } from "./student/deleteStudent";
+import { deleteTeacher } from "./teacher/deleteTeacher";
 
 export async function usersRoutes(app: FastifyInstance) {
   app.post("/users/student", { schema: studentSchema }, createStudent);
@@ -44,4 +47,8 @@ export async function usersRoutes(app: FastifyInstance) {
   app.put("/put/secretary", updateSecretary)
   app.put("/put/student", updateStudent)
   app.put("/put/teacher", updateTeacher)
+
+  app.delete("/delete/secretary/:id", deleteSecretary)
+  app.delete("/delete/student/:id", deleteStudent)
+  app.delete("/delete/teacher/:id", deleteTeacher)
 }

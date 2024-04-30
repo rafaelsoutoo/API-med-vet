@@ -6,11 +6,11 @@ import { z } from 'zod'
 
 export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) {
 
-	const updateBodySchema = z.object({
+	const deleteBodySchema = z.object({
 		id: z.string(),
 	});
 
-	const { id } = updateBodySchema.parse(request.query);
+	const { id } = deleteBodySchema.parse(request.query);
 
 	try {
 		const updateUserCase = MakeDeleteTutorUseCase()
@@ -26,5 +26,5 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 		throw err
 	}
 
-	return reply.status(201).send()
+	return reply.status(200).send()
 }
