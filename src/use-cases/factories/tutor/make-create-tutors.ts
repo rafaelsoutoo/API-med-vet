@@ -1,5 +1,4 @@
 import { PrismaTutorsRepository } from '@/repositories/Prisma/prisma-tutors-repository';
-import { PrismaAnimalsRepository } from '@/repositories/Prisma/prisma-animals-repository'
 import { CreateTutorsUseCase } from '../../tutor/createTutor';
 
 export function makeRegisterUseCase() {

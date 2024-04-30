@@ -21,13 +21,27 @@ interface RegisterUseCaseResponse {
 const prisma = new PrismaClient();
 
 async function getNextSequence() {
-  const count = await prisma.consult.count();
-  const nextId = count + 1;
-  return nextId.toString();
+  let nextSequence = await prisma.consult.count() + 1;
+  let sequenceExists = true;
+
+  while (sequenceExists) {
+    const existingSequence = await prisma.consult.findFirst({
+      where: {
+        sequence: nextSequence.toString(),
+      },
+    });
+
+    // Se a sequência não existir, sai do loop
+    if (!existingSequence) {
+      sequenceExists = false;
+    } else {
+      // Se a sequência existir, incrementa e verifica novamente
+      nextSequence++;
+    }
+  }
+
+  return nextSequence.toString();
 }
-
-
-
 
 export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
   constructor(private consultsRepository: ConsultsRepository,

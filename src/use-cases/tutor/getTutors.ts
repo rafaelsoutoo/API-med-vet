@@ -11,6 +11,7 @@ interface SearchTutorUseCaseRequest {
 
 interface SearchTutorsUseCaseResponse {
   tutors: Tutor[]
+
 }
 
 
