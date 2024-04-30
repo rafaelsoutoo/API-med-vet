@@ -9,6 +9,7 @@ export interface UsersRepository {
   createTeachers(data: Prisma.TeacherCreateInput): Promise<Teacher>
   updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher>
   deleteTeacher(id: string): any
+  findTeacherByName(name: string): Promise<Teacher[]>
   
   //student
   findStudentById(id: string): Promise<Student | null>
