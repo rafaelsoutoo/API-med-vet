@@ -32,11 +32,9 @@ export class GetAllConsultsUseCase {
           let tutor = await this.tutorRepository.findById(idTutor)
 
           if (tutor) {
-            //get tutor by id
             var nameTutor = tutor?.name
             var phoneTutor = tutor?.phone
 
-            //animal
             let nameAnimal: string = data.nameAnimal;
 
             let specie: string = data.species;
