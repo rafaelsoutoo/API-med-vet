@@ -14,7 +14,7 @@ import { deleteTutor } from './deleteTutor';
 export async function tutorRoutes(app: FastifyInstance) {
     app.post('/tutor', { schema: createTutorSchema }, createTutor)
 
-    app.get('/get/tutor', { schema: getAllTutorsSchema }, getAllTutors)
+    app.get('/get/tutor', getAllTutors)
 
     app.get('/get/tutor/name', getTutorByName)
 

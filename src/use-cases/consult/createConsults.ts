@@ -62,6 +62,7 @@ export class CreateConsultsUseCase {  //cada classe tem um método
 
 
     const tutor = await this.tutorRepository.createTutor({
+      sequence,
       name,
       phone
     });

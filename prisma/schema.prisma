@@ -62,6 +62,7 @@ model Secretary {
 
 model Tutor {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  sequence   String   @unique
   name       String
   cpf        String?   @unique
   email      String?   @unique
@@ -75,6 +76,7 @@ model Tutor {
 
 model Animal {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  sequence    String   @unique
   name         String
   created_at   DateTime @default(now())
   species      String

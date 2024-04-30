@@ -1,6 +1,6 @@
 import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
-import { AnimalRepository} from '@/repositories/animal-repository'
-import { UsersRepository} from '@/repositories/users-repository'
+import { AnimalRepository } from '@/repositories/animal-repository'
+import { UsersRepository } from '@/repositories/users-repository'
 
 
 
@@ -48,10 +48,28 @@ interface RegisterUseCaseResponse {
 const prisma = new PrismaClient();
 
 async function getNextSequence() {
-    const count = await prisma.enchiridion.count();
-    const nextId = count + 1;
-    return nextId.toString();
+    let nextSequence = await prisma.enchiridion.count() + 1;
+    let sequenceExists = true;
+
+    while (sequenceExists) {
+        const existingSequence = await prisma.enchiridion.findFirst({
+            where: {
+                sequence: nextSequence.toString(),
+            },
+        });
+
+        // Se a sequência não existir, sai do loop
+        if (!existingSequence) {
+            sequenceExists = false;
+        } else {
+            // Se a sequência existir, incrementa e verifica novamente
+            nextSequence++;
+        }
+    }
+
+    return nextSequence.toString();
 }
+
 
 
 
@@ -67,13 +85,13 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const animalINoExists = await this.animalRepository.findById(animal_id);
 
         if (!animalINoExists) {
-          throw new AnimalNoexists()
+            throw new AnimalNoexists()
         };
 
         const teacherNoExists = await this.usersRepository.findTeacherById(teacher_id);
 
         if (!teacherNoExists) {
-          throw new teacherNoexists()
+            throw new teacherNoexists()
         };
 
 
