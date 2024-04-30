@@ -3,6 +3,7 @@ import { GetAllTeachersUseCase, GetTeacherByIdUseCase, GetTeachersByRegistration
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
 import { NoExistsUsersError } from "@/use-cases/errors/user-error";
+import { getNameTeachers } from "@/use-cases/factories/users/teacher/make-get-name-teacher";
 
 interface Params {
   id: string;
@@ -71,5 +72,24 @@ export async function getTeachersByRegistration(request: FastifyRequest<{ Params
   } catch (error) {
     return reply.status(404).send({ message: "Teachers not found." });
   }
+}
+
+export async function getTeacherByName(request: FastifyRequest, reply: FastifyReply) {
+	const searchTeacherQuerySchema = z.object({
+		q: z.string(),
+		page: z.coerce.number().min(1).default(1),
+	})
+
+
+	const { q, page } = searchTeacherQuerySchema.parse(request.query)
+	const queryWithoutSpaces = q.replace('-', ' ')
+
+	const searchNameTeacherUseCase = getNameTeachers()
+
+	const teachers = await searchNameTeacherUseCase.execute(queryWithoutSpaces, page)
+
+	return reply.status(200).send({
+		teachers,
+	})
 }
 

@@ -18,7 +18,7 @@ import {getTeachersByRegistrationSchema} from "@/docs/swagger/getTeachersByRegis
 
 import { FastifyInstance } from "fastify";
 import { getAllStudent, getStudentById, getStudentByRegistration } from "./student/getStudent";
-import { getAllTeachers, getTeacherById, getTeachersByRegistration } from "./teacher/getTeachers";
+import { getAllTeachers, getTeacherById, getTeacherByName, getTeachersByRegistration } from "./teacher/getTeachers";
 import { updateSecretary } from "./secretary/updateSecretary";
 import { updateStudent } from "./student/updateStudent";
 import { updateTeacher } from "./teacher/updateTeacher";
@@ -41,8 +41,9 @@ export async function usersRoutes(app: FastifyInstance) {
 
 
   app.get("/get/teacher",{ schema: getAllTeachersSchema}, getAllTeachers);
-  app.get("/get/teacher/id/:id",{ schema: getTeacherByIdSchema}, getTeacherById); // buscar student pelo id
-  app.get("/get/teacher/registration/:registration",{ schema: getTeachersByRegistrationSchema}, getTeachersByRegistration); // buscar student pelo registration
+  app.get("/get/teacher/id/:id",{ schema: getTeacherByIdSchema}, getTeacherById);
+  app.get("/get/teacher/registration/:registration",{ schema: getTeachersByRegistrationSchema}, getTeachersByRegistration);
+  app.get("/get/teacher/name", getTeacherByName)
 
   app.put("/put/secretary", updateSecretary)
   app.put("/put/student", updateStudent)

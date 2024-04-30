@@ -1,6 +1,6 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { prisma } from '@/lib/prisma'
-import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
+import { $Enums, Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 
 
@@ -127,6 +127,23 @@ export class PrismaUsersRepository implements UsersRepository {
     })
 
     return user
+  }
+
+  async findTeacherByName(query: string, page: number): Promise<Teacher[]> {
+    const queryNormalized = query.toLowerCase();
+
+    const teacher = await prisma.teacher.findMany({
+      where: {
+        name: {
+          contains: queryNormalized,
+          mode: 'insensitive'
+          },
+        },
+        take: 10,
+        skip: (page - 1) * 10,
+    });
+
+    return teacher
   }
 
   async createTeachers(data: Prisma.TeacherCreateInput) {  //cria no banco de dados
