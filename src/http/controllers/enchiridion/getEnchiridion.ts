@@ -1,10 +1,12 @@
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
+import {EnchiridionNotExitsError } from '@/use-cases/errors/enchiridion-errors';
 import { AnimalNoexists} from '@/use-cases/errors/animal-errors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makegetTutorIdEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-by-tutor'
 import { makegetAnimalIdEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-by-animal'
 import {makegetAllEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-all-enchiridion'
+import {makegetSequenceEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-sequence'
 
 
 
@@ -91,6 +93,30 @@ export async function getAllEnchiridion(request: FastifyRequest, reply: FastifyR
 	} catch (err) {
 
 	
+
+		throw err
+	};
+}
+
+export async function getSequenceEnchiridion(request: FastifyRequest, reply: FastifyReply) {
+	const  validateSequenceParamsSchema = z.object({
+		sequence: z.string(),
+	})
+
+	const { sequence} =  validateSequenceParamsSchema.parse(request.params)
+
+	try {
+
+		const getEnchiridionUseCase = makegetSequenceEnchiridionUseCase();
+		const data = await getEnchiridionUseCase.execute(sequence);
+
+		return data;
+
+	} catch (err) {
+        
+		if (err instanceof EnchiridionNotExitsError) {
+			return reply.status(409).send({ message: err.message })
+		}
 
 		throw err
 	};
