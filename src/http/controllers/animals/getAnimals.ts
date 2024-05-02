@@ -51,6 +51,7 @@ export async function getAnimalById(request: FastifyRequest<{ Params: Params }>,
         }
         throw err
     }
+}
 
 export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyReply) {
     const getQuerySchema = z.object({
