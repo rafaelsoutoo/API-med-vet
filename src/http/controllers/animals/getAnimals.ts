@@ -41,6 +41,9 @@ export async function getAnimalById(request: FastifyRequest<{ Params: Params }>,
         return reply.status(200).send(user)
 
     } catch (err) {
+        if (err instanceof AnimalNoexists) {
+            return reply.status(404).send({ message: err.message })
+        }
         throw err
     }
 }
