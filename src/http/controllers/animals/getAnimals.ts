@@ -40,13 +40,14 @@ export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyR
         const animals = await getusecase.execute(tutor_id)
 
         return reply.status(200).send(animals)
-    } catch(error) {
-        if(error instanceof TutorNotExistsError){
-            return reply.status(404).send({message: error.message})
+    } catch (error) {
+        if (error instanceof TutorNotExistsError) {
+            return reply.status(404).send({ message: error.message })
         }
+        throw error
     }
 
 
 
-    
+
 }
