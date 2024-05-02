@@ -8,6 +8,7 @@ export class GetAllConsultsUseCase {
     const consults = await this.consultsRepository.getAllConsultsDone()
 
     interface ConsultInfo {
+      id: string,
       sequence: string;
       nameTutor: string;
       nameAnimal: string;
@@ -20,6 +21,7 @@ export class GetAllConsultsUseCase {
       [key: string]: ConsultInfo[]
 
     }
+
     const result: ConsultDate = {};
 
     while (consults.length > 0) {
@@ -28,6 +30,7 @@ export class GetAllConsultsUseCase {
 
       if (data) {
         let idTutor = data.tutor_id
+        let idConsult = data.id
         try {
           let tutor = await this.tutorRepository.findById(idTutor)
 
@@ -48,6 +51,7 @@ export class GetAllConsultsUseCase {
 
 
             var consultInfo: ConsultInfo = {
+              id: idConsult,
               sequence: sequence,
               nameTutor: nameTutor,
               nameAnimal: nameAnimal,
