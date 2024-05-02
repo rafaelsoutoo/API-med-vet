@@ -22,9 +22,7 @@ export class GetAnimalById {
     async execute(id: string) {
         const user = await this.animalRepository.findById(id)
 
-        if (user != user) {
-            throw new AnimalNoexists()
-        }
         return user
+
     }
 }

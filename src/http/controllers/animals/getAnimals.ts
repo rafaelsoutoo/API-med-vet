@@ -3,6 +3,7 @@ import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-re
 import { GetAllAnimalsUseCase, GetAnimalById } from "@/use-cases/animal/getAnimals";
 import { z } from "zod";
 import { AnimalNoexists } from "@/use-cases/errors/animal-errors";
+import { makeGetAnimalId } from "@/use-cases/factories/animals/make-get-animal-id";
 
 
 interface Params {
@@ -31,21 +32,15 @@ export async function getAllAnimals(request: FastifyRequest, reply: FastifyReply
 }
 
 export async function getAnimalById(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+    const { id } = request.params
+    const getAnimalByIdUseCase = makeGetAnimalId()
+
     try {
-        const prismaAnimalsRepository = new PrismaAnimalsRepository
-        const getAnimalByIdUseCase = new GetAnimalById(prismaAnimalsRepository)
-
-        const { id } = request.params
-
         const user = await getAnimalByIdUseCase.execute(id)
 
         return reply.status(200).send(user)
 
-    } catch (error) {
-        if (error instanceof AnimalNoexists) {
-            return reply.status(404).send({ message: error.message })
-        }
-
-        throw error
+    } catch (err) {
+        throw err
     }
 }
