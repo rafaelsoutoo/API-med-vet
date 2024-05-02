@@ -7,7 +7,7 @@ import { Prisma, Animal } from '@prisma/client'
 export class PrismaAnimalsRepository implements AnimalRepository {
 
   async findById(id: string) {
-    const animal = await prisma.animal.findUnique({ //pelo id retorna o usuário
+    const animal = await prisma.animal.findUnique({
       where: {
         id,
       },
@@ -30,7 +30,7 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return usersWithPasswordHash
   }
 
-  async createAnimal(data: Prisma.AnimalUncheckedCreateInput) {  //cria no banco de dados
+  async createAnimal(data: Prisma.AnimalUncheckedCreateInput) {
     const animal = await prisma.animal.create({
       data,
     })
@@ -49,5 +49,13 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return allanimals
   }
 
+  async findByTutor(id: string) {
+      const animal = await prisma.animal.findMany({
+        where: {
+          tutor_id: id
+        },
+      });
 
+    return animal
+  }
 }

@@ -10,7 +10,7 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 		id: z.string(),
 	});
 
-	const { id } = deleteBodySchema.parse(request.query);
+	const { id } = deleteBodySchema.parse(request.params);
 
 	try {
 		const updateUserCase = MakeDeleteTutorUseCase()
