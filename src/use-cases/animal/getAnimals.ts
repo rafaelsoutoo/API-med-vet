@@ -37,3 +37,19 @@ export class GetAnimalByTutorUseCase {
         return animals
     }
 }
+
+export class GetAnimalById {
+    constructor(private animalRepository: AnimalRepository) { }
+
+    async execute(id: string) {
+        const AnimalNoExists = await this.animalRepository.findById(id);
+
+        if (!AnimalNoExists) {
+            throw new AnimalNoexists()
+        }
+        const user = await this.animalRepository.findById(id)
+
+        return user
+
+    }
+}
