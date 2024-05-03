@@ -1,6 +1,6 @@
 import { AnimalRepository } from '@/repositories/animal-repository';
 import { prisma } from '@/lib/prisma'
-import { Prisma, Animal } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 
 
@@ -69,4 +69,24 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return animal
   }
+
+  async searchAnimalByNameTutor(name: string) {
+    const tutors = await prisma.tutor.findMany({
+      where: {
+        name: name
+      }
+    });
+
+    const animals = await prisma.animal.findMany({
+      where: {
+        tutor_id: {
+          in: tutors.map(tutor => tutor.id)
+        }
+      }
+    })
+
+    return animals;
+  }
+
+
 }

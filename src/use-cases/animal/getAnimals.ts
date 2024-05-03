@@ -69,3 +69,14 @@ export class GetAnimalBySequenceUseCase {
         return user;
     }
 }
+
+export class GetAnimalByNameTutorUseCase {
+    constructor(private animalRepository: AnimalRepository) { }
+
+    async execute(name: string) {
+
+        const user = await this.animalRepository.searchAnimalByNameTutor(name)
+
+        return user
+    }
+}
