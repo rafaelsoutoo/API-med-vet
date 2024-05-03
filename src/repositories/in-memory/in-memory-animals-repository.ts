@@ -36,4 +36,5 @@ export class InMemoryAnimalRepository implements AnimalRepository {
     async getAllAnimals(page: number, numberOfItems: number): Promise<Animal[]> {
         return this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
     }
+
 }
