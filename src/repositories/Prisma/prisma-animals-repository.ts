@@ -15,6 +15,17 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return animal
   }
+
+  async findBySequence(sequence: string) {
+    const user = await prisma.animal.findUnique({
+      where: {
+        sequence,
+      },
+    })
+
+    return user
+  }
+
   async getAllAnimals(page: number, numberOfItems: number) {
     const skipTtens = (page - 1) * numberOfItems
 
@@ -50,11 +61,11 @@ export class PrismaAnimalsRepository implements AnimalRepository {
   }
 
   async findByTutor(id: string) {
-      const animal = await prisma.animal.findMany({
-        where: {
-          tutor_id: id
-        },
-      });
+    const animal = await prisma.animal.findMany({
+      where: {
+        tutor_id: id
+      },
+    });
 
     return animal
   }
