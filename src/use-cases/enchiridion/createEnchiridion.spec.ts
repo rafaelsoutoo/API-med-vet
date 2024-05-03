@@ -102,7 +102,7 @@ describe('Create Enchiridion Use Case', () => {
             registration: '123456',
             course: 'Veterinária',
             shift: 'Manhã',
-            phone: '(11) 12345-6789',
+            phone: '(11)12345-6789',
             role: 'TEACHER',
             created_at: new Date(),
           })
@@ -192,7 +192,7 @@ describe('Create Enchiridion Use Case', () => {
     })
 
 
-    it('should throw InvalidDateError for invalid date', async () => {
+    it('should t  rror for invalid date', async () => {
       
         animalsRepository.items.push({
             id: '66314c11974bd8a7cd2078b7',
