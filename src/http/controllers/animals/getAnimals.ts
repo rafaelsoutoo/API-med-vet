@@ -104,6 +104,10 @@ export async function getAnimalByNameTutor(request: FastifyRequest<{ Params: Par
         return reply.status(200).send(user)
 
     } catch (err) {
+        if (err instanceof TutorNotExistsError) {
+            return reply.status(404).send({ message: 'Animal or tutor no exists' })
+        }
+
         throw err
     }
 }

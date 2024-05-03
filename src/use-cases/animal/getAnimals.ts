@@ -74,8 +74,11 @@ export class GetAnimalByNameTutorUseCase {
     constructor(private animalRepository: AnimalRepository) { }
 
     async execute(name: string) {
-
         const user = await this.animalRepository.searchAnimalByNameTutor(name)
+
+        if (user.length === 0) {
+            throw new TutorNotExistsError()
+        }
 
         return user
     }
