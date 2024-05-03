@@ -19,7 +19,7 @@ export class GetAllAnimalsUseCase {
 }
 
 export class GetAnimalByTutorUseCase {
-    constructor(private animalRepository: AnimalRepository, private tutorRepository: TutorRepository) {}
+    constructor(private animalRepository: AnimalRepository, private tutorRepository: TutorRepository) { }
 
     async execute(tutor_id: string) {
         const tutor = await this.tutorRepository.findById(tutor_id)
@@ -51,5 +51,21 @@ export class GetAnimalById {
 
         return user
 
+    }
+}
+
+export class GetAnimalBySequenceUseCase {
+    constructor(private animalRepository: AnimalRepository) { }
+
+    async execute(sequence: string) {
+        const AnimalNoExists = await this.animalRepository.findBySequence(sequence)
+
+        if (!AnimalNoExists) {
+            throw new AnimalNoexists()
+        }
+
+        const user = await this.animalRepository.findBySequence(sequence);
+
+        return user;
     }
 }

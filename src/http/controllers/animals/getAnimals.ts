@@ -1,16 +1,18 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-repository";
-import { GetAllAnimalsUseCase, GetAnimalById, GetAnimalByTutorUseCase } from "@/use-cases/animal/getAnimals";
+import { GetAllAnimalsUseCase } from "@/use-cases/animal/getAnimals";
 import { z } from "zod";
 import { AnimalNoexists } from "@/use-cases/errors/animal-errors";
 import { makeGetAnimalId } from "@/use-cases/factories/animals/make-get-animal-id";
 import { makeGetByTutorAnimalUseCase } from "@/use-cases/factories/animals/make-get-by-tutor-animal";
 import { TutorNotExistsError } from "@/use-cases/errors/tutor-error";
+import { makeGetAnimalSequence } from "@/use-cases/factories/animals/make-get-animal-sequence";
 
 
 
 interface Params {
     id: string;
+    sequence: string
 }
 
 
@@ -72,4 +74,22 @@ export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyR
         }
         throw error
     }
+}
+
+export async function getAnimalBySequence(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+    const { sequence } = request.params
+    const getAnimalBySequenceUseCase = makeGetAnimalSequence()
+
+    try {
+        const user = await getAnimalBySequenceUseCase.execute(sequence)
+        return reply.status(200).send(user)
+
+    } catch (err) {
+        if (err instanceof AnimalNoexists) {
+            return reply.status(404).send({ message: err.message })
+        }
+        throw err
+    }
+
+
 }
