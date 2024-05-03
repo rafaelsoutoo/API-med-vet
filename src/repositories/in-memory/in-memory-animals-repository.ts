@@ -7,7 +7,7 @@ export class InMemoryAnimalRepository implements AnimalRepository {
 
     async createAnimal(data: Prisma.AnimalUncheckedCreateInput): Promise<Animal> {
         const animal = {
-            id: randomUUID(),
+            id:  data.id ?? randomUUID(),
             sequence: data.sequence,
             name: data.name,
             created_at: new Date(),

@@ -7,7 +7,8 @@
     "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
-    "test": "vitest run --dir src/use-cases"
+    "test": "vitest run --dir src/use-cases",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +17,7 @@
     "@types/bcryptjs": "2.4.6",
     "@types/fastify-cors": "2.1.0",
     "@types/node": "^20.12.5",
+    "@vitest/ui": "1.5.3",
     "prisma": "5.12.1",
     "tsup": "^8.0.2",
     "tsx": "^4.7.2",

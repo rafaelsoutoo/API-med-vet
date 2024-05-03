@@ -57,9 +57,15 @@ export class InMemoryUsersRepository implements UsersRepository {
             ...data,
         }
     
-        this.students[studentIndex] = student
+        // Ensure that the properties are of the correct type
+        student.name = typeof student.name === 'string' ? student.name : student.name?.set || this.students[studentIndex].name;
+        student.cpf = typeof student.cpf === 'string' ? student.cpf : student.cpf?.set || this.students[studentIndex].cpf;
+        // Add similar lines for the other properties
     
-        return student
+        // Cast the student object to the Student type
+        this.students[studentIndex] = student as Student
+    
+        return this.students[studentIndex]
     }
 
     async deleteStudent(id: string) {
@@ -89,7 +95,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     
     async createTeachers(data: Prisma.TeacherCreateInput) {
         const teacher = {
-            id: randomUUID(),
+            id:  data.id ?? randomUUID(),
             name: data.name,
             cpf: data.cpf,
             password_hash: data.password_hash,
@@ -110,25 +116,45 @@ export class InMemoryUsersRepository implements UsersRepository {
     
     async updateTeacher(id: string, data: Prisma.TeacherUpdateInput) {
         const teacherIndex = this.teachers.findIndex((item) => item.id === id)
-        if (teacherIndex === -1) throw new Error('Teacher not found')
     
-        const updatedTeacher = { ...this.teachers[teacherIndex], ...data }
-        this.teachers[teacherIndex] = updatedTeacher
+        if (teacherIndex === -1) {
+            throw new Error('Teacher not found')
+        }
     
-        return updatedTeacher
+        const teacher = {
+            ...this.teachers[teacherIndex],
+            ...data,
+        }
+    
+        // Ensure that the properties are of the correct type
+        teacher.name = typeof teacher.name === 'string' ? teacher.name : teacher.name?.set || this.teachers[teacherIndex].name;
+        // Add similar lines for the other properties
+    
+        // Cast the teacher object to the Teacher type
+        this.teachers[teacherIndex] = teacher as Teacher
+    
+        return this.teachers[teacherIndex]
     }
-    
-    async deleteTeacher(id: string) {
-        const teacherIndex = this.teachers.findIndex((item) => item.id === id)
-        if (teacherIndex === -1) throw new Error('Teacher not found')
-    
-        this.teachers.splice(teacherIndex, 1)
-    }
+
+
+
     
     async findTeacherByName(query: string, page: number) {
         const filteredTeachers = this.teachers.filter((item) => item.name.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
+
+
+    deleteTeacher(id: string): void {
+        const teacherIndex = this.teachers.findIndex((item) => item.id === id)
+        if (teacherIndex === -1) {
+            throw new Error('Teacher not found')
+        }
+    
+        this.teachers.splice(teacherIndex, 1)
+    }
+
+
 
 
    //secretary
@@ -157,16 +183,30 @@ async findByCpfSecretary(cpf: string): Promise<Secretary | null> {
     return this.secretarys.find((item) => item.cpf === cpf) ?? null
 }
 
-async updateSecretary(id: string, data: Prisma.SecretaryUpdateInput): Promise<Secretary> {
-    const index = this.secretarys.findIndex((item) => item.id === id)
-    if (index === -1) {
+
+
+async updateSecretary(id: string, data: Prisma.SecretaryUpdateInput) {
+    const secretaryIndex = this.secretarys.findIndex((item) => item.id === id)
+
+    if (secretaryIndex === -1) {
         throw new Error('Secretary not found')
     }
 
-    this.secretarys[index] = { ...this.secretarys[index], ...data }
+    const secretary = {
+        ...this.secretarys[secretaryIndex],
+        ...data,
+    }
 
-    return this.secretarys[index]
+    // Ensure that the properties are of the correct type
+    secretary.name = typeof secretary.name === 'string' ? secretary.name : secretary.name?.set || this.secretarys[secretaryIndex].name;
+    // Add similar lines for the other properties
+
+    // Cast the secretary object to the Secretary type
+    this.secretarys[secretaryIndex] = secretary as Secretary
+
+    return this.secretarys[secretaryIndex]
 }
+
 
 async deleteSecretary(id: string): Promise<void> {
     const index = this.secretarys.findIndex((item) => item.id === id)
