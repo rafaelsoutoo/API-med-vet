@@ -91,7 +91,7 @@ describe('Create Enchiridion Use Case', () => {
 
 
 
-    it('should throw  AnimalNoexists ', async () => {
+    it('should throw error AnimalNoexists ', async () => {
 
         usersRepository.createTeachers({
             id: '6616d924ee0af0e50602ca14', 
@@ -142,7 +142,7 @@ describe('Create Enchiridion Use Case', () => {
        
     })
 
-    it('should  throw teacherNoexists', async () => {
+    it('should throw error teacherNoexists', async () => {
 
         animalsRepository.items.push({
             id: '66314c11974bd8a7cd2078b7',
@@ -192,7 +192,7 @@ describe('Create Enchiridion Use Case', () => {
     })
 
 
-    it('should t  rror for invalid date', async () => {
+    it('should throw error InvalidDateError for invalid date', async () => {
       
         animalsRepository.items.push({
             id: '66314c11974bd8a7cd2078b7',

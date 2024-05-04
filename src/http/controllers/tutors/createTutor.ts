@@ -9,7 +9,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 
 	const registerBodySchema = z.object({
 		name: z.string(),
-		cpf: z.string().refine(Validation.isValidCPF, {
+		cpf: z.string().refine(Validation.isValidCPForNull, {
 			message: "CPF inválido",
 		}),
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
