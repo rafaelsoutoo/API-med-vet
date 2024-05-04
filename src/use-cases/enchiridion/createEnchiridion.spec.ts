@@ -102,7 +102,7 @@ describe('Create Enchiridion Use Case', () => {
             registration: '123456',
             course: 'Veterinária',
             shift: 'Manhã',
-            phone: '(11) 12345-6789',
+            phone: '(11)12345-6789',
             role: 'TEACHER',
             created_at: new Date(),
           })

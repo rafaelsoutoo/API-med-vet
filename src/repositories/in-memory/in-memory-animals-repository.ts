@@ -37,4 +37,7 @@ export class InMemoryAnimalRepository implements AnimalRepository {
         return this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
     }
 
+    async findByTutor(id: string): Promise<Animal[]> {
+        return this.items.filter((item) => item.tutor_id === id)
+    }
 }
