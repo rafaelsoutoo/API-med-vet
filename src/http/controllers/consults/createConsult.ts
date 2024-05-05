@@ -18,14 +18,28 @@ export async function createConsult(request: FastifyRequest, reply: FastifyReply
 		nameTutor: z.string(),
 	});
 
-	const { nameAnimal, stringDate, description, species, phone, nameTutor } = registerBodySchema.parse(request.body);
+	const { 
+		nameAnimal, 
+		stringDate, 
+		description, 
+		species, 
+		phone, 
+		nameTutor 
+	} = registerBodySchema.parse(request.body);
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
 
-		await registerUserCase.execute({
-			nameAnimal, stringDate, description, species, phone, nameTutor
+		const consult = await registerUserCase.execute({
+			nameAnimal, 
+			stringDate, 
+			description, 
+			species, 
+			phone, 
+			nameTutor
 		})
+		
+		return consult
 	} catch (err) {
 		if (err instanceof TutorAlreadyExistsError) {
 			return reply.status(409).send({ message: err.message })
@@ -34,5 +48,5 @@ export async function createConsult(request: FastifyRequest, reply: FastifyReply
 		throw err
 	}
 
-	return reply.status(201).send()
+	
 }

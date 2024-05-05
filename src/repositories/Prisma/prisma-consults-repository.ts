@@ -1,8 +1,6 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
-import { DefaultArgs } from '@prisma/client/runtime/library'
-
 
 
 export class PrismaConsultsRepository implements ConsultsRepository {

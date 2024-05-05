@@ -1,8 +1,9 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
-
-import { Consult, PrismaClient } from '@prisma/client'
+import { prisma } from '@/lib/prisma';
+import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
+import { InvalidDateError } from '../errors/invalid-date-error';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -13,12 +14,7 @@ interface RegisterUseCaseRequest {
   nameTutor: string
 }
 
-const prisma = new PrismaClient();
 
-
-interface RegisterUseCaseResponse {
-  consults: Consult
-}
 async function getNextSequence() {
   let nextSequence = await prisma.consult.count() + 1;
   let sequenceExists = true;
@@ -43,11 +39,21 @@ async function getNextSequence() {
 }
 
 
-export class CreateConsultsUseCase {  //cada classe tem um método
-  constructor(private consultsRepository: ConsultsRepository,
-    private tutorRepository: TutorRepository) { }   //receber as dependencia dentro do construtor
-  //retorna isso
-  async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+export class CreateConsultsUseCase { 
+
+  constructor(
+    private consultsRepository: ConsultsRepository,
+    private tutorRepository: TutorRepository
+  ) { }
+
+  async execute({ 
+    nameAnimal, 
+    stringDate, 
+    description, 
+    species, 
+    phone, 
+    nameTutor 
+  }: RegisterUseCaseRequest): Promise<Consult> {
 
 
     const sequence = await getNextSequence()
@@ -91,11 +97,10 @@ export class CreateConsultsUseCase {  //cada classe tem um método
         tutor_id
       });
 
-      return {
-        consults
-      }
+      return consults
+
     } else {
-      throw new Error(`data invalida ${day}, ${month}, ${year}`)
+      throw new InvalidDateError(day, month, year)
     };
   }
 }
