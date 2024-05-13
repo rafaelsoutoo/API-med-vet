@@ -3,11 +3,11 @@ import { AnimalRepository } from '@/repositories/animal-repository'
 import { UsersRepository } from '@/repositories/users-repository'
 
 
-
-import { Enchiridion, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
+import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
+import { Sequence } from '@/utils/sequence'
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -45,33 +45,6 @@ interface RegisterUseCaseResponse {
     enchiridions: Enchiridion
 }
 
-const prisma = new PrismaClient();
-
-async function getNextSequence() {
-    let nextSequence = await prisma.enchiridion.count() + 1;
-    let sequenceExists = true;
-
-    while (sequenceExists) {
-        const existingSequence = await prisma.enchiridion.findFirst({
-            where: {
-                sequence: nextSequence.toString(),
-            },
-        });
-
-        // Se a sequência não existir, sai do loop
-        if (!existingSequence) {
-            sequenceExists = false;
-        } else {
-            // Se a sequência existir, incrementa e verifica novamente
-            nextSequence++;
-        }
-    }
-
-    return nextSequence.toString();
-}
-
-
-
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
     constructor(private enchiridionRepository: EnchiridionRepository,
@@ -95,8 +68,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         };
 
 
-
-        const sequence = await getNextSequence()
+        const sequence = await Sequence('enchiridion');
         const dateData = (stringDate).split("/");
 
 

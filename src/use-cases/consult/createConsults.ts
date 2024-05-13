@@ -1,8 +1,9 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 
-import { Consult, PrismaClient } from '@prisma/client'
+import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
+import { Sequence } from '@/utils/sequence';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -13,34 +14,12 @@ interface RegisterUseCaseRequest {
   nameTutor: string
 }
 
-const prisma = new PrismaClient();
 
 
 interface RegisterUseCaseResponse {
   consults: Consult
 }
-async function getNextSequence() {
-  let nextSequence = await prisma.consult.count() + 1;
-  let sequenceExists = true;
 
-  while (sequenceExists) {
-    const existingSequence = await prisma.consult.findFirst({
-      where: {
-        sequence: nextSequence.toString(),
-      },
-    });
-
-    // Se a sequência não existir, sai do loop
-    if (!existingSequence) {
-      sequenceExists = false;
-    } else {
-      // Se a sequência existir, incrementa e verifica novamente
-      nextSequence++;
-    }
-  }
-
-  return nextSequence.toString();
-}
 
 
 export class CreateConsultsUseCase {  //cada classe tem um método
@@ -50,7 +29,8 @@ export class CreateConsultsUseCase {  //cada classe tem um método
   async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
-    const sequence = await getNextSequence()
+    const sequence = await Sequence('consult')
+
     const name = nameTutor
 
 
