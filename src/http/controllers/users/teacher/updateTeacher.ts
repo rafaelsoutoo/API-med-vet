@@ -2,12 +2,12 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { Validation } from '@/utils/validation'
 import { MakeUpdateTeacherUseCase } from '@/use-cases/factories/users/teacher/make-update-teacher';
-import { NoExistsUsersError } from '@/use-cases/errors/user-error';
+import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 
 
 export async function updateTeacher(request: FastifyRequest, reply: FastifyReply) {
 
-	const registerBodySchema = z.object({
+    const registerBodySchema = z.object({
         id: z.string(),
         name: z.string(),
         email: z.string().email(),
@@ -23,12 +23,12 @@ export async function updateTeacher(request: FastifyRequest, reply: FastifyReply
 
     const { id, name, email, cpf, password, registration, course, shift, phone } = registerBodySchema.parse(request.body);
 
-	try {
-		const updateUserCase = MakeUpdateTeacherUseCase()
+    try {
+        const updateUserCase = MakeUpdateTeacherUseCase()
 
-		await updateUserCase.execute({
+        await updateUserCase.execute({
             id,
-			name,
+            name,
             email,
             cpf,
             password,
@@ -36,14 +36,14 @@ export async function updateTeacher(request: FastifyRequest, reply: FastifyReply
             course,
             shift,
             phone
-		})
-	} catch (err) {
-		if (err instanceof NoExistsUsersError) {
-			return reply.status(409).send({ message: err.message })
-		}
+        })
+    } catch (err) {
+        if (err instanceof teacherNoexists) {
+            return reply.status(409).send({ message: err.message })
+        }
 
-		throw err
-	}
+        throw err
+    }
 
-	return reply.status(201).send()
+    return reply.status(201).send()
 }

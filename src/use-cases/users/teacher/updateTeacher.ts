@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository';
 import { Teacher } from '@prisma/client'
-import { NoExistsUsersError } from '@/use-cases/errors/user-error'
 import { hash } from 'bcryptjs';
+import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 
 interface UpdateUseCaseRequest {
   id: string
@@ -23,14 +23,19 @@ export class UpdateTeacherUseCase {
 
   constructor(private userRepository: UsersRepository) { }
 
-  async execute({ id, name, email, cpf, password, registration, course, shift, phone }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse>{
+  async execute({ id, name, email, cpf, password, registration, course, shift, phone }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
 
 
     const userExists = await this.userRepository.findTeacherById(id)
 
     const password_hash = await hash(password, 6)
 
-    if (userExists) {
+
+
+    if (!userExists) {
+      throw new teacherNoexists()
+    } else {
+
       const user = await this.userRepository.updateTeacher(id, {
         name,
         email,
@@ -42,11 +47,13 @@ export class UpdateTeacherUseCase {
         shift
       })
 
+
       return {
         user
       }
-    } else {
-      throw new NoExistsUsersError()
     }
+
+
+
   }
 }
