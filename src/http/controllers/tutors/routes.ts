@@ -12,7 +12,7 @@ import { deleteTutor } from './deleteTutor';
 
 
 export async function tutorRoutes(app: FastifyInstance) {
-    app.post('/tutor', { schema: createTutorSchema }, createTutor)
+    app.post('/tutor', createTutor)
 
     app.get('/get/tutor', getAllTutors)
 

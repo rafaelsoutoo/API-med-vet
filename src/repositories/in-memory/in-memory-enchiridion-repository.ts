@@ -12,7 +12,7 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
   
     async createEnchiridion(data: Prisma.EnchiridionUncheckedCreateInput) {
       const enchiridion = {
-        id: randomUUID(),
+        id:  data.id ?? randomUUID(),
         sequence: data.sequence,
         animal_id: data.animal_id,
         teacher_id: data.teacher_id,
