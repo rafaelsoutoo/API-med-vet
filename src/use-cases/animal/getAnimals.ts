@@ -47,10 +47,9 @@ export class GetAnimalById {
         if (!AnimalNoExists) {
             throw new AnimalNoexists()
         }
-        const user = await this.animalRepository.findById(id)
+        const animal = await this.animalRepository.findById(id)
 
-        return user
-
+        return animal
     }
 }
 

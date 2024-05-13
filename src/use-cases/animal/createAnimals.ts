@@ -1,7 +1,8 @@
 import { AnimalRepository } from '@/repositories/animal-repository'
 import { TutorRepository } from '@/repositories/tutors-repository'
-import { Animal, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
+import { Animal } from '@prisma/client'  //tipagem propria do prisma
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
+import { prisma } from '@/lib/prisma';
 
 
 interface registerusecaserequest {
@@ -17,8 +18,6 @@ interface registerusecaserequest {
 interface registerusecaseresponse {
   animal: Animal
 }
-
-const prisma = new PrismaClient();
 
 async function getNextSequence() {
   let nextSequence = await prisma.animal.count() + 1;
@@ -45,7 +44,7 @@ async function getNextSequence() {
 
 
 
-export class createAnimalsUsecase {
+export class CreateAnimalsUsecase {
   constructor(private animalrepository: AnimalRepository,
     private tutorRepository: TutorRepository
   ) { }
