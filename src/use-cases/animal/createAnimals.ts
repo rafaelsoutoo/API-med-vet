@@ -20,8 +20,6 @@ interface registerusecaseresponse {
 }
 
 
-
-
 export class CreateAnimalsUsecase {
   constructor(private animalrepository: AnimalRepository,
     private tutorRepository: TutorRepository
