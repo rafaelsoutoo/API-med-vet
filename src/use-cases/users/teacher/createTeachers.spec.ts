@@ -9,7 +9,7 @@ import { UserAlreadyExistsError } from '@/use-cases/errors/user-error'
 let usersRepository: InMemoryUsersRepository
 let sut: CreateTeachersUseCase
 
-describe('Create Enchiridion Use Case', () => {
+describe('Create Teacher Use Case', () => {
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository() //istanciar meu repositório
         sut = new CreateTeachersUseCase(  usersRepository)
