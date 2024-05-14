@@ -1,6 +1,6 @@
 import { getAllConsultsUseCase } from '@/use-cases/factories/consult/make-get-consults';
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getAllConsultsError } from '@/use-cases/errors/get-all-consults-error';
+import { getAllConsultsError } from '@/use-cases/errors/consult-error';
 import { PrismaConsultsRepository } from '@/repositories/Prisma/prisma-consults-repository';
 import { GetConsultBySequenceUseCase } from '@/use-cases/consult/getConsults';
 

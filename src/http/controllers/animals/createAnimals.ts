@@ -2,7 +2,6 @@ import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeCreateAnimalUseCase } from '@/use-cases/factories/animals/make-create-animal';
-import { Validation } from '@/utils/validation'
 
 
 export async function createAnimals(request: FastifyRequest, reply: FastifyReply) {
@@ -23,9 +22,9 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 
 	});
 
-   
 
-	const { name, species, race, gender, age, coat,  } = animalsCreateBodySchema.parse(request.body);
+
+	const { name, species, race, gender, age, coat, } = animalsCreateBodySchema.parse(request.body);
 	const { tutor_id } = validateIdParamsSchema.parse(request.params)
 
 	try {
