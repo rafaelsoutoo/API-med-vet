@@ -20,6 +20,12 @@ interface RegisterUseCaseResponse {
   consults: Consult
 }
 
+async function sequenceDef(): Promise<string> {
+  const sequence: string = await Sequence('consult')
+  return sequence
+
+}
+
 
 
 export class CreateConsultsUseCase {  //cada classe tem um método
@@ -29,7 +35,7 @@ export class CreateConsultsUseCase {  //cada classe tem um método
   async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
-    const sequence = await Sequence('consult')
+    const sequence = await sequenceDef()
 
     const name = nameTutor
 
