@@ -35,6 +35,7 @@ export class CreateStudentsUseCase {  //cada classe tem um método
     if (userWithSameCpf || userWithSameRegistration) { //se o usuario existes
       throw new UserAlreadyExistsError()
     }
+
     const user = await this.usersRepository.createStudent({   //cria o usuario no banco de dados
       name,
       email,
