@@ -1,7 +1,7 @@
 import { UsersRepository } from "@/repositories/users-repository";
-import { NoExistsUsersError } from "../../errors/user-error";
+import { teacherNoexists } from "@/use-cases/errors/teacher-error";
 
- 
+
 export class GetAllTeachersUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
@@ -9,7 +9,7 @@ export class GetAllTeachersUseCase {
     const users = await this.usersRepository.findAllTeachers(page, numberOfItems);
 
     if (users.length === 0) {
-      throw new NoExistsUsersError
+      throw new teacherNoexists()
     }
 
     return users;
@@ -24,6 +24,10 @@ export class GetTeacherByIdUseCase {
     const user = await this.usersRepository.findTeacherById(id);
 
 
+    if (user === null) {
+      throw new teacherNoexists()
+    }
+
     return user;
   }
 }
@@ -35,6 +39,10 @@ export class GetTeachersByRegistrationUseCase {
   async execute(registration: string) {
     const user = await this.usersRepository.findByRegistrationTeachers(registration);
 
+    if (user === null) {
+      throw new teacherNoexists()
+    }
+
     return user;
   }
 }
@@ -43,16 +51,16 @@ export class GetTeachersByRegistrationUseCase {
 export class SearchTeacherByNameUseCase {
   constructor(private userRepository: UsersRepository) { }
 
-  async execute(query: string,page: number){
+  async execute(query: string, page: number) {
 
     try {
       const user = await this.userRepository.findTeacherByName(query, page)
 
       return user
     } catch {
-      throw new NoExistsUsersError()
-    };
-  };
+      throw new teacherNoexists()
+    }
+  }
 
 }
 
