@@ -40,4 +40,8 @@ export class InMemoryAnimalRepository implements AnimalRepository {
     async findByTutor(id: string): Promise<Animal[]> {
         return this.items.filter((item) => item.tutor_id === id)
     }
+
+    async findBySequence(sequence: string): Promise<Animal | null>{
+        return this.items.find((item) => item.sequence === sequence) ?? null
+    }
 }

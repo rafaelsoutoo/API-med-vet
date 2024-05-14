@@ -1,7 +1,8 @@
 import { AnimalRepository } from "@/repositories/animal-repository"
 import { AnimalNoexists } from "../errors/animal-errors";
-import { TutorRepository } from "@/repositories/tutors-repository";
+import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository";
 import { TutorNotExistsError } from "../errors/tutor-error";
+import { TutorRepository } from "@/repositories/tutors-repository";
 
 
 export class GetAllAnimalsUseCase {
@@ -70,15 +71,25 @@ export class GetAnimalBySequenceUseCase {
 }
 
 export class GetAnimalByNameTutorUseCase {
-    constructor(private animalRepository: AnimalRepository) { }
+    constructor(
+        private animalRepository: AnimalRepository,
+        private tutorRepository: TutorRepository
+    ) { }
 
     async execute(name: string) {
-        const user = await this.animalRepository.searchAnimalByNameTutor(name)
+        const tutor = await this.tutorRepository.searchByNameTutor(name, 1)
 
-        if (user.length === 0) {
+        if (!tutor){
             throw new TutorNotExistsError()
+        } else {
+            const animals = await this.animalRepository.findByTutor(tutor[0].id)
+        
+            if (animals.length === 0) {
+                throw new TutorNotExistsError()
+            }
+
+            return animals
         }
 
-        return user
     }
 }

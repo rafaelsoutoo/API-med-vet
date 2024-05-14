@@ -8,6 +8,7 @@ export interface AnimalRepository {
   getAllAnimals(page: number, numberOfItems: number): Promise<Animal[]>
   findByTutor(id: string): Promise<Animal[]>
 
-  searchAnimalByNameTutor(name: string): Promise<Animal[]>
+
+  // searchAnimalByNameTutor(name: string): Promise<Animal[]>
 
 }
