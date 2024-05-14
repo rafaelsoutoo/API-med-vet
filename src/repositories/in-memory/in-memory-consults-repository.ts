@@ -59,8 +59,11 @@ export class InMemoryConsultsRepository implements ConsultsRepository {
   
     async deleteConsult(id: string) {
         const index = this.itens.findIndex((item) => item.id === id)
-    
-        this.itens.splice(index)
+        if (index === -1) {
+            throw new Error('Tutor not found')
+        }
+
+        this.itens.splice(index, 1)
     }
    
   }

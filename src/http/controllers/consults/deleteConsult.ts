@@ -1,7 +1,7 @@
 import { MakeDeleteConsultUseCase } from '@/use-cases/factories/consult/make-delete-consult';
-import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { ConsultsNotExistsError } from '@/use-cases/errors/consult-error';
 
 
 export async function deleteConsult(request: FastifyRequest, reply: FastifyReply) {
@@ -19,7 +19,7 @@ export async function deleteConsult(request: FastifyRequest, reply: FastifyReply
 			id
 		})
 	} catch (err) {
-		if (err instanceof TutorNotExistsError) {
+		if (err instanceof ConsultsNotExistsError) {
 			return reply.status(409).send({ message: err.message })
 		}
 

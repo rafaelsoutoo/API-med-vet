@@ -17,9 +17,7 @@ export class GetAllConsultsUseCase {
       description: string | null;
     }
     interface ConsultDate {
-
       [key: string]: ConsultInfo[]
-
     }
 
     const result: ConsultDate = {};
@@ -85,6 +83,8 @@ export class GetAllConsultsUseCase {
     return result
   }
 }
+
+
 export class GetConsultBySequenceUseCase {
   constructor(private usersRepository: ConsultsRepository) { }
 
