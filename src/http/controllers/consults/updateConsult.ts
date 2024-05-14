@@ -1,5 +1,5 @@
 import { MakeUpdateConsultUseCase } from '@/use-cases/factories/consults/make-update-consult';
-import { ConsultsNotExitsError } from '@/use-cases/errors/consult-error';
+import { ConsultsNotExistsError } from '@/use-cases/errors/consult-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { Validation } from '@/utils/validation'
@@ -31,7 +31,7 @@ export async function updateConsult(request: FastifyRequest, reply: FastifyReply
 			description,
 		})
 	} catch (err) {
-		if (err instanceof ConsultsNotExitsError) {
+		if (err instanceof ConsultsNotExistsError) {
 			return reply.status(409).send({ message: err.message })
 		}
 
