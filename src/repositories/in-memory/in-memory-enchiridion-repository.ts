@@ -68,5 +68,26 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
       async findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null> {
         return this.items.find((item) => item.sequence === sequence) ?? null
       }
+
+      async sequence(): Promise<string> {
+        // let nextSequence = await prisma.animal.count() + 1
+        let nextSequence = this.items.length + 1
+
+        let sequenceExists = true;
+
+        while (sequenceExists) {
+            const existingSequence = this.items.find((item) => {
+                item.sequence == nextSequence.toString()
+            });
+
+            if (!existingSequence) {
+                sequenceExists = false;
+            } else {
+                nextSequence++;
+            }
+        }
+
+        return nextSequence.toString();
+    }
   }
 

@@ -1,6 +1,7 @@
 import { Prisma, Tutor } from '@prisma/client'
 
 export interface TutorRepository {
+  sequence(): Promise<string>
   createTutor(data: Prisma.TutorCreateInput): Promise<Tutor>
 
   findById(id: string): Promise<Tutor | null>

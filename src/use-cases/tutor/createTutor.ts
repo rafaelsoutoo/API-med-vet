@@ -1,7 +1,7 @@
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { Tutor } from '@prisma/client'
-import { Sequence } from '@/utils/sequence';
+// import { Sequence } from '@/utils/sequence';
 
 
 
@@ -23,7 +23,7 @@ export class CreateTutorsUseCase {
   ) { }
 
   async execute({ name, email, cpf, phone }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
-    const sequence = await Sequence('tutor');
+    const sequence = await this.tutorRepository.sequence();
 
     if (cpf) {
       var tutorExists = await this.tutorRepository.findByCpfPhone(cpf, phone);
