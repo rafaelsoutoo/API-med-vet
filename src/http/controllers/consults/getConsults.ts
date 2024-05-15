@@ -1,6 +1,6 @@
 import { getAllConsultsUseCase } from '@/use-cases/factories/consult/make-get-consults';
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getAllConsultsError } from '@/use-cases/errors/consult-error';
+import { ConsultsNotExistsError, getAllConsultsError } from '@/use-cases/errors/consult-error';
 import { PrismaConsultsRepository } from '@/repositories/Prisma/prisma-consults-repository';
 import { GetConsultBySequenceUseCase } from '@/use-cases/consult/getConsults';
 
@@ -17,10 +17,9 @@ export async function getAllConsults(request: FastifyRequest, reply: FastifyRepl
 		return data;
 
 	} catch (err) {
-
 		if (err instanceof getAllConsultsError) {
-			return reply.status(413).send({ message: err.message })
-		};
+			return reply.status(404).send({ message: err.message })
+		}
 
 		throw err
 	};
@@ -40,7 +39,12 @@ export async function getConsultBySequence(request: FastifyRequest<{ Params: Par
 				...user,
 			}
 		});
-	} catch (error) {
-		return reply.status(404).send({ message: "Student Not Found" });
+	} catch (err) {
+		if (err instanceof ConsultsNotExistsError) {
+			return reply.status(404).send({ message: err.message })
+		}
+
+		throw err
+
 	}
 }

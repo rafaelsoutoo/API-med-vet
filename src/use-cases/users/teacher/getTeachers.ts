@@ -53,13 +53,16 @@ export class SearchTeacherByNameUseCase {
 
   async execute(query: string, page: number) {
 
-    try {
-      const user = await this.userRepository.findTeacherByName(query, page)
 
-      return user
-    } catch {
+    const user = await this.userRepository.findTeacherByName(query, page)
+
+    if (user.length === 0 || query.length == 0) {
       throw new teacherNoexists()
     }
+
+    return user
+
+
   }
 
 }

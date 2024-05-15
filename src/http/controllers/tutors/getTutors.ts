@@ -19,14 +19,12 @@ export async function getAllTutors(request: FastifyRequest, reply: FastifyReply)
 		const getTutorUseCase = getAllTutorUseCase();
 		const data = await getTutorUseCase.execute(page, numberOfItems);
 
-		return data;
+		return reply.status(200).send(data)
 
 	} catch (err) {
-
 		if (err instanceof getAllTutorsError) {
 			return reply.status(404).send({ message: err.message })
-		};
-
+		}
 		throw err
 	};
 }
@@ -40,18 +38,27 @@ export async function getTutorByName(request: FastifyRequest, reply: FastifyRepl
 
 
 	const { q, page } = searchTutorQuerySchema.parse(request.query)
-	const queryWithoutSpaces = q.replace('-', ' ')
+	try {
+		const queryWithoutSpaces = q.replace('-', ' ')
 
-	const searchNameTutorUseCase = getNameTutors()
+		const searchNameTutorUseCase = getNameTutors()
 
-	const { tutors } = await searchNameTutorUseCase.execute({
-		query: queryWithoutSpaces,
-		page,
-	})
+		const { tutors } = await searchNameTutorUseCase.execute({
+			query: queryWithoutSpaces,
+			page,
+		})
 
-	return reply.status(200).send({
-		tutors,
-	})
+		return reply.status(200).send({
+			tutors,
+		})
+
+	} catch (err) {
+		if (err instanceof getAllTutorsError) {
+			return reply.status(404).send({ message: err.message })
+		}
+		throw err
+
+	}
 }
 
 export async function searchPhoneTutors(request: FastifyRequest, reply: FastifyReply) {
@@ -60,16 +67,26 @@ export async function searchPhoneTutors(request: FastifyRequest, reply: FastifyR
 		page: z.coerce.number().min(1).default(1),
 	})
 
-	const { q, page } = searchGymsQuerySchema.parse(request.query)
+	try {
+		const { q, page } = searchGymsQuerySchema.parse(request.query)
 
-	const searchPhoneTutorUseCase = getPhoneTutors()
+		const searchPhoneTutorUseCase = getPhoneTutors()
 
-	const { tutors } = await searchPhoneTutorUseCase.execute({
-		query: q,
-		page,
-	})
+		const { tutors } = await searchPhoneTutorUseCase.execute({
+			query: q,
+			page,
+		})
 
-	return reply.status(200).send({
-		tutors,
-	})
+		return reply.status(200).send({
+			tutors,
+		})
+
+	} catch (err) {
+		if (err instanceof getAllTutorsError) {
+			return reply.status(404).send({ message: err.message })
+		}
+		throw err
+
+	}
+
 }
