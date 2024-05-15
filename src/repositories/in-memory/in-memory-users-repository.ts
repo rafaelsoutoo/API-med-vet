@@ -142,14 +142,10 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.teachers[teacherIndex]
     }
 
-
-
-
     async findTeacherByName(query: string, page: number) {
         const filteredTeachers = this.teachers.filter((item) => item.name.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
-
 
     deleteTeacher(id: string): void {
         const teacherIndex = this.teachers.findIndex((item) => item.id === id)

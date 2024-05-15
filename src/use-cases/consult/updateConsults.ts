@@ -1,13 +1,13 @@
 import { Consult } from '@prisma/client'
-import { ConsultsNotExitsError } from '../errors/consult-error'
+import { ConsultsNotExistsError } from '../errors/consult-error'
 import { ConsultsRepository } from '@/repositories/consult-repository'
 
 interface UpdateUseCaseRequest {
-  	id: string,
-		nameAnimal: string,
-		species: string,
-		stringDate: string,
-		description:  string | null
+  id: string,
+  nameAnimal: string,
+  species: string,
+  stringDate: string,
+  description: string | null
 }
 
 interface UpdateUseCaseResponse {
@@ -25,8 +25,8 @@ export class UpdateConsultUseCase {
 
 
     if (!consultExists) {
-      throw new ConsultsNotExitsError
-      };
+      throw new ConsultsNotExistsError()
+    };
 
     const dateData = (stringDate).split("/");
 
@@ -38,12 +38,12 @@ export class UpdateConsultUseCase {
     const date = new Date(year, month, day);
 
     const consult = await this.consultsRepository.updateConsult(id, {
-        nameAnimal,
-        species,
-        date,
-        description,
+      nameAnimal,
+      species,
+      date,
+      description,
     });
 
-    return {consult}
+    return { consult }
   };
 };

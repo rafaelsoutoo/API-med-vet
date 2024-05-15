@@ -9,9 +9,9 @@ export class TutorAlreadyExistsError extends Error {
         super('Tutor already exists.')
     }
 }
-  
+
 export class getAllTutorsError extends Error {
-constructor() {
-    super("Error in get all tutors from database")
-};
+    constructor() {
+        super('There are no Tutors')
+    };
 }

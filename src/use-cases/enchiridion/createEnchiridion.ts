@@ -46,6 +46,7 @@ interface RegisterUseCaseResponse {
 }
 
 
+
 export class CreateEnchiridionUseCase {  //cada classe tem um método
     constructor(private enchiridionRepository: EnchiridionRepository,
         private animalRepository: AnimalRepository,
@@ -54,6 +55,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
     ) { }   //receber as dependencia dentro do construtor
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+
 
         const animalINoExists = await this.animalRepository.findById(animal_id);
 
@@ -68,8 +70,8 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         };
 
 
-        const sequence = await Sequence('enchiridion');
         const dateData = (stringDate).split("/");
+        const sequence = await Sequence('enchiridion')
 
 
         const day = parseInt(dateData[0], 10);

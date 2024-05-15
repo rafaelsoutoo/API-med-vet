@@ -21,7 +21,6 @@ interface RegisterUseCaseResponse {
 }
 
 
-
 export class CreateConsultsUseCase {  //cada classe tem um método
   constructor(private consultsRepository: ConsultsRepository,
     private tutorRepository: TutorRepository) { }   //receber as dependencia dentro do construtor

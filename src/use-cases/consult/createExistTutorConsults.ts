@@ -2,7 +2,8 @@ import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { TutorNotExistsError } from '../errors/tutor-error';
 
-import { Consult, PrismaClient } from '@prisma/client'  //tipagem propria do prisma
+import { Consult } from '@prisma/client'  //tipagem propria do prisma
+import { Sequence } from '@/utils/sequence';
 
 
 interface RegisterUseCaseRequest {
@@ -18,30 +19,7 @@ interface RegisterUseCaseResponse {
   consults: Consult
 }
 
-const prisma = new PrismaClient();
 
-async function getNextSequence() {
-  let nextSequence = await prisma.consult.count() + 1;
-  let sequenceExists = true;
-
-  while (sequenceExists) {
-    const existingSequence = await prisma.consult.findFirst({
-      where: {
-        sequence: nextSequence.toString(),
-      },
-    });
-
-    // Se a sequência não existir, sai do loop
-    if (!existingSequence) {
-      sequenceExists = false;
-    } else {
-      // Se a sequência existir, incrementa e verifica novamente
-      nextSequence++;
-    }
-  }
-
-  return nextSequence.toString();
-}
 
 export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
   constructor(private consultsRepository: ConsultsRepository,
@@ -63,7 +41,7 @@ export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
     const day = parseInt(dateData[0], 10);
     const month = parseInt(dateData[1], 10) - 1;
     const year = parseInt(dateData[2], 10);
-    const sequence = await getNextSequence()
+    const sequence = await Sequence('consult')
 
     if (day > 0 && day <= 31 && month >= 0 && month < 12) {
 
