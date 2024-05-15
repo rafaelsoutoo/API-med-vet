@@ -1,5 +1,7 @@
 import { TutorRepository } from '../../repositories/tutors-repository';
 import { ConsultsRepository } from "@/repositories/consult-repository"
+import { ConsultsNotExistsError, getAllConsultsError } from '../errors/consult-error';
+import { TutorNotExistsError } from '../errors/tutor-error';
 
 export class GetAllConsultsUseCase {
   constructor(private consultsRepository: ConsultsRepository, private tutorRepository: TutorRepository) { }
@@ -77,19 +79,28 @@ export class GetAllConsultsUseCase {
           };
 
         } catch (err) {
-          throw new Error('cant find tutor in data')
+          throw new TutorNotExistsError()
         };
       }
     };
 
+    if (Object.keys(result).length === 0) {
+      throw new getAllConsultsError()
+    }
+
     return result
   }
 }
+
 export class GetConsultBySequenceUseCase {
   constructor(private usersRepository: ConsultsRepository) { }
 
   async execute(sequence: string) {
     const user = await this.usersRepository.findBySequence(sequence);
+
+    if (!user) {
+      throw new ConsultsNotExistsError()
+    }
 
     return user;
   }

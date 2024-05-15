@@ -4,14 +4,9 @@ export class ConsultsNotExistsError extends Error {
   };
 }
 
-export class ConsultsNotExitsError extends Error {
-  constructor() {
-    super("Consult dont exits!")
-  };
-}
 
 export class getAllConsultsError extends Error {
   constructor() {
-    super("Error in get all consults from database")
+    super("There are no Consults.")
   };
 }
