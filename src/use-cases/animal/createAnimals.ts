@@ -2,7 +2,7 @@ import { AnimalRepository } from '@/repositories/animal-repository'
 import { TutorRepository } from '@/repositories/tutors-repository'
 import { Animal } from '@prisma/client'  //tipagem propria do prisma
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
-import { Sequence } from '@/utils/sequence';
+// import { Sequence } from '@/utils/sequence';
 
 
 interface registerusecaserequest {
@@ -28,7 +28,7 @@ export class CreateAnimalsUsecase {
   async execute({ name, species, race, gender, age, coat, tutor_id }: registerusecaserequest): Promise<registerusecaseresponse> {
 
     const tutorWithSameId = await this.tutorRepository.findById(tutor_id)
-    const sequence = await Sequence('animal')
+    const sequence = await this.animalrepository.sequence()
 
 
     if (!tutorWithSameId) {

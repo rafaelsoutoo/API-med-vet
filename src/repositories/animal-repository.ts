@@ -7,6 +7,7 @@ export interface AnimalRepository {
   findManyIdTutor(tutor_id: string): Promise<Animal[]>
   getAllAnimals(page: number, numberOfItems: number): Promise<Animal[]>
   findByTutor(id: string): Promise<Animal[]>
+  sequence(): Promise<string>
 
 
   // searchAnimalByNameTutor(name: string): Promise<Animal[]>

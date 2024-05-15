@@ -70,23 +70,25 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return animal
   }
 
-  // async searchAnimalByNameTutor(name: string) {
-  //   const tutors = await prisma.tutor.findMany({
-  //     where: {
-  //       name: name
-  //     }
-  //   });
+  async sequence(): Promise<string> {
+    let nextSequence = await prisma.animal.count() + 1
 
-  //   const animals = await prisma.animal.findMany({
-  //     where: {
-  //       tutor_id: {
-  //         in: tutors.map(tutor => tutor.id)
-  //       }
-  //     }
-  //   })
+    let sequenceExists = true;
 
-  //   return animals;
-  // }
+    while (sequenceExists) {
+        const existingSequence = await prisma.animal.findFirst({
+            where: {
+                sequence: nextSequence.toString(),
+            },
+        });
 
+        if (!existingSequence) {
+            sequenceExists = false;
+        } else {
+            nextSequence++;
+        }
+    }
 
+    return nextSequence.toString();
+  }
 }
