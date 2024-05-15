@@ -45,11 +45,6 @@ interface RegisterUseCaseResponse {
     enchiridions: Enchiridion
 }
 
-async function sequenceDef(): Promise<string> {
-    const sequence: string = await Sequence('enchiridion')
-    return sequence
-
-}
 
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
@@ -76,7 +71,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
 
 
         const dateData = (stringDate).split("/");
-        const sequence = await sequenceDef()
+        const sequence = await Sequence('enchiridion')
 
 
         const day = parseInt(dateData[0], 10);

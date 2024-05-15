@@ -19,11 +19,6 @@ interface registerusecaseresponse {
   animal: Animal
 }
 
-async function sequenceDef(): Promise<string> {
-  const sequence: string = await Sequence('animal')
-  return sequence
-
-}
 
 export class CreateAnimalsUsecase {
   constructor(private animalrepository: AnimalRepository,
@@ -33,7 +28,7 @@ export class CreateAnimalsUsecase {
   async execute({ name, species, race, gender, age, coat, tutor_id }: registerusecaserequest): Promise<registerusecaseresponse> {
 
     const tutorWithSameId = await this.tutorRepository.findById(tutor_id)
-    const sequence = await sequenceDef()
+    const sequence = await Sequence('animal')
 
 
     if (!tutorWithSameId) {
