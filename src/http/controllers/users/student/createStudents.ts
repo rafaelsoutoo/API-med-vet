@@ -8,7 +8,12 @@ import { Validation } from '@/utils/validation'
 export async function createStudent(request: FastifyRequest, reply: FastifyReply) {
     const registerBodySchema = z.object({
         name: z.string(),
-        email: z.string().email(),
+        email: z.union(
+			[
+				z.literal(''),
+				z.string().email()
+			]
+		).nullable(),
         cpf: z.string().refine(Validation.isValidCPF, {
             message: "CPF inválido",
         }),
