@@ -7,7 +7,7 @@ import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
-import { Sequence } from '@/utils/sequence'
+// import { Sequence } from '@/utils/sequence'
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -71,7 +71,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
 
 
         const dateData = (stringDate).split("/");
-        const sequence = await Sequence('enchiridion')
+        const sequence = await this.enchiridionRepository.sequence()
 
 
         const day = parseInt(dateData[0], 10);

@@ -3,7 +3,6 @@ import { TutorRepository } from '@/repositories/tutors-repository';
 
 import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
-import { Sequence } from '@/utils/sequence';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -28,7 +27,7 @@ export class CreateConsultsUseCase {  //cada classe tem um método
   async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
-    const sequence = await Sequence('consult')
+    const sequence = await this.consultsRepository.sequence()
 
     const name = nameTutor
 

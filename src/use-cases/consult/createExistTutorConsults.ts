@@ -3,7 +3,7 @@ import { TutorRepository } from '@/repositories/tutors-repository';
 import { TutorNotExistsError } from '../errors/tutor-error';
 
 import { Consult } from '@prisma/client'  //tipagem propria do prisma
-import { Sequence } from '@/utils/sequence';
+// import { Sequence } from '@/utils/sequence';
 
 
 interface RegisterUseCaseRequest {
@@ -41,7 +41,8 @@ export class CreateExistTutorConsultsUseCase {  //cada classe tem um método
     const day = parseInt(dateData[0], 10);
     const month = parseInt(dateData[1], 10) - 1;
     const year = parseInt(dateData[2], 10);
-    const sequence = await Sequence('consult')
+
+    const sequence = await this.consultsRepository.sequence()
 
     if (day > 0 && day <= 31 && month >= 0 && month < 12) {
 
