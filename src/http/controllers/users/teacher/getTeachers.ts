@@ -89,13 +89,24 @@ export async function getTeacherByName(request: FastifyRequest, reply: FastifyRe
     page: z.coerce.number().min(1).default(1),
   })
 
-  const { q, page } = searchTeacherQuerySchema.parse(request.query)
-  const queryWithoutSpaces = q.replace('-', ' ')
-  const searchNameTeacherUseCase = getNameTeachers()
-  const teachers = await searchNameTeacherUseCase.execute(queryWithoutSpaces, page)
+  try {
+    const { q, page } = searchTeacherQuerySchema.parse(request.query)
+    const queryWithoutSpaces = q.replace('-', ' ')
+    const searchNameTeacherUseCase = getNameTeachers()
+    const teachers = await searchNameTeacherUseCase.execute(queryWithoutSpaces, page)
 
-  return reply.status(200).send({
-    teachers,
-  })
+    return reply.status(200).send({
+      teachers,
+    })
+
+
+  } catch (error) {
+    if (error instanceof teacherNoexists) {
+      return reply.status(404).send({ message: error.message })
+
+    }
+    throw error
+  }
+
 }
 
