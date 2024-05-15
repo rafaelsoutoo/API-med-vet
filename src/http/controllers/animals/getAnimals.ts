@@ -74,6 +74,10 @@ export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyR
         if (error instanceof TutorNotExistsError) {
             return reply.status(404).send({ message: error.message })
         }
+         
+        if(error instanceof AnimalNoexists) {
+            return reply.status(404).send({ message: error.message })
+        }
         throw error
     }
 }

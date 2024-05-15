@@ -2,6 +2,7 @@ import { MakeDeleteTutorUseCase } from '@/use-cases/factories/tutor/make-delete-
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
+import { AnimalExist } from '@/use-cases/errors/animal-errors';
 
 
 export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) {
@@ -20,6 +21,10 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 		})
 	} catch (err) {
 		if (err instanceof TutorNotExistsError) {
+			return reply.status(409).send({ message: err.message })
+		} 
+		
+		if (err instanceof AnimalExist) {
 			return reply.status(409).send({ message: err.message })
 		}
 
