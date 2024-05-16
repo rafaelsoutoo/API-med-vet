@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from "vitest";
 import { UpdateConsultUseCase } from "./updateConsults";
 import { InMemoryTutorRepository } from "@/repositories/in-memory/in-memory-tutor-repository";
 import { InMemoryConsultsRepository } from "@/repositories/in-memory/in-memory-consults-repository";
-import { ConsultsNotExitsError } from "../errors/consult-error";
+import { ConsultsNotExistsError } from "../errors/consult-error";
 
 let consultRepository: InMemoryConsultsRepository
 let tutorRepository: InMemoryTutorRepository
@@ -12,8 +12,8 @@ let updateConsultTest: UpdateConsultUseCase
 describe('Updating Consult Test Use case', () => {
     beforeEach(() => {
         consultRepository = new InMemoryConsultsRepository()
-        tutorRepository = new InMemoryTutorRepository()  
-    
+        tutorRepository = new InMemoryTutorRepository()
+
         updateConsultTest = new UpdateConsultUseCase(consultRepository)
 
         tutorRepository.createTutor({
@@ -43,7 +43,7 @@ describe('Updating Consult Test Use case', () => {
             nameAnimal: 'lua',
             species: 'gato',
             stringDate: '12/05/2024',
-            description: 'cachorro da rua atropelado por um gato',    
+            description: 'cachorro da rua atropelado por um gato',
         })
 
         expect(consult?.id).toEqual('42')
@@ -59,7 +59,7 @@ describe('Updating Consult Test Use case', () => {
             nameAnimal: 'lua',
             species: 'gato',
             stringDate: '12/05/2024',
-            description: 'cachorro da rua atropelado por um gato',    
-        })).rejects.toBeInstanceOf(ConsultsNotExitsError)
+            description: 'cachorro da rua atropelado por um gato',
+        })).rejects.toBeInstanceOf(ConsultsNotExistsError)
     })
 })

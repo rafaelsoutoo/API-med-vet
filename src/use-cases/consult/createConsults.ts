@@ -14,20 +14,20 @@ interface RegisterUseCaseRequest {
   nameTutor: string
 }
 
-export class CreateConsultsUseCase { 
+export class CreateConsultsUseCase {
 
   constructor(
     private consultsRepository: ConsultsRepository,
     private tutorRepository: TutorRepository
   ) { }
 
-  async execute({ 
-    nameAnimal, 
-    stringDate, 
-    description, 
-    species, 
-    phone, 
-    nameTutor 
+  async execute({
+    nameAnimal,
+    stringDate,
+    description,
+    species,
+    phone,
+    nameTutor
   }: RegisterUseCaseRequest): Promise<Consult> {
 
 

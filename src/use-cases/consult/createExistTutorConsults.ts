@@ -1,8 +1,8 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { TutorNotExistsError } from '../errors/tutor-error';
-import { prisma } from '@/lib/prisma';
 import { Consult } from '@prisma/client'  //tipagem propria do prisma
+import { InvalidDateError } from '../errors/invalid-date-error';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -13,9 +13,9 @@ interface RegisterUseCaseRequest {
   tutor_id: string
 }
 
-export class CreateExistTutorConsultsUseCase {  
+export class CreateExistTutorConsultsUseCase {
   constructor(private consultsRepository: ConsultsRepository,
-    private tutorRepository: TutorRepository) { }   
+    private tutorRepository: TutorRepository) { }
 
   async execute({ nameAnimal, stringDate, description, species, phone, tutor_id }: RegisterUseCaseRequest): Promise<Consult> {
 
