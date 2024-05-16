@@ -1,6 +1,6 @@
 import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
-import { AnimalNoexists} from '@/use-cases/errors/animal-errors';
-import { teacherNoexists} from '@/use-cases/errors/teacher-error';
+import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
+import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
@@ -13,7 +13,6 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         stringDate: z.string().refine(Validation.isValidDate, {
             message: "Data inválida",
         }),
-        description: z.string().nullable(),
         animal_id: z.string(),
         teacher_id: z.string(),
         history: z.string().nullable(),
