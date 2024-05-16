@@ -133,4 +133,26 @@ export class PrismaTutorsRepository implements TutorRepository {
       }
     });
   }
+
+  async sequence(): Promise<string> {
+    let nextSequence = await prisma.animal.count() + 1
+
+    let sequenceExists = true;
+
+    while (sequenceExists) {
+        const existingSequence = await prisma.animal.findFirst({
+            where: {
+                sequence: nextSequence.toString(),
+            },
+        });
+
+        if (!existingSequence) {
+            sequenceExists = false;
+        } else {
+            nextSequence++;
+        }
+    }
+
+    return nextSequence.toString();
+  }
 }

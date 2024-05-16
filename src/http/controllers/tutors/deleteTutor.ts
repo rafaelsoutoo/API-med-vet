@@ -22,6 +22,10 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 	} catch (err) {
 		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
+		} 
+		
+		if (err instanceof AnimalExist) {
+			return reply.status(409).send({ message: err.message })
 		}
 		if (err instanceof AnimalExist) {
 			return reply.status(409).send({ message: err.message })			

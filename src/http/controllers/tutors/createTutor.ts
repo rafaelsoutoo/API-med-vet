@@ -15,7 +15,12 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
-		email: z.string().email().nullable(),
+		email: z.union(
+			[
+				z.literal(''),
+				z.string().email()
+			]
+		).nullable()
 	});
 
 	const { name, cpf, phone, email } = registerBodySchema.parse(request.body);

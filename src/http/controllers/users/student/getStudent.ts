@@ -3,6 +3,7 @@ import { GetAllStudentsUseCase, GetStudentByIdUseCase, GetStudentByRegistrationU
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
 import { NoExistsUsersError } from "@/use-cases/errors/user-error";
+import { studentNotFound } from "@/use-cases/errors/student-errors";
 
 interface Params {
   id: string;
@@ -30,6 +31,7 @@ export async function getAllStudent(request: FastifyRequest, reply: FastifyReply
     if (error instanceof NoExistsUsersError) {
       return reply.status(404).send({ message: error.message })
     }
+    throw error
   }
 }
 
@@ -49,7 +51,10 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Student Not Found" });
+    if (error instanceof studentNotFound) {
+      return reply.status(404).send({ message: error.message })
+    }
+    throw error
   }
 }
 export async function getStudentByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
@@ -68,6 +73,9 @@ export async function getStudentByRegistration(request: FastifyRequest<{ Params:
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Student not found." });
+    if (error instanceof studentNotFound) {
+      return reply.status(404).send({ message: error.message })
+    }
+    throw error
   }
 }

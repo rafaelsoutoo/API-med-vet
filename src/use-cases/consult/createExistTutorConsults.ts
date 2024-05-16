@@ -2,10 +2,7 @@ import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { TutorNotExistsError } from '../errors/tutor-error';
 import { prisma } from '@/lib/prisma';
-
 import { Consult } from '@prisma/client'  //tipagem propria do prisma
-import { InvalidDateError } from '../errors/invalid-date-error';
-
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -14,30 +11,6 @@ interface RegisterUseCaseRequest {
   phone: string
   description: string | null
   tutor_id: string
-}
-
-
-async function getNextSequence() {
-  let nextSequence = await prisma.consult.count() + 1;
-  let sequenceExists = true;
-
-  while (sequenceExists) {
-    const existingSequence = await prisma.consult.findFirst({
-      where: {
-        sequence: nextSequence.toString(),
-      },
-    });
-
-    // Se a sequência não existir, sai do loop
-    if (!existingSequence) {
-      sequenceExists = false;
-    } else {
-      // Se a sequência existir, incrementa e verifica novamente
-      nextSequence++;
-    }
-  }
-
-  return nextSequence.toString();
 }
 
 export class CreateExistTutorConsultsUseCase {  
@@ -60,7 +33,8 @@ export class CreateExistTutorConsultsUseCase {
     const day = parseInt(dateData[0], 10);
     const month = parseInt(dateData[1], 10) - 1;
     const year = parseInt(dateData[2], 10);
-    const sequence = await getNextSequence()
+
+    const sequence = await this.consultsRepository.sequence()
 
     if (day > 0 && day <= 31 && month >= 0 && month < 12) {
 

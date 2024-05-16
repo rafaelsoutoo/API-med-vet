@@ -1,6 +1,6 @@
 import { AnimalRepository } from '@/repositories/animal-repository';
 import { prisma } from '@/lib/prisma'
-import { Prisma, Animal } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 
 
@@ -20,6 +20,19 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     const user = await prisma.animal.findUnique({
       where: {
         sequence,
+      },
+    })
+
+    return user
+  }
+
+  async findByNameAgeSpecies(name: string, age: string, species: string, tutor_id: string) {
+    const user = await prisma.animal.findFirst({
+      where: {
+        name,
+        age,
+        species,
+        tutor_id
       },
     })
 
@@ -68,5 +81,27 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     });
 
     return animal
+  }
+
+  async sequence(): Promise<string> {
+    let nextSequence = await prisma.animal.count() + 1
+
+    let sequenceExists = true;
+
+    while (sequenceExists) {
+      const existingSequence = await prisma.animal.findFirst({
+        where: {
+          sequence: nextSequence.toString(),
+        },
+      });
+
+      if (!existingSequence) {
+        sequenceExists = false;
+      } else {
+        nextSequence++;
+      }
+    }
+
+    return nextSequence.toString();
   }
 }

@@ -2,7 +2,6 @@ import { ConsultsRepository } from '@/repositories/consult-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 
-
 export class PrismaConsultsRepository implements ConsultsRepository {
 
   async findBySequence(sequence: string) {
@@ -48,7 +47,7 @@ export class PrismaConsultsRepository implements ConsultsRepository {
     return consult
   }
 
-  async updateConsult(id: string, data: Prisma.ConsultUncheckedUpdateManyInput){
+  async updateConsult(id: string, data: Prisma.ConsultUncheckedUpdateManyInput) {
     const consult = await prisma.consult.update({
       where: {
         id: id
@@ -60,10 +59,32 @@ export class PrismaConsultsRepository implements ConsultsRepository {
   }
 
   async deleteConsult(id: string) {
-      await prisma.consult.delete({
+    await prisma.consult.delete({
+      where: {
+        id: id
+      }
+    });
+  }
+
+  async sequence(): Promise<string> {
+    let nextSequence = await prisma.consult.count() + 1
+
+    let sequenceExists = true;
+
+    while (sequenceExists) {
+      const existingSequence = await prisma.consult.findFirst({
         where: {
-          id: id
-        }
+          sequence: nextSequence.toString(),
+        },
       });
+
+      if (!existingSequence) {
+        sequenceExists = false;
+      } else {
+        nextSequence++;
+      }
+    }
+
+    return nextSequence.toString();
   }
 }

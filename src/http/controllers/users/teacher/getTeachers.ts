@@ -2,8 +2,8 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { GetAllTeachersUseCase, GetTeacherByIdUseCase, GetTeachersByRegistrationUseCase } from "@/use-cases/users/teacher/getTeachers";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
-import { NoExistsUsersError } from "@/use-cases/errors/user-error";
 import { getNameTeachers } from "@/use-cases/factories/users/teacher/make-get-name-teacher";
+import { teacherNoexists } from "@/use-cases/errors/teacher-error";
 
 interface Params {
   id: string;
@@ -27,9 +27,10 @@ export async function getAllTeachers(request: FastifyRequest, reply: FastifyRepl
 
     return reply.status(200).send(users);
   } catch (error) {
-    if (error instanceof NoExistsUsersError) {
+    if (error instanceof teacherNoexists) {
       return reply.status(404).send({ message: error.message })
     }
+    throw error
   }
 }
 
@@ -50,7 +51,11 @@ export async function getTeacherById(request: FastifyRequest<{ Params: Params }>
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Teachers not found." });
+    if (error instanceof teacherNoexists) {
+      return reply.status(404).send({ message: error.message })
+    }
+
+    throw error
   }
 }
 
@@ -70,26 +75,38 @@ export async function getTeachersByRegistration(request: FastifyRequest<{ Params
       }
     });
   } catch (error) {
-    return reply.status(404).send({ message: "Teachers not found." });
+    if (error instanceof teacherNoexists) {
+      return reply.status(404).send({ message: error.message })
+    }
+
+    throw error
   }
 }
 
 export async function getTeacherByName(request: FastifyRequest, reply: FastifyReply) {
-	const searchTeacherQuerySchema = z.object({
-		q: z.string(),
-		page: z.coerce.number().min(1).default(1),
-	})
+  const searchTeacherQuerySchema = z.object({
+    q: z.string(),
+    page: z.coerce.number().min(1).default(1),
+  })
+
+  try {
+    const { q, page } = searchTeacherQuerySchema.parse(request.query)
+    const queryWithoutSpaces = q.replace('-', ' ')
+    const searchNameTeacherUseCase = getNameTeachers()
+    const teachers = await searchNameTeacherUseCase.execute(queryWithoutSpaces, page)
+
+    return reply.status(200).send({
+      teachers,
+    })
 
 
-	const { q, page } = searchTeacherQuerySchema.parse(request.query)
-	const queryWithoutSpaces = q.replace('-', ' ')
+  } catch (error) {
+    if (error instanceof teacherNoexists) {
+      return reply.status(404).send({ message: error.message })
 
-	const searchNameTeacherUseCase = getNameTeachers()
+    }
+    throw error
+  }
 
-	const teachers = await searchNameTeacherUseCase.execute(queryWithoutSpaces, page)
-
-	return reply.status(200).send({
-		teachers,
-	})
 }
 

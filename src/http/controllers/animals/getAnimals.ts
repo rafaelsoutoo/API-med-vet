@@ -7,12 +7,14 @@ import { makeGetAnimalId } from "@/use-cases/factories/animals/make-get-animal-i
 import { makeGetByTutorAnimalUseCase } from "@/use-cases/factories/animals/make-get-by-tutor-animal";
 import { TutorNotExistsError } from "@/use-cases/errors/tutor-error";
 import { makeGetAnimalSequence } from "@/use-cases/factories/animals/make-get-animal-sequence";
+import { makeGetAnimalByNameTutor } from "@/use-cases/factories/animals/make-get-animal-by-name-tutor";
 
 
 
 interface Params {
     id: string;
-    sequence: string
+    sequence: string;
+    name: string
 }
 
 
@@ -72,6 +74,10 @@ export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyR
         if (error instanceof TutorNotExistsError) {
             return reply.status(404).send({ message: error.message })
         }
+         
+        if(error instanceof AnimalNoexists) {
+            return reply.status(404).send({ message: error.message })
+        }
         throw error
     }
 }
@@ -90,6 +96,22 @@ export async function getAnimalBySequence(request: FastifyRequest<{ Params: Para
         }
         throw err
     }
+}
+
+export async function getAnimalByNameTutor(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+    const { name } = request.params
+    const getAnimalByNameTutorUseCase = makeGetAnimalByNameTutor()
 
 
+    try {
+        const user = await getAnimalByNameTutorUseCase.execute(name)
+        return reply.status(200).send(user)
+
+    } catch (err) {
+        if (err instanceof TutorNotExistsError) {
+            return reply.status(404).send({ message: 'Animal or tutor no exists' })
+        }
+
+        throw err
+    }
 }

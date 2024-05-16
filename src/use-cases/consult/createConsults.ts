@@ -1,6 +1,6 @@
 import { ConsultsRepository } from '@/repositories/consult-repository'
 import { TutorRepository } from '@/repositories/tutors-repository';
-import { prisma } from '@/lib/prisma';
+
 import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
 import { InvalidDateError } from '../errors/invalid-date-error';
@@ -13,31 +13,6 @@ interface RegisterUseCaseRequest {
   description: string | null
   nameTutor: string
 }
-
-
-async function getNextSequence() {
-  let nextSequence = await prisma.consult.count() + 1;
-  let sequenceExists = true;
-
-  while (sequenceExists) {
-    const existingSequence = await prisma.consult.findFirst({
-      where: {
-        sequence: nextSequence.toString(),
-      },
-    });
-
-    // Se a sequência não existir, sai do loop
-    if (!existingSequence) {
-      sequenceExists = false;
-    } else {
-      // Se a sequência existir, incrementa e verifica novamente
-      nextSequence++;
-    }
-  }
-
-  return nextSequence.toString();
-}
-
 
 export class CreateConsultsUseCase { 
 
@@ -56,7 +31,8 @@ export class CreateConsultsUseCase {
   }: RegisterUseCaseRequest): Promise<Consult> {
 
 
-    const sequence = await getNextSequence()
+    const sequence = await this.consultsRepository.sequence()
+
     const name = nameTutor
 
 

@@ -1,5 +1,6 @@
 import { TutorRepository } from '../../repositories/tutors-repository';
 import { ConsultsRepository } from "@/repositories/consult-repository"
+import { ConsultsNotExistsError, getAllConsultsError } from '../errors/consult-error';
 import { TutorNotExistsError } from '../errors/tutor-error';
 
 export class GetAllConsultsUseCase {
@@ -70,9 +71,8 @@ export class GetAllConsultsUseCase {
           } else {
             result[time] = [consultInfo];
           }
-
         };
-
+        
         function setTime(dataTime: string) {
           let dataTimeSplit: string = dataTime.split('T')[0]
           let time: string[] = dataTimeSplit.split('-')
@@ -81,17 +81,24 @@ export class GetAllConsultsUseCase {
           return date
         };
       }
+    if (Object.keys(result).length === 0) {
+      throw new getAllConsultsError()
+    }
     return result
   };
 
 }
 
-
+  
 export class GetConsultBySequenceUseCase {
   constructor(private usersRepository: ConsultsRepository) { }
 
   async execute(sequence: string) {
     const user = await this.usersRepository.findBySequence(sequence);
+
+    if (!user) {
+      throw new ConsultsNotExistsError()
+    }
 
     return user;
   }
