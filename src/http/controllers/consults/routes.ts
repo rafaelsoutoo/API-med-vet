@@ -10,11 +10,11 @@ import { deleteConsult } from './deleteConsult';
 import { updateConsult } from "@/http/controllers/consults/updateConsult";
 
 export async function consultRoutes(app: FastifyInstance) {
-    app.post('/create/consults', { schema: createConsultSchema }, createConsult)
-    app.post('/create/consults/:tutor_id', { schema: consultsSchema }, createExistTutorConsultsUseCase)
+    app.post('/create/consults', createConsult)
+    app.post('/create/consults/:tutor_id', createExistTutorConsultsUseCase)
 
     app.get('/get/consults', getAllConsults)
-  
+
     app.get('/get/consults/sequence/:sequence', getConsultBySequence)
 
     app.delete('/delete/consult/:id', deleteConsult)

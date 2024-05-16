@@ -18,7 +18,7 @@ export async function tutorRoutes(app: FastifyInstance) {
 
     app.get('/get/tutor/name', getTutorByName)
 
-    app.get('/get/tutor/searchphone', { schema: searchPhoneTutorsSchema }, searchPhoneTutors)
+    app.get('/get/tutor/searchphone', searchPhoneTutors)
 
     app.put('/put/tutor', updateTutor)
 

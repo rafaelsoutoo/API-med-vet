@@ -8,11 +8,11 @@ import { teacherSchema } from "@/docs/swagger/teacherSchema";
 import { secretarySchema } from "@/docs/swagger/secretarySchema";
 import { sessionsSchema } from "@/docs/swagger/sessionsSchema";
 import { getAllStudentsSchema } from "@/docs/swagger/getAllStudentSchema";
-import {getStudentByIdSchema } from "@/docs/swagger/getStudentByIdSchema";
-import {getStudentByRegistrationSchema } from "@/docs/swagger/getStudentByRegistrationSchema";
-import {getAllTeachersSchema} from "@/docs/swagger/getAllTeachersSchema";
-import {getTeacherByIdSchema} from "@/docs/swagger/getTeacherByIdSchema";
-import {getTeachersByRegistrationSchema} from "@/docs/swagger/getTeachersByRegistrationSchema";
+import { getStudentByIdSchema } from "@/docs/swagger/getStudentByIdSchema";
+import { getStudentByRegistrationSchema } from "@/docs/swagger/getStudentByRegistrationSchema";
+import { getAllTeachersSchema } from "@/docs/swagger/getAllTeachersSchema";
+import { getTeacherByIdSchema } from "@/docs/swagger/getTeacherByIdSchema";
+import { getTeachersByRegistrationSchema } from "@/docs/swagger/getTeachersByRegistrationSchema";
 
 
 
@@ -27,22 +27,22 @@ import { deleteStudent } from "./student/deleteStudent";
 import { deleteTeacher } from "./teacher/deleteTeacher";
 
 export async function usersRoutes(app: FastifyInstance) {
-  app.post("/users/student", { schema: studentSchema }, createStudent);
-  app.post("/users/teacher", { schema: teacherSchema }, createTeacher);
-  app.post("/users/secretary", { schema: secretarySchema }, createSecretary);
+  app.post("/users/student", createStudent);
+  app.post("/users/teacher", createTeacher);
+  app.post("/users/secretary", createSecretary);
 
 
-  app.post("/sessions", { schema: sessionsSchema }, authenticate); //seção de autnhenticate
+  app.post("/sessions", authenticate); //seção de autnhenticate
 
 
-  app.get("/get/student", { schema: getAllStudentsSchema }, getAllStudent);
-  app.get("/get/student/id/:id",{ schema: getStudentByIdSchema }, getStudentById); // buscar Student pelo id
-  app.get("/get/student/registration/:registration",{ schema: getStudentByRegistrationSchema}, getStudentByRegistration); // buscar student pelo registration
+  app.get("/get/student", getAllStudent);
+  app.get("/get/student/id/:id", getStudentById); // buscar Student pelo id
+  app.get("/get/student/registration/:registration", getStudentByRegistration); // buscar student pelo registration
 
 
-  app.get("/get/teacher",{ schema: getAllTeachersSchema}, getAllTeachers);
-  app.get("/get/teacher/id/:id",{ schema: getTeacherByIdSchema}, getTeacherById);
-  app.get("/get/teacher/registration/:registration",{ schema: getTeachersByRegistrationSchema}, getTeachersByRegistration);
+  app.get("/get/teacher", getAllTeachers);
+  app.get("/get/teacher/id/:id", getTeacherById);
+  app.get("/get/teacher/registration/:registration", getTeachersByRegistration);
   app.get("/get/teacher/name", getTeacherByName)
 
   app.put("/put/secretary", updateSecretary)
