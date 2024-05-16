@@ -26,6 +26,19 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return user
   }
 
+  async findByNameAgeSpecies(name: string, age: string, species: string, tutor_id: string) {
+    const user = await prisma.animal.findFirst({
+      where: {
+        name,
+        age,
+        species,
+        tutor_id
+      },
+    })
+
+    return user
+  }
+
   async getAllAnimals(page: number, numberOfItems: number) {
     const skipTtens = (page - 1) * numberOfItems
 
@@ -76,17 +89,17 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     let sequenceExists = true;
 
     while (sequenceExists) {
-        const existingSequence = await prisma.animal.findFirst({
-            where: {
-                sequence: nextSequence.toString(),
-            },
-        });
+      const existingSequence = await prisma.animal.findFirst({
+        where: {
+          sequence: nextSequence.toString(),
+        },
+      });
 
-        if (!existingSequence) {
-            sequenceExists = false;
-        } else {
-            nextSequence++;
-        }
+      if (!existingSequence) {
+        sequenceExists = false;
+      } else {
+        nextSequence++;
+      }
     }
 
     return nextSequence.toString();
