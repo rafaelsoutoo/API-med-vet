@@ -10,3 +10,9 @@ export class AnimalExist extends Error {
   }
 }
 
+export class AnimalAlreadyExistsError extends Error {
+  constructor() {
+    super('Animal already exists.')
+  }
+}
+
