@@ -2,8 +2,6 @@ import { ConsultsRepository } from '@/repositories/consult-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma } from '@prisma/client'
 
-
-
 export class PrismaConsultsRepository implements ConsultsRepository {
 
   async findBySequence(sequence: string) {

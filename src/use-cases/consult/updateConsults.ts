@@ -10,15 +10,17 @@ interface UpdateUseCaseRequest {
   description: string | null
 }
 
-interface UpdateUseCaseResponse {
-  consult: Consult
-}
-
 export class UpdateConsultUseCase {
 
   constructor(private consultsRepository: ConsultsRepository) { }
 
-  async execute({ id, nameAnimal, species, stringDate, description }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
+  async execute({ 
+      id, 
+      nameAnimal,
+      species, 
+      stringDate, 
+      description 
+    }: UpdateUseCaseRequest): Promise<Consult> {
 
 
     const consultExists = await this.consultsRepository.findById(id)
@@ -44,6 +46,6 @@ export class UpdateConsultUseCase {
       description,
     });
 
-    return { consult }
+    return consult
   };
 };

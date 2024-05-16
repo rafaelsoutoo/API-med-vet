@@ -3,6 +3,7 @@ import { TutorRepository } from '@/repositories/tutors-repository';
 
 import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
+import { InvalidDateError } from '../errors/invalid-date-error';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -13,18 +14,21 @@ interface RegisterUseCaseRequest {
   nameTutor: string
 }
 
+export class CreateConsultsUseCase { 
 
+  constructor(
+    private consultsRepository: ConsultsRepository,
+    private tutorRepository: TutorRepository
+  ) { }
 
-interface RegisterUseCaseResponse {
-  consults: Consult
-}
-
-
-export class CreateConsultsUseCase {  //cada classe tem um método
-  constructor(private consultsRepository: ConsultsRepository,
-    private tutorRepository: TutorRepository) { }   //receber as dependencia dentro do construtor
-  //retorna isso
-  async execute({ nameAnimal, stringDate, description, species, phone, nameTutor }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ 
+    nameAnimal, 
+    stringDate, 
+    description, 
+    species, 
+    phone, 
+    nameTutor 
+  }: RegisterUseCaseRequest): Promise<Consult> {
 
 
     const sequence = await this.consultsRepository.sequence()
@@ -69,11 +73,10 @@ export class CreateConsultsUseCase {  //cada classe tem um método
         tutor_id
       });
 
-      return {
-        consults
-      }
+      return consults
+
     } else {
-      throw new Error(`data invalida ${day}, ${month}, ${year}`)
+      throw new InvalidDateError(day, month, year)
     };
   }
 }

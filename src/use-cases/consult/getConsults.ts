@@ -19,9 +19,7 @@ export class GetAllConsultsUseCase {
       description: string | null;
     }
     interface ConsultDate {
-
       [key: string]: ConsultInfo[]
-
     }
 
     const result: ConsultDate = {};
@@ -33,65 +31,65 @@ export class GetAllConsultsUseCase {
       if (data) {
         let idTutor = data.tutor_id
         let idConsult = data.id
-        try {
-          let tutor = await this.tutorRepository.findById(idTutor)
-
-          if (tutor) {
-            var nameTutor = tutor?.name
-            var phoneTutor = tutor?.phone
-
-            let nameAnimal: string = data.nameAnimal;
-
-            let specie: string = data.species;
-            let description: string | null = data.description
+        
+        
+        let tutor = await this.tutorRepository.findById(idTutor)
 
 
-            //date
-            let dataTime: string = data.date.toISOString()
-            let time: string = setTime(dataTime)
-            let sequence = data?.sequence
+
+          if (!tutor) {
+            throw new TutorNotExistsError()
+          }
+
+          var nameTutor = tutor?.name
+          var phoneTutor = tutor?.phone
+
+          let nameAnimal: string = data.nameAnimal;
+
+          let specie: string = data.species;
+          let description: string | null = data.description
 
 
-            var consultInfo: ConsultInfo = {
-              id: idConsult,
-              sequence: sequence,
-              nameTutor: nameTutor,
-              nameAnimal: nameAnimal,
-              phone: phoneTutor,
-              species: specie,
-              description: description
-            }
+          //date
+          let dataTime: string = data.date.toISOString()
+          let time: string = setTime(dataTime)
+          let sequence = data?.sequence
 
-            if (result[time]) {
-              result[time].push(consultInfo);
-            } else {
-              result[time] = [consultInfo];
-            }
 
-          };
+          var consultInfo: ConsultInfo = {
+            id: idConsult,
+            sequence: sequence,
+            nameTutor: nameTutor,
+            nameAnimal: nameAnimal,
+            phone: phoneTutor,
+            species: specie,
+            description: description
+          }
 
-          function setTime(dataTime: string) {
-            let dataTimeSplit: string = dataTime.split('T')[0]
-            let time: string[] = dataTimeSplit.split('-')
-            let date: string = `${time[2]}${time[1]}${time[0]}`
+          if (result[time]) {
+            result[time].push(consultInfo);
+          } else {
+            result[time] = [consultInfo];
+          }
+        };
+        
+        function setTime(dataTime: string) {
+          let dataTimeSplit: string = dataTime.split('T')[0]
+          let time: string[] = dataTimeSplit.split('-')
+          let date: string = `${time[2]}${time[1]}${time[0]}`
 
-            return date
-          };
-
-        } catch (err) {
-          throw new TutorNotExistsError()
+          return date
         };
       }
-    };
-
     if (Object.keys(result).length === 0) {
       throw new getAllConsultsError()
     }
-
     return result
-  }
+  };
+
 }
 
+  
 export class GetConsultBySequenceUseCase {
   constructor(private usersRepository: ConsultsRepository) { }
 
