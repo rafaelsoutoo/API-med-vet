@@ -26,7 +26,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     async createStudent(data: Prisma.StudentCreateInput) {
         const student = {
-            id: randomUUID(),
+            id: data.id ?? randomUUID(),
             name: data.name,
             cpf: data.cpf,
             password_hash: data.password_hash,
@@ -134,6 +134,13 @@ export class InMemoryUsersRepository implements UsersRepository {
 
         // Ensure that the properties are of the correct type
         teacher.name = typeof teacher.name === 'string' ? teacher.name : teacher.name?.set || this.teachers[teacherIndex].name;
+        teacher.cpf = typeof teacher.cpf === 'string' ? teacher.cpf : teacher.cpf?.set || this.teachers[teacherIndex].cpf;
+        teacher.password_hash = typeof teacher.password_hash === 'string' ? teacher.password_hash : teacher.password_hash?.set || this.teachers[teacherIndex].password_hash;
+        teacher.email = typeof teacher.email === 'string' ? teacher.email : teacher.email?.set || this.teachers[teacherIndex].email;
+        teacher.registration = typeof teacher.registration === 'string' ? teacher.registration : teacher.registration?.set || this.teachers[teacherIndex].registration;
+        teacher.course = typeof teacher.course === 'string' ? teacher.course : teacher.course?.set || this.teachers[teacherIndex].course;
+        teacher.shift = typeof teacher.shift === 'string' ? teacher.shift : teacher.shift?.set || this.teachers[teacherIndex].shift;
+        teacher.phone = typeof teacher.phone === 'string' ? teacher.phone : teacher.phone?.set || this.teachers[teacherIndex].phone;
         // Add similar lines for the other properties
 
         // Cast the teacher object to the Teacher type
