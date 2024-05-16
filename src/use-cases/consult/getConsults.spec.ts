@@ -4,6 +4,7 @@ import { InMemoryTutorRepository } from "@/repositories/in-memory/in-memory-tuto
 import { GetAllConsultsUseCase, GetConsultBySequenceUseCase } from './getConsults';
 import { beforeEach, describe, expect, it } from "vitest";
 import { exec } from 'child_process';
+import { TutorNotExistsError } from '../errors/tutor-error';
 
 
 let consultRepository: InMemoryConsultsRepository
@@ -143,6 +144,22 @@ describe('Getting consults', () => {
                 },
             ],
         })
+    })
+
+    it('show error TutorNotExistsError when the tutor not exists', async () => {
+        await consultRepository.createConsults({
+            id: '12',
+            sequence: '5',
+            date: '01/04/2023',
+            nameAnimal: 'joã',
+            phone: '(62)91234-4321',
+            species: 'cachorro',
+            description: 'Titiozin do meu cora',
+            tutor_id: '87aba491'
+        })
+
+        await expect(getConsultbyDateTest.execute()).rejects.toBeInstanceOf(TutorNotExistsError)
+
     })
 
     it('getting a consult by it sequence', async () => {
