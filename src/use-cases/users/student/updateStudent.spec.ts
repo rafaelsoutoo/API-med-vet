@@ -1,22 +1,22 @@
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { expect, describe, it, beforeEach } from 'vitest'
-import { UpdateTeacherUseCase} from '@/use-cases/users/teacher/updateTeacher'
-import { teacherNoexists } from "@/use-cases/errors/teacher-error";
+import { UpdateStudentUseCase} from '@/use-cases/users/student/updateStudent'
+import { NoExistsUsersError } from '@/use-cases/errors/user-error'
 import { compare } from 'bcryptjs'
 
 
 
 
 let usersRepository: InMemoryUsersRepository
-let sut: UpdateTeacherUseCase
+let sut: UpdateStudentUseCase
 
-describe('Update Teacher Use Case', () => {
+describe('Update Student Use Case', () => {
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository() //istanciar meu repositório
-        sut = new UpdateTeacherUseCase( usersRepository)
+        sut = new UpdateStudentUseCase( usersRepository)
 
 
-        usersRepository.createTeachers({
+        usersRepository.createStudent({
             id: '6616d924ee0af0e50602ca14', 
             name: 'João',
             cpf: '12345678900',
@@ -27,6 +27,7 @@ describe('Update Teacher Use Case', () => {
             shift: 'Manhã',
             phone: '(11) 12345-6789',
             role: 'TEACHER',
+            period: 'Noturno',
             created_at: new Date(),
           })
 
@@ -35,7 +36,7 @@ describe('Update Teacher Use Case', () => {
 
     })
 
-    it('should update Teacher', async () => {
+    it('should update Student', async () => {
 
    
 
@@ -50,6 +51,7 @@ describe('Update Teacher Use Case', () => {
             registration: '64321',
             course: 'Veterinária',
             shift: 'Noite',
+            period:'Noturno',
             phone: '(64) 99909-4004',
         })
 
@@ -80,8 +82,9 @@ describe('Update Teacher Use Case', () => {
             registration: '64321',
             course: 'Veterinária',
             shift: 'Manhã',
+            period: 'Noturno',
             phone: '(64) 99909-4004',
-        })).rejects.toBeInstanceOf(teacherNoexists)
+        })).rejects.toBeInstanceOf( NoExistsUsersError)
 
 
     })

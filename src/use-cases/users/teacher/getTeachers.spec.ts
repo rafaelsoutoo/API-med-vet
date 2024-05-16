@@ -215,7 +215,7 @@ describe('Get all teachers with query and page', () => {
     })
 
 
-    it.skip('Shown error User not exist', async () => {
+    it('Shown error User not exist', async () => {
         await expect(searchTeacherByNameUseCaseTest.execute('Carlos',1)).rejects.toBeInstanceOf(teacherNoexists)
     })
 
