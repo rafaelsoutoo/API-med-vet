@@ -36,7 +36,7 @@ export class CreateAnimalsUsecase {
       throw new TutorNotExistsError()
     }
 
-    const existingAnimal = await this.animalrepository.findByNameAgeRace(name, age, species, tutor_id);
+    const existingAnimal = await this.animalrepository.findByNameAgeSpecies(name, age, species, tutor_id);
     if (existingAnimal) {
       throw new AnimalAlreadyExistsError();
     }

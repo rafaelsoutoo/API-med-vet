@@ -26,7 +26,7 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return user
   }
 
-  async findByNameAgeRace(name: string, age: string, species: string, tutor_id: string) {
+  async findByNameAgeSpecies(name: string, age: string, species: string, tutor_id: string) {
     const user = await prisma.animal.findFirst({
       where: {
         name,
