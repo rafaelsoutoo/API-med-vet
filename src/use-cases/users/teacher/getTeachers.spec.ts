@@ -63,7 +63,7 @@ describe('Get all teachers with page and numberOfItems', () => {
 
 
 
-    it('Shown error User not exist (registration)', async () => {
+    it('Shown error User not exist ', async () => {
         await expect(getAllTeachersUseCaseTest.execute(2,2)).rejects.toBeInstanceOf(teacherNoexists)
     })
 

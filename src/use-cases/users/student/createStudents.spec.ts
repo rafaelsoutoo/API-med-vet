@@ -26,7 +26,7 @@ describe('Create Student Use Case', () => {
             shift: 'Manhã',
             phone: '(11) 12345-6789',
             period: 'noturno',
-            role: 'TEACHER',
+            role: 'STUDENT',
             created_at: new Date(),
           })
 
