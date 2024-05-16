@@ -1,13 +1,13 @@
 import { Prisma, Animal } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
-import {AnimalRepository} from '@/repositories/animal-repository'
+import { AnimalRepository } from '@/repositories/animal-repository'
 
 export class InMemoryAnimalRepository implements AnimalRepository {
     public items: Animal[] = []
 
     async createAnimal(data: Prisma.AnimalUncheckedCreateInput): Promise<Animal> {
         const animal = {
-            id:  data.id ?? randomUUID(),
+            id: data.id ?? randomUUID(),
             sequence: data.sequence,
             name: data.name,
             created_at: new Date(),
@@ -41,10 +41,18 @@ export class InMemoryAnimalRepository implements AnimalRepository {
         return this.items.filter((item) => item.tutor_id === id)
     }
 
-    async findBySequence(sequence: string): Promise<Animal | null>{
+    async findBySequence(sequence: string): Promise<Animal | null> {
         return this.items.find((item) => item.sequence === sequence) ?? null
     }
 
+    async findByNameAgeSpecies(name: string, age: string, species: string, tutor_id: string): Promise<Animal | null> {
+        return this.items.find((item) =>
+            item.name === name &&
+            item.age === age &&
+            item.species === species &&
+            item.tutor_id === tutor_id
+        ) ?? null
+    }
 
     async sequence(): Promise<string> {
         // let nextSequence = await prisma.animal.count() + 1
