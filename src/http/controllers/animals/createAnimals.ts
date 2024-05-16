@@ -14,10 +14,10 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 
 
 	const animalsCreateBodySchema = z.object({
-		name: z.string(),
-		species: z.string(),
-		age: z.string(),
-		gender: z.string(),
+		name: z.string().min(1, { message: "Name cannot be empty" }),
+		species: z.string().min(1, { message: "Species cannot be empty" }),
+		age: z.string().min(1, { message: "Age cannot be empty" }),
+		gender: z.string().min(1, { message: "Gender cannot be empty" }),
 		coat: z.string().nullable(),
 		race: z.string().nullable(),
 
