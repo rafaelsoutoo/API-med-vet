@@ -3,6 +3,7 @@ import { InMemoryAnimalRepository } from "@/repositories/in-memory/in-memory-ani
 import { InMemoryTutorRepository } from "@/repositories/in-memory/in-memory-tutor-repository";
 import { CreateAnimalsUsecase } from './createAnimals';
 import { TutorNotExistsError } from '../errors/tutor-error';
+import { AnimalAlreadyExistsError } from "../errors/animal-errors";
 
 let animalRepository: InMemoryAnimalRepository
 let tutorRepository: InMemoryTutorRepository
@@ -87,4 +88,17 @@ describe('Create animal use case', () => {
             tutor_id: '2c032159-abb8-466d-a6bd-90da8d0c2d6e'
         })).rejects.toBeInstanceOf(TutorNotExistsError)
     })
+    it('Shown error Animal already exists', async () => {
+        await expect(
+            createAnimalTest.execute({
+                name: "name",
+                species: "buldog",
+                race: "cachorro",
+                gender: "masculino",
+                age: "12",
+                coat: "cinza",
+                tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
+            })
+        ).rejects.toBeInstanceOf(AnimalAlreadyExistsError);
+    });
 })
