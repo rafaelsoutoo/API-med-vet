@@ -76,5 +76,25 @@ export class InMemoryConsultsRepository implements ConsultsRepository {
 
         this.itens.splice(index, 1)
     }
-   
+
+    async sequence(): Promise<string> {
+        // let nextSequence = await prisma.animal.count() + 1
+        let nextSequence = this.itens.length + 1
+
+        let sequenceExists = true;
+
+        while (sequenceExists) {
+            const existingSequence = this.itens.find((item) => {
+                item.sequence == nextSequence.toString()
+            });
+
+            if (!existingSequence) {
+                sequenceExists = false;
+            } else {
+                nextSequence++;
+            }
+        }
+
+        return nextSequence.toString();
+    }
   }
