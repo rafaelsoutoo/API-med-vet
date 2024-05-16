@@ -3,6 +3,7 @@ import { InMemoryConsultsRepository } from "@/repositories/in-memory/in-memory-c
 import { InMemoryTutorRepository } from "@/repositories/in-memory/in-memory-tutor-repository"
 import { GetAllConsultsUseCase, GetConsultBySequenceUseCase } from './getConsults';
 import { beforeEach, describe, expect, it } from "vitest";
+import { exec } from 'child_process';
 
 
 let consultRepository: InMemoryConsultsRepository
@@ -85,7 +86,7 @@ describe('Getting consults', () => {
     })
 
     it('getting consults by date', async () => {
-        const consults = getConsultbyDateTest.execute()
+        const consults = await getConsultbyDateTest.execute()
 
         expect(consults).toEqual({
             "01012023": [
@@ -135,12 +136,27 @@ describe('Getting consults', () => {
                     "id": "12",
                     "sequence": "5",
                     "nameTutor": "judas",
-                    "nameAnimal": "tonico",
+                    "nameAnimal": "joã",
                     "phone": "(62)91234-4321",
                     "species": "cachorro",
                     "description": "Titiozin do meu cora"
                 },
             ],
         })
+    })
+
+    it('getting a consult by it sequence', async () => {
+        const consult = await getConsultBySequenceTest.execute('2')
+
+        expect(consult?.id).toEqual('21')
+        expect(consult?.sequence).toEqual('2')
+        expect(consult?.date).toBeInstanceOf(Date)
+        expect(consult?.nameAnimal).toEqual('tonico')
+        expect(consult?.phone).toEqual('(62)91234-4321')
+        expect(consult?.species).toEqual('cachorro')
+        expect(consult?.description).toEqual('Titiozin do meu cora')
+        expect(consult?.done).toBeFalsy()
+        expect(consult?.tutor_id).toEqual('87aba491-3bc5-4428-ba0d-466d74e003af')
+        expect(consult?.created_at).toBeInstanceOf(Date)
     })
 })

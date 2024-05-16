@@ -10,10 +10,21 @@ export class InMemoryConsultsRepository implements ConsultsRepository {
     }
   
     async createConsults(data: Prisma.ConsultUncheckedCreateInput): Promise<Consult> {
+
+        function setTime(dataTime: string) {
+            let time: string[] = dataTime.split('/')
+            
+            let date: string = `${time[2]}, ${time[1]}, ${time[0]}`
+
+            return date
+        };
+
+        const dateBr = setTime(data.date.toString())
+
         const consult = {
             id: data.id ?? randomUUID(),
             sequence: data.sequence,
-            date: new Date(data.date) ?? new Date(),
+            date: new Date(dateBr) ?? new Date(),
             nameAnimal: data.nameAnimal,
             phone: data.phone,
             species: data.species,

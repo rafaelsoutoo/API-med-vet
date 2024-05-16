@@ -1,5 +1,6 @@
 import { TutorRepository } from '../../repositories/tutors-repository';
 import { ConsultsRepository } from "@/repositories/consult-repository"
+import { TutorNotExistsError } from '../errors/tutor-error';
 
 export class GetAllConsultsUseCase {
   constructor(private consultsRepository: ConsultsRepository, private tutorRepository: TutorRepository) { }
@@ -29,59 +30,60 @@ export class GetAllConsultsUseCase {
       if (data) {
         let idTutor = data.tutor_id
         let idConsult = data.id
-        try {
-          let tutor = await this.tutorRepository.findById(idTutor)
-
-          if (tutor) {
-            var nameTutor = tutor?.name
-            var phoneTutor = tutor?.phone
-
-            let nameAnimal: string = data.nameAnimal;
-
-            let specie: string = data.species;
-            let description: string | null = data.description
+        
+        
+        let tutor = await this.tutorRepository.findById(idTutor)
 
 
-            //date
-            let dataTime: string = data.date.toISOString()
-            let time: string = setTime(dataTime)
-            let sequence = data?.sequence
+
+          if (!tutor) {
+            throw new TutorNotExistsError()
+          }
+
+          var nameTutor = tutor?.name
+          var phoneTutor = tutor?.phone
+
+          let nameAnimal: string = data.nameAnimal;
+
+          let specie: string = data.species;
+          let description: string | null = data.description
 
 
-            var consultInfo: ConsultInfo = {
-              id: idConsult,
-              sequence: sequence,
-              nameTutor: nameTutor,
-              nameAnimal: nameAnimal,
-              phone: phoneTutor,
-              species: specie,
-              description: description
-            }
+          //date
+          let dataTime: string = data.date.toISOString()
+          let time: string = setTime(dataTime)
+          let sequence = data?.sequence
 
-            if (result[time]) {
-              result[time].push(consultInfo);
-            } else {
-              result[time] = [consultInfo];
-            }
 
-          };
+          var consultInfo: ConsultInfo = {
+            id: idConsult,
+            sequence: sequence,
+            nameTutor: nameTutor,
+            nameAnimal: nameAnimal,
+            phone: phoneTutor,
+            species: specie,
+            description: description
+          }
 
-          function setTime(dataTime: string) {
-            let dataTimeSplit: string = dataTime.split('T')[0]
-            let time: string[] = dataTimeSplit.split('-')
-            let date: string = `${time[2]}${time[1]}${time[0]}`
+          if (result[time]) {
+            result[time].push(consultInfo);
+          } else {
+            result[time] = [consultInfo];
+          }
 
-            return date
-          };
+        };
 
-        } catch (err) {
-          throw new Error('cant find tutor in data')
+        function setTime(dataTime: string) {
+          let dataTimeSplit: string = dataTime.split('T')[0]
+          let time: string[] = dataTimeSplit.split('-')
+          let date: string = `${time[2]}${time[1]}${time[0]}`
+
+          return date
         };
       }
-    };
-
     return result
-  }
+  };
+
 }
 
 
