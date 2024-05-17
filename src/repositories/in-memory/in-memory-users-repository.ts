@@ -169,7 +169,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     //secretary
     async createSecretarys(data: Prisma.SecretaryCreateInput): Promise<Secretary> {
         const secretary = {
-            id: randomUUID(),
+            id: data.id ?? randomUUID(),
             name: data.name,
             cpf: data.cpf,
             password_hash: data.password_hash,
@@ -206,9 +206,11 @@ export class InMemoryUsersRepository implements UsersRepository {
             ...data,
         }
 
-        // Ensure that the properties are of the correct type
         secretary.name = typeof secretary.name === 'string' ? secretary.name : secretary.name?.set || this.secretarys[secretaryIndex].name;
-        // Add similar lines for the other properties
+        secretary.cpf = typeof secretary.cpf === 'string' ? secretary.cpf : secretary.cpf?.set || this.secretarys[secretaryIndex].cpf;
+        secretary.password_hash = typeof secretary.password_hash === 'string' ? secretary.password_hash : secretary.password_hash?.set || this.secretarys[secretaryIndex].password_hash;
+        secretary.email = typeof secretary.email === 'string' ? secretary.email : secretary.email?.set || this.secretarys[secretaryIndex].email;
+        secretary.phone = typeof secretary.phone === 'string' ? secretary.phone : secretary.phone?.set || this.secretarys[secretaryIndex].phone;
 
         // Cast the secretary object to the Secretary type
         this.secretarys[secretaryIndex] = secretary as Secretary
