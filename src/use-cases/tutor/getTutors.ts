@@ -10,17 +10,10 @@ interface SearchTutorUseCaseRequest {
   page: number
 }
 
-interface SearchTutorsUseCaseResponse {
-  tutors: Tutor[]
-
-}
-
-
-
 export class GetAllTutorsUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
-  async execute(page: number, numberOfItems: number) {
+  async execute(page: number, numberOfItems: number): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.getAllTutors(page, numberOfItems)
 
     if (tutors.length === 0) {
@@ -39,17 +32,14 @@ export class SearchPhoneTutorUseCase {
   async execute({
     query,
     page,
-
-  }: SearchTutorUseCaseRequest): Promise<SearchTutorsUseCaseResponse> {
+  }: SearchTutorUseCaseRequest): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchManyPhone(query, page)
 
     if (query.length === 0 || tutors === null || tutors.length === 0) {
       throw new getAllTutorsError()
     }
 
-    return {
-      tutors,
-    }
+    return tutors
   }
 }
 
@@ -59,15 +49,13 @@ export class SearchTutorByNameUseCase {
   async execute({
     query,
     page,
-  }: SearchTutorUseCaseRequest): Promise<SearchTutorsUseCaseResponse> {
+  }: SearchTutorUseCaseRequest): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchByNameTutor(query, page)
 
     if (query.length === 0 || tutors === null || tutors.length === 0) {
       throw new getAllTutorsError()
     }
 
-    return {
-      tutors,
-    }
+    return tutors
   }
 }

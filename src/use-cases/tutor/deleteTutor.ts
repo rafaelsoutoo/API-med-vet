@@ -3,9 +3,6 @@ import { TutorRepository } from '@/repositories/tutors-repository'
 import { AnimalRepository } from '@/repositories/animal-repository'
 import { AnimalExist } from '../errors/animal-errors'
 
-interface DeleteUseCaseRequest {
-  id: string
-}
 
 export class DeleteTutorUseCase {
 
@@ -14,7 +11,7 @@ export class DeleteTutorUseCase {
     private animalRepository: AnimalRepository
   ) { }
 
-  async execute({ id }: DeleteUseCaseRequest) {
+  async execute(id: string) {
 
     const tutorExists = await this.tutorRepository.findById(id)
     const animalsExists = await this.animalRepository.findByTutor(id)
