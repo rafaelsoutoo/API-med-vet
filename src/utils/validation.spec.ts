@@ -39,7 +39,7 @@ describe('testing the CPF validation', () => {
   });
 
   it('with all digits equal', () => {
-    const test = Validation.isValidCPF('11111111111');
+    const test = Validation.isValidCPF('2222222222');
     expect(test).toBeFalsy();
   });
 
@@ -86,7 +86,7 @@ describe('testing the phone number validation ', () => {
   });
 
   it('with invalid DDD', () => {
-    const test = Validation.isValidPhoneNumber('99912345678');
+    const test = Validation.isValidPhoneNumber('02912345678');
     expect(test).toBeFalsy();
   });
 

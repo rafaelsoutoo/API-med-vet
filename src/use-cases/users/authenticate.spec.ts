@@ -93,8 +93,6 @@ describe('Authenticate Use Case', () => {
 
 
 
-//   await hash('123456', 6)
-
 
   it('should not be able to authenticate with wrong cpf', async () => {
 
