@@ -10,33 +10,26 @@ interface UpdateUseCaseRequest {
   phone: string
 }
 
-interface UpdateUseCaseResponse {
-  tutor: Tutor
-}
-
 export class UpdateTutorUseCase {
 
   constructor(private tutorRepository: TutorRepository) { }
 
-  async execute({ id, name, email, cpf, phone }: UpdateUseCaseRequest): Promise<UpdateUseCaseResponse> {
-
+  async execute({ id, name, email, cpf, phone }: UpdateUseCaseRequest): Promise<Tutor> {
 
     const tutorExists = await this.tutorRepository.findById(id)
 
-
-    if (tutorExists) {
-      const tutor = await this.tutorRepository.updateTutor(id, {
-        name,
-        email,
-        cpf,
-        phone
-      })
-
-      return {
-        tutor
-      }
-    } else {
+    if (!tutorExists) {
       throw new TutorNotExistsError()
+  
     }
+
+    const tutor = await this.tutorRepository.updateTutor(id, {
+      name,
+      email,
+      cpf,
+      phone
+    })
+
+    return tutor
   }
 }

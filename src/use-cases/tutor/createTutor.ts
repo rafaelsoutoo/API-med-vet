@@ -1,9 +1,6 @@
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { Tutor } from '@prisma/client'
-// import { Sequence } from '@/utils/sequence';
-
-
 
 interface RegisterUseCaseRequest {
   name: string,
@@ -12,17 +9,18 @@ interface RegisterUseCaseRequest {
   phone: string,
 }
 
-interface RegisterUseCaseResponse {
-  tutor: Tutor
-}
-
 
 export class CreateTutorsUseCase {
   constructor(
     private tutorRepository: TutorRepository
   ) { }
 
-  async execute({ name, email, cpf, phone }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ 
+    name, 
+    email, 
+    cpf, 
+    phone 
+    }: RegisterUseCaseRequest): Promise<Tutor> {
     const sequence = await this.tutorRepository.sequence();
 
     if (cpf) {
@@ -43,8 +41,6 @@ export class CreateTutorsUseCase {
       phone,
     });
 
-    return {
-      tutor
-    }
+    return tutor
   }
 }
