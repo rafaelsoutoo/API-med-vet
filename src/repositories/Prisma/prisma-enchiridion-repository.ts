@@ -6,6 +6,18 @@ import { Prisma } from '@prisma/client'
 
 export class PrismaEnchiridionRepository implements EnchiridionRepository {
 
+
+  async findById(id: string) {
+    const enchiridion = await prisma.enchiridion.findUnique({
+      where: {
+        id: id,
+      },
+    })
+
+    return enchiridion
+  }
+
+
   async createEnchiridion(data: Prisma.EnchiridionUncheckedCreateInput) {
 
     const enchiridion = await prisma.enchiridion.create({

@@ -152,9 +152,21 @@ model Prescription {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   enchiridion  Enchiridion    @relation(fields: [enchiridion_id], references: [id])
   enchiridion_id    String   @db.ObjectId
+  medication Medication[]
+
+  @@map("prescription")
+}
+
+model Medication{
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
   use_type String
   pharmacy String?
   unit String
   measurement String
   description String
+  prescription_id String @db.ObjectId
+  prescription Prescription @relation(fields: [prescription_id], references: [id])
+
+
+  @@map("medication")
 }
