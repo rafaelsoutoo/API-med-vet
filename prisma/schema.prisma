@@ -84,6 +84,7 @@ model Animal {
   gender       String
   age          String
   coat         String?
+  weight       String?
   tutor        Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id     String   @db.ObjectId
   enchiridion  Enchiridion[]
