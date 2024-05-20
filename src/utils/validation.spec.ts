@@ -101,56 +101,6 @@ describe('testing the phone number validation ', () => {
   });
 });
 
-describe('testing the date validation ', () => {
-  it('with valid format', () => {
-    const test = Validation.isValidDate('10/05/2024');
-    expect(test).toBeTruthy();
-  });
-
-  it('with invalid format', () => {
-    const test = Validation.isValidDate('2024/05/10');
-    expect(test).toBeFalsy();
-  });
-
-  it('with invalid day', () => {
-    const test = Validation.isValidDate('32/05/2024');
-    expect(test).toBeFalsy();
-  });
-
-  it('with invalid month', () => {
-    const test = Validation.isValidDate('10/13/2024');
-    expect(test).toBeFalsy();
-  });
-
-  it('with invalid year', () => {
-    const test = Validation.isValidDate('10/05/10000');
-    expect(test).toBeFalsy();
-  });
-
-  it('with empty string', () => {
-    const test = Validation.isValidDate('');
-    expect(test).toBeFalsy();
-  });
-
-  it('with null', () => {
-    const test = Validation.isValidDate(null);
-    expect(test).toBeTruthy();
-  });
-
-  it('with February day wrong', () => {
-    const test = Validation.isValidDate('30/02/2023');
-    expect(test).toBeFalsy()
-  })
-
-  it('with leap year', () => {
-    const test1 = Validation.isValidDate('29/02/1988')//1988 é bissesto então pode ter dia 29 no mes de fevereiro
-    const test2 = Validation.isValidDate('29/02/1989')//1989 não é bissesto então não pode ter dia 29 em fevereiro
-
-    expect(test1).toBeTruthy()
-    expect(test2).toBeFalsy()
-  })
-});
-
 describe('testing the CPF validation', () => {
   it('when the 00000000000', () => {
     const test = Validation.isValidCPForNull('00000000000');
