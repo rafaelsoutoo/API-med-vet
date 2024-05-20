@@ -4,6 +4,7 @@ import { TutorRepository } from '@/repositories/tutors-repository';
 import { Consult } from '@prisma/client'
 import { TutorAlreadyExistsError } from '../errors/tutor-error';
 import { InvalidDateError } from '../errors/invalid-date-error';
+import { validDate } from '@/utils/date-validation';
 
 interface RegisterUseCaseRequest {
   nameAnimal: string
@@ -51,32 +52,18 @@ export class CreateConsultsUseCase {
 
     const tutor_id = tutor.id
 
-    //transformar string em um Date object
-    const dateData = (stringDate).split("/");
+    const date = validDate(stringDate)
 
+    const consults = await this.consultsRepository.createConsults({
+      sequence,
+      nameAnimal,
+      date,
+      description,
+      species,
+      phone,
+      tutor_id
+    });
 
-    const day = parseInt(dateData[0], 10);
-    const month = parseInt(dateData[1], 10) - 1;
-    const year = parseInt(dateData[2], 10);
-
-    if (day > 0 && day <= 31 && month >= 0 && month < 12) {
-
-      const date = new Date(year, month, day);
-
-      const consults = await this.consultsRepository.createConsults({
-        sequence,
-        nameAnimal,
-        date,
-        description,
-        species,
-        phone,
-        tutor_id
-      });
-
-      return consults
-
-    } else {
-      throw new InvalidDateError(day, month, year)
-    };
+    return consults
   }
 }

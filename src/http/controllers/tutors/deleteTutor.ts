@@ -16,9 +16,7 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 	try {
 		const updateUserCase = MakeDeleteTutorUseCase()
 
-		await updateUserCase.execute({
-			id
-		})
+		await updateUserCase.execute(id)
 	} catch (err) {
 		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
