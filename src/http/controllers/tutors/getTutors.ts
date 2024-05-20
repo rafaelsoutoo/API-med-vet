@@ -43,7 +43,7 @@ export async function getTutorByName(request: FastifyRequest, reply: FastifyRepl
 
 		const searchNameTutorUseCase = getNameTutors()
 
-		const { tutors } = await searchNameTutorUseCase.execute({
+		const tutors = await searchNameTutorUseCase.execute({
 			query: queryWithoutSpaces,
 			page,
 		})
@@ -72,7 +72,7 @@ export async function searchPhoneTutors(request: FastifyRequest, reply: FastifyR
 
 		const searchPhoneTutorUseCase = getPhoneTutors()
 
-		const { tutors } = await searchPhoneTutorUseCase.execute({
+		const tutors = await searchPhoneTutorUseCase.execute({
 			query: q,
 			page,
 		})

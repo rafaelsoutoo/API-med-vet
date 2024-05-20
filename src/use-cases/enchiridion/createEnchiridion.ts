@@ -4,9 +4,9 @@ import { UsersRepository } from '@/repositories/users-repository'
 
 
 import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
-import { InvalidDateError } from '@/use-cases/errors/invalid-date-error';
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
+import { validDate } from '@/utils/date-validation';
 // import { Sequence } from '@/utils/sequence'
 
 interface EnchiridionUseCaseRequest {
@@ -69,20 +69,9 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
             throw new teacherNoexists()
         };
 
-
-        const dateData = (stringDate).split("/");
         const sequence = await this.enchiridionRepository.sequence()
 
-
-        const day = parseInt(dateData[0], 10);
-        const month = parseInt(dateData[1], 10) - 1;
-        const year = parseInt(dateData[2], 10);
-
-        if (day <= 0 || day > 31 || month < 0 || month >= 12) {
-            throw new InvalidDateError(day, month, year);
-        }
-
-        const date = new Date(year, month, day);
+        const date = validDate(stringDate)
 
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
             sequence, animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible

@@ -4,27 +4,20 @@ import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
-import { Validation } from '@/utils/validation'
 
 
 export async function createEnchiridion(request: FastifyRequest, reply: FastifyReply) {
 
     const registerBodySchema = z.object({
-        stringDate: z.string().refine(Validation.isValidDate, {
-            message: "Data inválida",
-        }),
+        stringDate: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
         vaccination: z.string().nullable(),
-        date_vaccination: z.string().nullable().refine(Validation.isValidDate, {
-            message: "Data inválida",
-        }),
+        date_vaccination: z.string().nullable(),
         deworming: z.string().nullable(),
-        date_deworming: z.string().nullable().refine(Validation.isValidDate, {
-            message: "Data inválida",
-        }),
+        date_deworming: z.string().nullable(),
         temperature: z.string().nullable(),
         frequency_cardiac: z.string().nullable(),
         frequency_respiratory: z.string().nullable(),

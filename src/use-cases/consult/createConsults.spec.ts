@@ -37,7 +37,7 @@ describe('Create consult use case', () => {
     it('Creating the consult when the tutor no exists', async () => {
         const consult: Consult = await createConsultTest.execute({
             nameAnimal: "pitoko",
-            stringDate: "12/04/2023",
+            stringDate: "12/04/2060",
             description: "Cachorro com problema",
             species: "cachorro",
             phone: "(34)93423-2312",
@@ -55,7 +55,7 @@ describe('Create consult use case', () => {
     it('Create the tutor', async () => {
         const consult = await createConsultTest.execute({
             nameAnimal: "pitoko",
-            stringDate: "12/04/2023",
+            stringDate: "12/04/2060",
             description: "Cachorro com problema",
             species: "cachorro",
             phone: "(34)93423-2312",

@@ -56,7 +56,7 @@ describe('Create Enchiridion Use Case', () => {
         const { enchiridions } = await sut.execute({
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca14",
-            stringDate: "30/04/2024",
+            stringDate: "30/04/2025",
             history: "Rex foi adotado em 2022.",
             reason_consult: "Consulta de rotina",
             vaccination: "Sim",
