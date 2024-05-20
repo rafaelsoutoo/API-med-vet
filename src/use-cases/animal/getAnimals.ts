@@ -87,8 +87,25 @@ export class GetAnimalByNameTutorUseCase {
             if (animals.length === 0) {
                 throw new TutorNotExistsError()
             }
+            
+            const data = []
 
-            return animals
+            for(let i = 0; i < tutor.length; i++) {
+                const datased = {
+                    id: tutor[i].id,
+                    name: tutor[i].name,
+                    sequence: tutor[i].sequence,
+                    cpf: tutor[i].cpf,
+                    email: tutor[i].email,
+                    phone: tutor[i].phone,
+                    created_at: tutor[i].created_at,
+                    animals
+                }
+
+                data.push(datased)
+            }
+
+            return data
         }
 
     }
