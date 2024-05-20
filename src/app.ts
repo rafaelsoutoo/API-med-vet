@@ -19,6 +19,7 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import { prescriptionRoutes } from "./http/controllers/prescription/routes";
 
 
 export const app = fastify()
@@ -75,6 +76,7 @@ app.register(tutorRoutes)
 app.register(consultRoutes)
 app.register(enchiridionRoutes)
 app.register(animalsRoutes)
+app.register(prescriptionRoutes)
 
 
 
@@ -91,7 +93,7 @@ app.register(require('@fastify/swagger-ui'), {
   },
   staticCSP: true,
   transformStaticCSP: (header: string) => header,
-  transformSpecification: (swaggerObject:string, request: FastifyRequest, reply: FastifyReply) => { return swaggerObject },
+  transformSpecification: (swaggerObject: string, request: FastifyRequest, reply: FastifyReply) => { return swaggerObject },
   transformSpecificationClone: true
 })
 
@@ -99,17 +101,17 @@ app.register(require('@fastify/swagger-ui'), {
 app.setErrorHandler((error, _, reply) => {  //função que lida com erros 
 
 
-    if (error instanceof ZodError) {  //for de erro de validação
-      return reply
-        .status(400)
-        .send({ message: 'Validation error.', issues: error.format() })
-    }
+  if (error instanceof ZodError) {  //for de erro de validação
+    return reply
+      .status(400)
+      .send({ message: 'Validation error.', issues: error.format() })
+  }
 
-    if (env.NODE_ENV !== 'production') {
-      console.error(error)
-    } else {
-      // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
-    }
+  if (env.NODE_ENV !== 'production') {
+    console.error(error)
+  } else {
+    // TODO: Here we should log to a external tool like DataDog/NewRelic/Sentry
+  }
 
-    return reply.status(500).send({ message: 'Internal server error.' })
-  })
+  return reply.status(500).send({ message: 'Internal server error.' })
+})
