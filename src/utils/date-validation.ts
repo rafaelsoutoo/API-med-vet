@@ -6,6 +6,7 @@ export function validDate(dateString: string | null): Date | string{
     }
 
     const today = new Date()
+    today.setHours(0, 0, 0, 0)
 
     const [day, month, year] = dateString.split('/').map(Number);
 
@@ -16,7 +17,8 @@ export function validDate(dateString: string | null): Date | string{
 
     
     const date = new Date(year, month - 1, day);
-    
+    date.setHours(0, 0, 0, 0)
+
     if(!date || !(date.getFullYear() === year) || !(date.getMonth() + 1 === month) || !(date.getDate() === day)) {
         throw new InvalidDateError(day, month, year)    
     }
