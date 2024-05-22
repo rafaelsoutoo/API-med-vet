@@ -15,9 +15,9 @@ export async function deleteConsult(request: FastifyRequest, reply: FastifyReply
 	try {
 		const updateUserCase = MakeDeleteConsultUseCase()
 
-		await updateUserCase.execute({
+		await updateUserCase.execute(
 			id
-		})
+		)
 	} catch (err) {
 		if (err instanceof ConsultsNotExistsError) {
 			return reply.status(409).send({ message: err.message })

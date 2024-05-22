@@ -40,17 +40,37 @@ export class GetAnimalByTutorUseCase {
 }
 
 export class GetAnimalById {
-    constructor(private animalRepository: AnimalRepository) { }
+    constructor(
+        private animalRepository: AnimalRepository,
+        private tutorRepository: TutorRepository
+    ) { }
 
     async execute(id: string) {
-        const AnimalNoExists = await this.animalRepository.findById(id);
-
-        if (!AnimalNoExists) {
-            throw new AnimalNoexists()
-        }
         const animal = await this.animalRepository.findById(id)
 
-        return animal
+        if (!animal) {
+            throw new AnimalNoexists()
+        }
+
+        const tutor = await this.tutorRepository.findById(animal.tutor_id)
+
+        return {
+            id: animal.id,
+            sequence: animal.sequence,
+            name: animal.name,
+            created_at: animal.created_at, 
+            species: animal.species,
+            race: animal.race,
+            gender: animal.gender,
+            age: animal.age,
+            coat: animal.coat,
+            weight: animal.weight,
+            tutor: {
+                id: tutor?.id,
+                name: tutor?.name,
+                phone: tutor?.phone
+            }
+        }
     }
 }
 
@@ -82,15 +102,16 @@ export class GetAnimalByNameTutorUseCase {
         if (!tutor){
             throw new TutorNotExistsError()
         } else {
-            const animals = await this.animalRepository.findByTutor(tutor[0].id)
+            const animals1 = await this.animalRepository.findByTutor(tutor[0].id)
         
-            if (animals.length === 0) {
+            if (animals1.length === 0) {
                 throw new TutorNotExistsError()
             }
             
             const data = []
 
             for(let i = 0; i < tutor.length; i++) {
+                const animals = await this.animalRepository.findByTutor(tutor[i].id)
                 const datased = {
                     id: tutor[i].id,
                     name: tutor[i].name,

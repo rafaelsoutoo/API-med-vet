@@ -135,12 +135,12 @@ export class PrismaTutorsRepository implements TutorRepository {
   }
 
   async sequence(): Promise<string> {
-    let nextSequence = await prisma.animal.count() + 1
+    let nextSequence = await prisma.tutor.count() + 1
 
     let sequenceExists = true;
 
     while (sequenceExists) {
-        const existingSequence = await prisma.animal.findFirst({
+        const existingSequence = await prisma.tutor.findFirst({
             where: {
                 sequence: nextSequence.toString(),
             },
