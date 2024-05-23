@@ -101,33 +101,27 @@ export class GetAnimalByNameTutorUseCase {
 
         if (!tutor){
             throw new TutorNotExistsError()
-        } else {
-            const animals1 = await this.animalRepository.findByTutor(tutor[0].id)
+        } 
         
-            if (animals1.length === 0) {
-                throw new TutorNotExistsError()
-            }
-            
-            const data = []
+        const data = []
 
-            for(let i = 0; i < tutor.length; i++) {
-                const animals = await this.animalRepository.findByTutor(tutor[i].id)
-                const datased = {
-                    id: tutor[i].id,
-                    name: tutor[i].name,
-                    sequence: tutor[i].sequence,
-                    cpf: tutor[i].cpf,
-                    email: tutor[i].email,
-                    phone: tutor[i].phone,
-                    created_at: tutor[i].created_at,
-                    animals
-                }
-
-                data.push(datased)
+        for(let i = 0; i < tutor.length; i++) {
+            const animals = await this.animalRepository.findByTutor(tutor[i].id)
+            const datased = {
+                id: tutor[i].id,
+                name: tutor[i].name,
+                sequence: tutor[i].sequence,
+                cpf: tutor[i].cpf,
+                email: tutor[i].email,
+                phone: tutor[i].phone,
+                created_at: tutor[i].created_at,
+                animals
             }
 
-            return data
+            data.push(datased)
         }
 
+        return data
+    
     }
 }

@@ -153,7 +153,7 @@ describe('Get Animal by it ID', () => {
         animalRepository = new InMemoryAnimalRepository()
         tutorRepository = new InMemoryTutorRepository()
 
-        getAnimalByIdTest = new GetAnimalById(animalRepository)
+        getAnimalByIdTest = new GetAnimalById(animalRepository, tutorRepository)
             
         tutorRepository.createTutor({
             id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
