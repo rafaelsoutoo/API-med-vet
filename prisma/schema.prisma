@@ -118,8 +118,6 @@ model Enchiridion {
   date        DateTime
   history     String?
   reason_consult String?
-  vaccination   String?
-  date_vaccination String?
   deworming     String?
   date_deworming  String?
   temperature String?
@@ -144,8 +142,19 @@ model Enchiridion {
   responsible String?
   created_at  DateTime @default(now())
   prescription  Prescription[]
+  vaccination   Vaccination[]
 
   @@map("enchiridion")
+}
+
+model Vaccination {
+  id String   @id @default(auto()) @map("_id") @db.ObjectId
+  date String
+  name String
+  enchiridion  Enchiridion    @relation(fields: [enchiridion_id], references: [id])
+  enchiridion_id    String   @db.ObjectId
+
+  @@map("vaccination")
 }
 
 

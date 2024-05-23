@@ -40,6 +40,7 @@ export class PrismaTutorsRepository implements TutorRepository {
   async searchByNameTutor(query: string, page: number) {
     const queryNormalized = query.toLowerCase();
     // função que busca independente se for lower ou upper
+    
     const tutors = await prisma.tutor.findMany({
       where: {
         name: {

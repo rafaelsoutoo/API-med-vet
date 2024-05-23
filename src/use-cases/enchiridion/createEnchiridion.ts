@@ -7,6 +7,7 @@ import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { validDate } from '@/utils/date-validation';
+import { VaccinationRepository } from '@/repositories/vaccination-repository';
 // import { Sequence } from '@/utils/sequence'
 
 interface EnchiridionUseCaseRequest {
@@ -15,8 +16,7 @@ interface EnchiridionUseCaseRequest {
     stringDate: string;
     history: string | null;
     reason_consult: string | null;
-    vaccination: string | null;
-    date_vaccination: string | null;
+    vaccination: string | null | any;
     deworming: string | null;
     date_deworming: string | null;
     temperature: string | null;
@@ -51,10 +51,10 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
     constructor(private enchiridionRepository: EnchiridionRepository,
         private animalRepository: AnimalRepository,
         private usersRepository: UsersRepository,
-
+        private vacinationRepository: VaccinationRepository
     ) { }   //receber as dependencia dentro do construtor
     //retorna isso
-    async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
         const animalINoExists = await this.animalRepository.findById(animal_id);
@@ -74,8 +74,23 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const date = validDate(stringDate)
 
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
-            sequence, animal_id, teacher_id, date, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
+            sequence, animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
         });
+
+        const enchiridion_id = enchiridions.id
+
+        if (vaccination && Array.isArray(vaccination)) {
+            vaccination.forEach(async (vaccine) => {
+                const date = vaccine.date;
+                const name = vaccine.name;
+    
+                await this.vacinationRepository.createVaccination({
+                    enchiridion_id,
+                    date,
+                    name
+                });
+            })
+        }
 
 
         return {
@@ -83,3 +98,4 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         };
     }
 }
+
