@@ -9,13 +9,12 @@ import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-crea
 export async function createEnchiridion(request: FastifyRequest, reply: FastifyReply) {
 
     const registerBodySchema = z.object({
+        vaccination: z.any(),
         stringDate: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
-        vaccination: z.string().nullable(),
-        date_vaccination: z.string().nullable(),
         deworming: z.string().nullable(),
         date_deworming: z.string().nullable(),
         temperature: z.string().nullable(),
@@ -36,17 +35,17 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         complementary_exams: z.string().nullable(),
         diagnosis: z.string().nullable(),
         trataments: z.string().nullable(),
-        observations: z.string().nullable(),
-        responsible: z.string().nullable(),
+        observations: z.string().nullable()
     });
 
-    const { animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible } = registerBodySchema.parse(request.body);
+    const { vaccination, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations} = registerBodySchema.parse(request.body);
+
 
     try {
         const registerUserCase = makeRegisterUseCase()
 
         await registerUserCase.execute({
-            animal_id, teacher_id, stringDate, history, reason_consult, vaccination, date_vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
+            animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations
         })
     } catch (err) {
         if (err instanceof InvalidDateError) {
