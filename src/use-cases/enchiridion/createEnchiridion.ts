@@ -38,7 +38,6 @@ interface EnchiridionUseCaseRequest {
     diagnosis: string | null;
     trataments: string | null;
     observations: string | null;
-    responsible: string | null;
 }
 
 interface RegisterUseCaseResponse {
@@ -54,7 +53,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         private vacinationRepository: VaccinationRepository
     ) { }   //receber as dependencia dentro do construtor
     //retorna isso
-    async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
         const animalINoExists = await this.animalRepository.findById(animal_id);
@@ -74,7 +73,7 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const date = validDate(stringDate)
 
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
-            sequence, animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, responsible
+            sequence, animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations
         });
 
         const enchiridion_id = enchiridions.id

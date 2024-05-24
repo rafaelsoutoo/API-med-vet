@@ -139,7 +139,6 @@ model Enchiridion {
   diagnosis String?
   trataments String?
   observations String?
-  responsible String?
   created_at  DateTime @default(now())
   prescription  Prescription[]
   vaccination   Vaccination[]
