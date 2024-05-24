@@ -1,6 +1,7 @@
 import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 import { TutorRepository } from '@/repositories/tutors-repository'
 import { AnimalRepository } from '@/repositories/animal-repository'
+import { VaccinationRepository } from '@/repositories/vaccination-repository'
 
 
 
@@ -26,7 +27,8 @@ interface RegisterUseCaseResponse {
 export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
   constructor(private enchiridionRepository: EnchiridionRepository,
     private tutorRepository: TutorRepository,
-    private animalRepository: AnimalRepository
+    private animalRepository: AnimalRepository,
+    private vaccinationRepository: VaccinationRepository
   ) { }   //receber as dependencia dentro do construtor
   //retorna isso
   async execute({ tutor_id }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -51,8 +53,23 @@ export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
     const enchiridions = await this.enchiridionRepository.findByIdAnimalEnchiridion(animalsId);
 
 
+
+    const enchiridionIds = enchiridions.map((enchiridion) => enchiridion.id);
+
+
+    const vaccinations = await this.vaccinationRepository.findByEnchiridionIds(enchiridionIds);
+
+
+
+    const enchiridionsWithVaccinations = enchiridions.map((enchiridion) => {
+      return {
+        ...enchiridion,
+        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
+      };
+    });
+  
     return {
-      enchiridions
+      enchiridions: enchiridionsWithVaccinations
     };
   }
 }
@@ -61,7 +78,8 @@ export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
 
 export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
   constructor(private enchiridionRepository: EnchiridionRepository,
-    private animalRepository: AnimalRepository
+    private animalRepository: AnimalRepository,
+    private vaccinationRepository: VaccinationRepository
   ) { }   //receber as dependencia dentro do construtor
   //retorna isso
   async execute({ animal_id }: EnchiridionAnimalUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -77,8 +95,22 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
     const enchiridions = await this.enchiridionRepository.findByIdUniqueAnimalEnchiridion(animal_id);
 
 
+    const enchiridionIds = enchiridions.map((enchiridion) => enchiridion.id);
+
+
+    const vaccinations = await this.vaccinationRepository.findByEnchiridionIds(enchiridionIds);
+
+
+
+    const enchiridionsWithVaccinations = enchiridions.map((enchiridion) => {
+      return {
+        ...enchiridion,
+        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
+      };
+    });
+  
     return {
-      enchiridions
+      enchiridions: enchiridionsWithVaccinations
     };
   }
 }
@@ -87,19 +119,40 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
 
 
 export class getAllEnchiridionUseCase {
-  constructor(private enchiridionRepository: EnchiridionRepository) { }
+  constructor(private enchiridionRepository: EnchiridionRepository,
+    private vaccinationRepository: VaccinationRepository
+
+  ) { }
+
 
   async execute(page: number, numberOfItems: number) {
-    const enchiridion = await this.enchiridionRepository.getAllEnchiridion(page, numberOfItems)
+    const enchiridions = await this.enchiridionRepository.getAllEnchiridion(page, numberOfItems)
 
-    return enchiridion
-  };
+    const enchiridionIds = enchiridions.map((enchiridion) => enchiridion.id);
 
+
+    const vaccinations = await this.vaccinationRepository.findByEnchiridionIds(enchiridionIds);
+
+
+
+    const enchiridionsWithVaccinations = enchiridions.map((enchiridion) => {
+      return {
+        ...enchiridion,
+        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
+      };
+    });
+  
+    return {
+      enchiridions: enchiridionsWithVaccinations
+    };
+  }
 }
 
 
 export class GetSequenceByEnchiridionUseCase {
-  constructor(private enchiridionRepository: EnchiridionRepository) { }
+  constructor(private enchiridionRepository: EnchiridionRepository,
+    private vaccinationRepository: VaccinationRepository
+  ) { }
 
   async execute(sequence: string) {
     const enchiridion = await this.enchiridionRepository.findBySequenceEnchiridion(sequence);
@@ -109,7 +162,15 @@ export class GetSequenceByEnchiridionUseCase {
       throw new EnchiridionNotExitsError()
     }
 
-    return enchiridion;
+    const vaccinations = await this.vaccinationRepository.findByEnchiridionId(enchiridion.id);
+
+    
+    const enchiridionWithVaccinations = {
+      ...enchiridion,
+      vaccinations
+    };
+
+    return enchiridionWithVaccinations;
   }
 }
 

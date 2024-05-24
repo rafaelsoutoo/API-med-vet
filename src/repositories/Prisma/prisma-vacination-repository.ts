@@ -13,4 +13,29 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
     return vaccination
   }
 
+
+
+  async  findByEnchiridionIds(enchiridionIds: string[]) {
+    const enchiridions = await prisma.vaccination.findMany({
+      where: {
+        enchiridion_id: {
+          in: enchiridionIds,
+        },
+      },
+    })
+
+    return enchiridions
+  }
+
+
+  async findByEnchiridionId(enchiridionId: string) {
+    const vaccination = await prisma.vaccination.findFirst({
+      where: {
+        enchiridion_id: enchiridionId,
+      },
+    })
+
+    return vaccination
+  }
+
 }
