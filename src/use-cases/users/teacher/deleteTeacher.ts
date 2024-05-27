@@ -1,18 +1,13 @@
 import { NoExistsUsersError } from "@/use-cases/errors/user-error"
 import { UsersRepository } from "@/repositories/users-repository"
 
-interface DeleteUseCaseRequest {
-  id: string
-};
-
 export class DeleteTeacherUseCase {
 
   constructor(
     private usersRepository: UsersRepository
   ) { }
 
-  async execute({ id }: DeleteUseCaseRequest) {
-
+  async execute(id: string) {
 
     const userExists = await this.usersRepository.findTeacherById(id);
 
@@ -20,6 +15,7 @@ export class DeleteTeacherUseCase {
       throw new NoExistsUsersError();
     };
 
-    await this.usersRepository.deleteTeacher(id);
+    await this.usersRepository.markAsDeleteTeacher(id);
   };
+
 }

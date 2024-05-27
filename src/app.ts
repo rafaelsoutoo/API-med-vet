@@ -21,7 +21,6 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { prescriptionRoutes } from "./http/controllers/prescription/routes";
 
-
 export const app = fastify()
 
 app.register(fastifyJwt, {
@@ -68,15 +67,14 @@ app.register(require('@fastify/swagger'), {
   }
 })
 
-
-
-
 app.register(usersRoutes)
 app.register(tutorRoutes)
 app.register(consultRoutes)
 app.register(enchiridionRoutes)
 app.register(animalsRoutes)
 app.register(prescriptionRoutes)
+
+
 
 
 

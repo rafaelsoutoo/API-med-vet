@@ -1,5 +1,6 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { teacherNoexists } from "@/use-cases/errors/teacher-error";
+import { Teacher } from "@prisma/client";
 
 
 export class GetAllTeachersUseCase {

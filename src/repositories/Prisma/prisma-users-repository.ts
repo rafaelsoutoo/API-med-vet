@@ -73,19 +73,13 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async deleteStudent(id: string) {
-      await prisma.student.delete({
-        where: {
-          id: id
-        },
-      });
-  }
 
   //Teacher
   async findTeacherById(id: string) {
     const user = await prisma.teacher.findUnique({ //pelo teacher retorna o usuário
       where: {
         id,
+        status_delete: false
       },
     })
 
@@ -96,6 +90,7 @@ export class PrismaUsersRepository implements UsersRepository {
     const user = await prisma.teacher.findUnique({
       where: {
         registration,
+        status_delete: false
       },
     })
 
@@ -107,6 +102,9 @@ export class PrismaUsersRepository implements UsersRepository {
     const skipItems = (page - 1) * numberOfItems;
 
     const users = await prisma.teacher.findMany({
+      where: {
+        status_delete: false
+      },
       take: numberOfItems,
       skip: skipItems,
     });
@@ -123,6 +121,7 @@ export class PrismaUsersRepository implements UsersRepository {
     const user = await prisma.teacher.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
       where: {
         cpf,
+        status_delete: false
       },
     })
 
@@ -138,6 +137,7 @@ export class PrismaUsersRepository implements UsersRepository {
           contains: queryNormalized,
           mode: 'insensitive'
           },
+          status_delete: false
         },
         take: 10,
         skip: (page - 1) * 10,
@@ -154,6 +154,18 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async markAsDeleteTeacher(id: string) {
+    const user = await prisma.teacher.update({
+      where: {
+        id: id,
+        status_delete: false
+      },
+      data: {
+        status_delete: true
+      }
+    });
+  }
+
   async updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher> {
     const user = await prisma.teacher.update({
       where: {
@@ -163,14 +175,6 @@ export class PrismaUsersRepository implements UsersRepository {
     });
 
     return user
-  }
-
-  async deleteTeacher(id: string) {
-      await prisma.teacher.delete({
-        where: {
-          id: id
-        },
-      });
   }
 
   //Secretary
@@ -211,13 +215,5 @@ export class PrismaUsersRepository implements UsersRepository {
       });
 
       return user
-  }
-
-  async deleteSecretary(id: string) {
-      await prisma.secretary.delete({
-        where: {
-          id: id
-        },
-      });
   }
 }

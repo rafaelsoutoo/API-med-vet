@@ -74,13 +74,6 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students[studentIndex]
     }
 
-    async deleteStudent(id: string) {
-        const studentIndex = this.students.findIndex((item) => item.id === id)
-        if (studentIndex === -1) throw new Error('Student not found')
-
-        this.students.splice(studentIndex, 1)
-    }
-
     //teacher
 
     async findTeacherById(id: string) {
@@ -110,6 +103,7 @@ export class InMemoryUsersRepository implements UsersRepository {
             course: data.course ?? null,
             shift: data.shift ?? null,
             phone: data.phone ?? null,
+            status_delete: data.status_delete ?? false,
             role: data.role ?? 'TEACHER',
             created_at: new Date(),
             enchiridion: data.enchiridion ?? [],
@@ -154,16 +148,27 @@ export class InMemoryUsersRepository implements UsersRepository {
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
 
-    deleteTeacher(id: string): void {
-        const teacherIndex = this.teachers.findIndex((item) => item.id === id)
-        if (teacherIndex === -1) {
-            throw new Error('Teacher not found')
+    async markAsDeleteTeacher(id: string) {
+        const index = this.teachers.findIndex((item) => item.id === id)
+    
+        const itemUpdate: Teacher = {
+            id: this.teachers[index].id,
+            registration: this.teachers[index].registration,
+            name: this.teachers[index].name,
+            cpf: this.teachers[index].cpf,
+            password_hash: this.teachers[index].password_hash,
+            email: this.teachers[index].email ?? null,
+            course: this.teachers[index].course ?? null,
+            shift: this.teachers[index].shift ?? null,
+            phone: this.teachers[index].phone ?? null,
+            status_delete: this.teachers[index].status_delete ?? false,
+            role: this.teachers[index].role ?? 'TEACHER',
+            created_at: this.teachers[index].created_at
+        
         }
-
-        this.teachers.splice(teacherIndex, 1)
+        
+        this.teachers.splice(index, 1, itemUpdate)
     }
-
-
 
 
     //secretary
@@ -216,15 +221,5 @@ export class InMemoryUsersRepository implements UsersRepository {
         this.secretarys[secretaryIndex] = secretary as Secretary
 
         return this.secretarys[secretaryIndex]
-    }
-
-
-    async deleteSecretary(id: string): Promise<void> {
-        const index = this.secretarys.findIndex((item) => item.id === id)
-        if (index === -1) {
-            throw new Error('Secretary not found')
-        }
-
-        this.secretarys.splice(index, 1)
     }
 }
