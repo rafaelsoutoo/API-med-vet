@@ -1,45 +1,45 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { prisma } from '@/lib/prisma'
-import { $Enums, Prisma, Secretary, Student, Teacher } from '@prisma/client'
+import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 
 
 export class PrismaUsersRepository implements UsersRepository {
-  
+
   async findStudentById(id: string) {
     const user = await prisma.student.findUnique({
       where: {
         id,
       },
     })
-    
+
     return user
   }
-  
+
   async findByRegistrationStudent(registration: string) {
     const user = await prisma.student.findUnique({
       where: {
         registration,
       },
     })
-    
+
     return user
   }
-  
+
   async findAllStudent(page: number, numberOfItems: number) {
-  
+
     const skipItens = (page - 1) * numberOfItems
-  
+
     const users = await prisma.student.findMany({
       take: numberOfItems,
       skip: skipItens,
     });
-  
+
     const usersWithPasswordHash = users.map(user => ({
       ...user,
       password_hash: '',
     }));
-  
+
     return usersWithPasswordHash;
   }
 
@@ -78,8 +78,7 @@ export class PrismaUsersRepository implements UsersRepository {
   async findTeacherById(id: string) {
     const user = await prisma.teacher.findUnique({ //pelo teacher retorna o usuário
       where: {
-        id,
-        status_delete: false
+        id
       },
     })
 
@@ -89,8 +88,7 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByRegistrationTeachers(registration: string) {
     const user = await prisma.teacher.findUnique({
       where: {
-        registration,
-        status_delete: false
+        registration
       },
     })
 
@@ -102,9 +100,6 @@ export class PrismaUsersRepository implements UsersRepository {
     const skipItems = (page - 1) * numberOfItems;
 
     const users = await prisma.teacher.findMany({
-      where: {
-        status_delete: false
-      },
       take: numberOfItems,
       skip: skipItems,
     });
@@ -118,10 +113,9 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async findByCpfTeacher(cpf: string) {
-    const user = await prisma.teacher.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
+    const user = await prisma.teacher.findUnique({
       where: {
-        cpf,
-        status_delete: false
+        cpf
       },
     })
 
@@ -136,8 +130,7 @@ export class PrismaUsersRepository implements UsersRepository {
         name: {
           contains: queryNormalized,
           mode: 'insensitive'
-          },
-          status_delete: false
+          }
         },
         take: 10,
         skip: (page - 1) * 10,
@@ -155,10 +148,9 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async markAsDeleteTeacher(id: string) {
-    const user = await prisma.teacher.update({
+    await prisma.teacher.update({
       where: {
-        id: id,
-        status_delete: false
+        id: id
       },
       data: {
         status_delete: true
@@ -177,6 +169,16 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async findAllTeachersDeleted(): Promise<Teacher[]>{
+    const user = await prisma.teacher.findMany({
+      where:{
+        status_delete: true
+      }
+    })
+
+    return user
+  }
+
   //Secretary
   async findSecretaryById(id: string) {
     const user = await prisma.secretary.findUnique({ //pelo id retorna o usuário
@@ -184,7 +186,7 @@ export class PrismaUsersRepository implements UsersRepository {
         id,
       },
     })
-    
+
     return user
   }
 
@@ -197,7 +199,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
-  
+
   async createSecretarys(data: Prisma.TeacherCreateInput) {  //cria no banco de dados
     const user = await prisma.secretary.create({
       data,

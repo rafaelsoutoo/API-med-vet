@@ -16,7 +16,7 @@ describe('Create Teacher Use Case', () => {
 
 
         usersRepository.createTeachers({
-            id: '6616d924ee0af0e50602ca14', 
+            id: '6616d924ee0af0e50602ca14',
             name: 'João',
             cpf: '12345678900',
             password_hash: 'senha_hash',
@@ -36,7 +36,7 @@ describe('Create Teacher Use Case', () => {
 
     it('should to create Teacher', async () => {
 
-   
+
         const { user } = await sut.execute({
             name: 'Alura',
             cpf: '02336937182',
@@ -51,6 +51,7 @@ describe('Create Teacher Use Case', () => {
         expect(user.id).toEqual(expect.any(String))
         expect(user).toBeTypeOf('object')
         expect(user.name).toEqual('Alura')
+        expect(user.status_delete).toBeFalsy()
     })
 
 

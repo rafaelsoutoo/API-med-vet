@@ -10,6 +10,7 @@ export interface UsersRepository {
   updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher>
   findTeacherByName(query: string, page: number): Promise<Teacher[]>
   markAsDeleteTeacher(id: string): any
+  findAllTeachersDeleted(): Promise<Teacher[]>
 
   //student
   findStudentById(id: string): Promise<Student | null>
@@ -18,7 +19,7 @@ export interface UsersRepository {
   findByCpfStudent(cpf: string): Promise<Student | null>
   createStudent(data: Prisma.StudentCreateInput): Promise<Student>
   updateStudent(id: string, data: Prisma.StudentUpdateInput): Promise<Student>
-  
+
   //secretary
   findSecretaryById(id: string): Promise<Secretary | null>
   findByCpfSecretary(cpf: string): Promise<Secretary | null>

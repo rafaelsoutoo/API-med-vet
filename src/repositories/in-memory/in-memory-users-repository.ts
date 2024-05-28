@@ -85,6 +85,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
 
     async findAllTeachers(page: number, numberOfItems: number) {
+
         return this.teachers.slice((page - 1) * numberOfItems, page * numberOfItems)
     }
 
@@ -115,6 +116,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
 
     async updateTeacher(id: string, data: Prisma.TeacherUpdateInput) {
+
         const teacherIndex = this.teachers.findIndex((item) => item.id === id)
 
         if (teacherIndex === -1) {
@@ -135,6 +137,7 @@ export class InMemoryUsersRepository implements UsersRepository {
         teacher.course = typeof teacher.course === 'string' ? teacher.course : teacher.course?.set || this.teachers[teacherIndex].course;
         teacher.shift = typeof teacher.shift === 'string' ? teacher.shift : teacher.shift?.set || this.teachers[teacherIndex].shift;
         teacher.phone = typeof teacher.phone === 'string' ? teacher.phone : teacher.phone?.set || this.teachers[teacherIndex].phone;
+        teacher.status_delete = typeof teacher.status_delete === 'boolean' ? teacher.status_delete : teacher.status_delete?.set || this.teachers[teacherIndex].status_delete;
         // Add similar lines for the other properties
 
         // Cast the teacher object to the Teacher type
@@ -150,7 +153,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     async markAsDeleteTeacher(id: string) {
         const index = this.teachers.findIndex((item) => item.id === id)
-    
+
         const itemUpdate: Teacher = {
             id: this.teachers[index].id,
             registration: this.teachers[index].registration,
@@ -161,15 +164,18 @@ export class InMemoryUsersRepository implements UsersRepository {
             course: this.teachers[index].course ?? null,
             shift: this.teachers[index].shift ?? null,
             phone: this.teachers[index].phone ?? null,
-            status_delete: this.teachers[index].status_delete ?? false,
+            status_delete: true,
             role: this.teachers[index].role ?? 'TEACHER',
             created_at: this.teachers[index].created_at
-        
+
         }
-        
+
         this.teachers.splice(index, 1, itemUpdate)
     }
 
+    async findAllTeachersDeleted(): Promise<Teacher[]> {
+        return this.teachers.filter((item) => item.status_delete === true)
+    }
 
     //secretary
     async createSecretarys(data: Prisma.SecretaryCreateInput): Promise<Secretary> {
