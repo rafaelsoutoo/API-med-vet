@@ -48,8 +48,9 @@ export async function usersRoutes(app: FastifyInstance) {
   app.put("/put/secretary", updateSecretary)
   app.put("/put/student", updateStudent)
   app.put("/put/teacher", updateTeacher)
+  
+  app.patch("/delete/teacher", deleteTeacher)
 
   app.delete("/delete/secretary/:id", deleteSecretary)
   app.delete("/delete/student/:id", deleteStudent)
-  app.delete("/delete/teacher/:id", deleteTeacher)
 }

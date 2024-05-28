@@ -6,18 +6,19 @@ import { z } from 'zod'
 
 export async function deleteTeacher(request: FastifyRequest, reply: FastifyReply) {
 
-	const deleteBodySchema = z.object({
+	const patchBodySchema = z.object({
 		id: z.string(),
 	});
 
-	const { id } = deleteBodySchema.parse(request.params);
+	const { id }= patchBodySchema.parse(request.body);
 
 	try {
 		const deleteUserCase = makeDeleteUseCase()
 
-		await deleteUserCase.execute({
-			id
-		})
+		await deleteUserCase.execute(id)
+
+		return reply.status(200).send()
+
 	} catch (err) {
 		if (err instanceof NoExistsUsersError) {
 			return reply.status(409).send({ message: err.message })
@@ -26,5 +27,4 @@ export async function deleteTeacher(request: FastifyRequest, reply: FastifyReply
 		throw err
 	}
 
-	return reply.status(200).send()
 }

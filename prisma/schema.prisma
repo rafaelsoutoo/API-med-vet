@@ -41,6 +41,7 @@ model Teacher {
   course        String?
   shift         String?
   phone         String?
+  status_delete Boolean @default(false)
   role          Role     @default(TEACHER)
   created_at    DateTime @default(now())
   enchiridion  Enchiridion[]

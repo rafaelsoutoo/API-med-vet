@@ -74,13 +74,6 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students[studentIndex]
     }
 
-    async deleteStudent(id: string) {
-        const studentIndex = this.students.findIndex((item) => item.id === id)
-        if (studentIndex === -1) throw new Error('Student not found')
-
-        this.students.splice(studentIndex, 1)
-    }
-
     //teacher
 
     async findTeacherById(id: string) {
@@ -92,6 +85,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
 
     async findAllTeachers(page: number, numberOfItems: number) {
+
         return this.teachers.slice((page - 1) * numberOfItems, page * numberOfItems)
     }
 
@@ -110,6 +104,7 @@ export class InMemoryUsersRepository implements UsersRepository {
             course: data.course ?? null,
             shift: data.shift ?? null,
             phone: data.phone ?? null,
+            status_delete: data.status_delete ?? false,
             role: data.role ?? 'TEACHER',
             created_at: new Date(),
             enchiridion: data.enchiridion ?? [],
@@ -121,6 +116,7 @@ export class InMemoryUsersRepository implements UsersRepository {
     }
 
     async updateTeacher(id: string, data: Prisma.TeacherUpdateInput) {
+
         const teacherIndex = this.teachers.findIndex((item) => item.id === id)
 
         if (teacherIndex === -1) {
@@ -141,6 +137,7 @@ export class InMemoryUsersRepository implements UsersRepository {
         teacher.course = typeof teacher.course === 'string' ? teacher.course : teacher.course?.set || this.teachers[teacherIndex].course;
         teacher.shift = typeof teacher.shift === 'string' ? teacher.shift : teacher.shift?.set || this.teachers[teacherIndex].shift;
         teacher.phone = typeof teacher.phone === 'string' ? teacher.phone : teacher.phone?.set || this.teachers[teacherIndex].phone;
+        teacher.status_delete = typeof teacher.status_delete === 'boolean' ? teacher.status_delete : teacher.status_delete?.set || this.teachers[teacherIndex].status_delete;
         // Add similar lines for the other properties
 
         // Cast the teacher object to the Teacher type
@@ -154,17 +151,31 @@ export class InMemoryUsersRepository implements UsersRepository {
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
 
-    deleteTeacher(id: string): void {
-        const teacherIndex = this.teachers.findIndex((item) => item.id === id)
-        if (teacherIndex === -1) {
-            throw new Error('Teacher not found')
+    async markAsDeleteTeacher(id: string) {
+        const index = this.teachers.findIndex((item) => item.id === id)
+
+        const itemUpdate: Teacher = {
+            id: this.teachers[index].id,
+            registration: this.teachers[index].registration,
+            name: this.teachers[index].name,
+            cpf: this.teachers[index].cpf,
+            password_hash: this.teachers[index].password_hash,
+            email: this.teachers[index].email ?? null,
+            course: this.teachers[index].course ?? null,
+            shift: this.teachers[index].shift ?? null,
+            phone: this.teachers[index].phone ?? null,
+            status_delete: true,
+            role: this.teachers[index].role ?? 'TEACHER',
+            created_at: this.teachers[index].created_at
+
         }
 
-        this.teachers.splice(teacherIndex, 1)
+        this.teachers.splice(index, 1, itemUpdate)
     }
 
-
-
+    async findAllTeachersDeleted(): Promise<Teacher[]> {
+        return this.teachers.filter((item) => item.status_delete === true)
+    }
 
     //secretary
     async createSecretarys(data: Prisma.SecretaryCreateInput): Promise<Secretary> {
@@ -216,15 +227,5 @@ export class InMemoryUsersRepository implements UsersRepository {
         this.secretarys[secretaryIndex] = secretary as Secretary
 
         return this.secretarys[secretaryIndex]
-    }
-
-
-    async deleteSecretary(id: string): Promise<void> {
-        const index = this.secretarys.findIndex((item) => item.id === id)
-        if (index === -1) {
-            throw new Error('Secretary not found')
-        }
-
-        this.secretarys.splice(index, 1)
     }
 }

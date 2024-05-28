@@ -21,7 +21,6 @@ import { FastifyReply, FastifyRequest } from 'fastify'
 // import swaggerUi from '@fastify/swagger-ui';
 import { prescriptionRoutes } from "./http/controllers/prescription/routes";
 
-
 export const app = fastify()
 
 app.register(fastifyJwt, {
@@ -68,9 +67,6 @@ app.register(fastifyJwt, {
 //   }
 // })
 
-
-
-
 app.register(usersRoutes)
 app.register(tutorRoutes)
 app.register(consultRoutes)
@@ -80,22 +76,21 @@ app.register(prescriptionRoutes)
 
 
 
-
-// app.register(require('@fastify/swagger-ui'), {
-//   routePrefix: '/documentation',
-//   uiConfig: {
-//     docExpansion: 'full',
-//     deepLinking: false
-//   },
-//   uiHooks: {
-//     onRequest: function (request: FastifyRequest, reply: FastifyReply, next: () => void) { next() },
-//     preHandler: function (request: FastifyRequest, reply: FastifyReply, next: () => void) { next() }
-//   },
-//   staticCSP: true,
-//   transformStaticCSP: (header: string) => header,
-//   transformSpecification: (swaggerObject: string, request: FastifyRequest, reply: FastifyReply) => { return swaggerObject },
-//   transformSpecificationClone: true
-// })
+app.register(require('@fastify/swagger-ui'), {
+  routePrefix: '/documentation',
+  uiConfig: {
+    docExpansion: 'full',
+    deepLinking: false
+  },
+  uiHooks: {
+    onRequest: function (request: FastifyRequest, reply: FastifyReply, next: () => void) { next() },
+    preHandler: function (request: FastifyRequest, reply: FastifyReply, next: () => void) { next() }
+  },
+  staticCSP: true,
+  transformStaticCSP: (header: string) => header,
+  transformSpecification: (swaggerObject: string, request: FastifyRequest, reply: FastifyReply) => { return swaggerObject },
+  transformSpecificationClone: true
+})
 
 
 app.setErrorHandler((error, _, reply) => {  //função que lida com erros 
