@@ -1,45 +1,45 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { prisma } from '@/lib/prisma'
-import { $Enums, Prisma, Secretary, Student, Teacher } from '@prisma/client'
+import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 
 
 export class PrismaUsersRepository implements UsersRepository {
-  
+
   async findStudentById(id: string) {
     const user = await prisma.student.findUnique({
       where: {
         id,
       },
     })
-    
+
     return user
   }
-  
+
   async findByRegistrationStudent(registration: string) {
     const user = await prisma.student.findUnique({
       where: {
         registration,
       },
     })
-    
+
     return user
   }
-  
+
   async findAllStudent(page: number, numberOfItems: number) {
-  
+
     const skipItens = (page - 1) * numberOfItems
-  
+
     const users = await prisma.student.findMany({
       take: numberOfItems,
       skip: skipItens,
     });
-  
+
     const usersWithPasswordHash = users.map(user => ({
       ...user,
       password_hash: '',
     }));
-  
+
     return usersWithPasswordHash;
   }
 
@@ -73,19 +73,12 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async deleteStudent(id: string) {
-      await prisma.student.delete({
-        where: {
-          id: id
-        },
-      });
-  }
 
   //Teacher
   async findTeacherById(id: string) {
     const user = await prisma.teacher.findUnique({ //pelo teacher retorna o usuário
       where: {
-        id,
+        id
       },
     })
 
@@ -95,7 +88,7 @@ export class PrismaUsersRepository implements UsersRepository {
   async findByRegistrationTeachers(registration: string) {
     const user = await prisma.teacher.findUnique({
       where: {
-        registration,
+        registration
       },
     })
 
@@ -120,9 +113,9 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async findByCpfTeacher(cpf: string) {
-    const user = await prisma.teacher.findUnique({   // Este comando usa o Prisma para buscar um usuário único no banco de dados onde o campo de e-mail corresponde ao e-mail fornecido.
+    const user = await prisma.teacher.findUnique({
       where: {
-        cpf,
+        cpf
       },
     })
 
@@ -137,7 +130,7 @@ export class PrismaUsersRepository implements UsersRepository {
         name: {
           contains: queryNormalized,
           mode: 'insensitive'
-          },
+          }
         },
         take: 10,
         skip: (page - 1) * 10,
@@ -154,6 +147,17 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async markAsDeleteTeacher(id: string) {
+    await prisma.teacher.update({
+      where: {
+        id: id
+      },
+      data: {
+        status_delete: true
+      }
+    });
+  }
+
   async updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher> {
     const user = await prisma.teacher.update({
       where: {
@@ -165,12 +169,14 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async deleteTeacher(id: string) {
-      await prisma.teacher.delete({
-        where: {
-          id: id
-        },
-      });
+  async findAllTeachersDeleted(): Promise<Teacher[]>{
+    const user = await prisma.teacher.findMany({
+      where:{
+        status_delete: true
+      }
+    })
+
+    return user
   }
 
   //Secretary
@@ -180,7 +186,7 @@ export class PrismaUsersRepository implements UsersRepository {
         id,
       },
     })
-    
+
     return user
   }
 
@@ -193,7 +199,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
-  
+
   async createSecretarys(data: Prisma.TeacherCreateInput) {  //cria no banco de dados
     const user = await prisma.secretary.create({
       data,
@@ -211,13 +217,5 @@ export class PrismaUsersRepository implements UsersRepository {
       });
 
       return user
-  }
-
-  async deleteSecretary(id: string) {
-      await prisma.secretary.delete({
-        where: {
-          id: id
-        },
-      });
   }
 }
