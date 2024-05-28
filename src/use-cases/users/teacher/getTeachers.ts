@@ -3,6 +3,12 @@ import { teacherNoexists } from "@/use-cases/errors/teacher-error";
 import { Teacher } from "@prisma/client";
 
 
+
+interface SearchTeacherUseCaseRequest {
+  query: string
+  page: number
+}
+
 export class GetAllTeachersUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
@@ -37,14 +43,14 @@ export class GetTeacherByIdUseCase {
 export class GetTeachersByRegistrationUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute(registration: string) {
-    const user = await this.usersRepository.findByRegistrationTeachers(registration);
+  async execute({ query, page }: SearchTeacherUseCaseRequest): Promise<Teacher[]> {
+    const teacher = await this.usersRepository.searchByRegistrationTeachers(query, page);
 
-    if (user === null) {
+    if (teacher.length === 0) {
       throw new teacherNoexists()
     }
 
-    return user;
+    return teacher
   }
 }
 

@@ -42,7 +42,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.get("/get/teacher", getAllTeachers);
   app.get("/get/teacher/id/:id", getTeacherById);
-  app.get("/get/teacher/registration/:registration", getTeachersByRegistration);
+  app.get("/get/teacher/registration", getTeachersByRegistration);
   app.get("/get/teacher/name", getTeacherByName)
 
   app.put("/put/secretary", updateSecretary)

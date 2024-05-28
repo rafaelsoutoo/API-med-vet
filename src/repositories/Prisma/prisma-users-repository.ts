@@ -73,6 +73,14 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
+  async deleteStudent(id: string) {
+    await prisma.student.delete({
+      where: {
+        id: id
+      },
+    });
+  }
+
 
   //Teacher
   async findTeacherById(id: string) {
@@ -90,6 +98,20 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         registration
       },
+    })
+
+    return user
+  }
+
+  async searchByRegistrationTeachers(query: string, page: number) {
+    const user = await prisma.teacher.findMany({
+      where: {
+        registration: {
+          startsWith: query,
+        }
+      },
+      take: 10,
+      skip: (page - 1) * 10
     })
 
     return user
@@ -132,8 +154,9 @@ export class PrismaUsersRepository implements UsersRepository {
           mode: 'insensitive'
           }
         },
-        take: 10,
-        skip: (page - 1) * 10,
+      },
+      take: 10,
+      skip: (page - 1) * 10,
     });
 
     return teacher
@@ -168,6 +191,13 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
+
+  async deleteTeacher(id: string) {
+    await prisma.teacher.delete({
+      where: {
+        id: id
+      },
+    });
 
   async findAllTeachersDeleted(): Promise<Teacher[]>{
     const user = await prisma.teacher.findMany({
@@ -209,13 +239,23 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async updateSecretary(id: string, data: Prisma.SecretaryUpdateInput): Promise<Secretary> {
-      const user = await prisma.secretary.update({
-        where: {
-          id: id
-        },
-        data
-      });
+    const user = await prisma.secretary.update({
+      where: {
+        id: id
+      },
+      data
+    });
 
-      return user
+    return user
   }
+
+  async deleteSecretary(id: string) {
+    await prisma.secretary.delete({
+      where: {
+        id: id
+      },
+    });
+  }
+}
+
 }

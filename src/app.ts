@@ -17,8 +17,8 @@ import { animalsRoutes } from '@/http/controllers/animals/routes'
 
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-import swagger from '@fastify/swagger';
-import swaggerUi from '@fastify/swagger-ui';
+// import swagger from '@fastify/swagger';
+// import swaggerUi from '@fastify/swagger-ui';
 import { prescriptionRoutes } from "./http/controllers/prescription/routes";
 
 export const app = fastify()
@@ -33,39 +33,39 @@ app.register(fastifyJwt, {
 
 
 
-app.register(require('@fastify/swagger'), {
-  openapi: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Test swagger',
-      description: 'Testing the Fastify swagger API',
-      version: '0.1.0'
-    },
-    servers: [
-      {
-        url: 'http://localhost:3333',
-        description: 'Development server'
-      }
-    ],
-    tags: [
-      { name: 'user', description: 'User related end-points' },
-      { name: 'code', description: 'Code related end-points' }
-    ],
-    components: {
-      securitySchemes: {
-        apiKey: {
-          type: 'apiKey',
-          name: 'apiKey',
-          in: 'header'
-        }
-      }
-    },
-    externalDocs: {
-      url: 'https://swagger.io',
-      description: 'Find more info here'
-    }
-  }
-})
+// app.register(require('@fastify/swagger'), {
+//   openapi: {
+//     openapi: '3.0.0',
+//     info: {
+//       title: 'Test swagger',
+//       description: 'Testing the Fastify swagger API',
+//       version: '0.1.0'
+//     },
+//     servers: [
+//       {
+//         url: 'http://localhost:3333',
+//         description: 'Development server'
+//       }
+//     ],
+//     tags: [
+//       { name: 'user', description: 'User related end-points' },
+//       { name: 'code', description: 'Code related end-points' }
+//     ],
+//     components: {
+//       securitySchemes: {
+//         apiKey: {
+//           type: 'apiKey',
+//           name: 'apiKey',
+//           in: 'header'
+//         }
+//       }
+//     },
+//     externalDocs: {
+//       url: 'https://swagger.io',
+//       description: 'Find more info here'
+//     }
+//   }
+// })
 
 app.register(usersRoutes)
 app.register(tutorRoutes)
@@ -73,9 +73,6 @@ app.register(consultRoutes)
 app.register(enchiridionRoutes)
 app.register(animalsRoutes)
 app.register(prescriptionRoutes)
-
-
-
 
 
 
