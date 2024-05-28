@@ -46,6 +46,10 @@ export class GetTeachersByRegistrationUseCase {
   async execute({ query, page }: SearchTeacherUseCaseRequest): Promise<Teacher[]> {
     const teacher = await this.usersRepository.searchByRegistrationTeachers(query, page);
 
+    if (teacher.length === 0) {
+      throw new teacherNoexists()
+    }
+
     return teacher
   }
 }
