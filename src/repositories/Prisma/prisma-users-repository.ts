@@ -5,41 +5,41 @@ import { $Enums, Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 
 export class PrismaUsersRepository implements UsersRepository {
-  
+
   async findStudentById(id: string) {
     const user = await prisma.student.findUnique({
       where: {
         id,
       },
     })
-    
+
     return user
   }
-  
+
   async findByRegistrationStudent(registration: string) {
     const user = await prisma.student.findUnique({
       where: {
         registration,
       },
     })
-    
+
     return user
   }
-  
+
   async findAllStudent(page: number, numberOfItems: number) {
-  
+
     const skipItens = (page - 1) * numberOfItems
-  
+
     const users = await prisma.student.findMany({
       take: numberOfItems,
       skip: skipItens,
     });
-  
+
     const usersWithPasswordHash = users.map(user => ({
       ...user,
       password_hash: '',
     }));
-  
+
     return usersWithPasswordHash;
   }
 
@@ -74,11 +74,11 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async deleteStudent(id: string) {
-      await prisma.student.delete({
-        where: {
-          id: id
-        },
-      });
+    await prisma.student.delete({
+      where: {
+        id: id
+      },
+    });
   }
 
   //Teacher
@@ -97,6 +97,20 @@ export class PrismaUsersRepository implements UsersRepository {
       where: {
         registration,
       },
+    })
+
+    return user
+  }
+
+  async searchByRegistrationTeachers(query: string, page: number) {
+    const user = await prisma.teacher.findMany({
+      where: {
+        name: {
+          contains: query
+        }
+      },
+      take: 10,
+      skip: (page - 1) * 10
     })
 
     return user
@@ -137,10 +151,10 @@ export class PrismaUsersRepository implements UsersRepository {
         name: {
           contains: queryNormalized,
           mode: 'insensitive'
-          },
         },
-        take: 10,
-        skip: (page - 1) * 10,
+      },
+      take: 10,
+      skip: (page - 1) * 10,
     });
 
     return teacher
@@ -166,11 +180,11 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async deleteTeacher(id: string) {
-      await prisma.teacher.delete({
-        where: {
-          id: id
-        },
-      });
+    await prisma.teacher.delete({
+      where: {
+        id: id
+      },
+    });
   }
 
   //Secretary
@@ -180,7 +194,7 @@ export class PrismaUsersRepository implements UsersRepository {
         id,
       },
     })
-    
+
     return user
   }
 
@@ -193,7 +207,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
     return user
   }
-  
+
   async createSecretarys(data: Prisma.TeacherCreateInput) {  //cria no banco de dados
     const user = await prisma.secretary.create({
       data,
@@ -203,21 +217,21 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
   async updateSecretary(id: string, data: Prisma.SecretaryUpdateInput): Promise<Secretary> {
-      const user = await prisma.secretary.update({
-        where: {
-          id: id
-        },
-        data
-      });
+    const user = await prisma.secretary.update({
+      where: {
+        id: id
+      },
+      data
+    });
 
-      return user
+    return user
   }
 
   async deleteSecretary(id: string) {
-      await prisma.secretary.delete({
-        where: {
-          id: id
-        },
-      });
+    await prisma.secretary.delete({
+      where: {
+        id: id
+      },
+    });
   }
 }
