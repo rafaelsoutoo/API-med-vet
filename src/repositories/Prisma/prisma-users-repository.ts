@@ -105,8 +105,8 @@ export class PrismaUsersRepository implements UsersRepository {
   async searchByRegistrationTeachers(query: string, page: number) {
     const user = await prisma.teacher.findMany({
       where: {
-        name: {
-          contains: query
+        registration: {
+          startsWith: query,
         }
       },
       take: 10,

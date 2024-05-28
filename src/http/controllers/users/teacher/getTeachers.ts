@@ -4,6 +4,7 @@ import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-reposi
 import { z } from "zod";
 import { getNameTeachers } from "@/use-cases/factories/users/teacher/make-get-name-teacher";
 import { teacherNoexists } from "@/use-cases/errors/teacher-error";
+import { searchTeachersByRegistration } from "@/use-cases/factories/users/teacher/make-search-teacher";
 
 interface Params {
   id: string;
@@ -66,17 +67,16 @@ export async function getTeachersByRegistration(request: FastifyRequest<{ Params
 
   })
   try {
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const getTeacherByRegistrationUseCase = new GetTeachersByRegistrationUseCase(prismaUsersRepository);
-
     const { q, page } = searchTeacherQuerySchema.parse(request.query)
+    const searchTeacherByRegistrationUseCase = searchTeachersByRegistration()
 
-    const user = await getTeacherByRegistrationUseCase.execute({
+    const user = await searchTeacherByRegistrationUseCase.execute({
       query: q,
       page,
     });
 
     return reply.status(200).send(user);
+
   } catch (error) {
     if (error instanceof teacherNoexists) {
       return reply.status(404).send({ message: error.message })
