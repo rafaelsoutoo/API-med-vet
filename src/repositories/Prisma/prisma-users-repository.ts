@@ -152,12 +152,11 @@ export class PrismaUsersRepository implements UsersRepository {
         name: {
           contains: queryNormalized,
           mode: 'insensitive'
-          }
-        },
+        }
       },
       take: 10,
       skip: (page - 1) * 10,
-    });
+    })
 
     return teacher
   }
@@ -198,14 +197,14 @@ export class PrismaUsersRepository implements UsersRepository {
         id: id
       },
     });
+  }
 
-  async findAllTeachersDeleted(): Promise<Teacher[]>{
+  async findAllTeachersDeleted(): Promise<Teacher[]> {
     const user = await prisma.teacher.findMany({
-      where:{
+      where: {
         status_delete: true
       }
     })
-
     return user
   }
 
@@ -258,4 +257,3 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 }
 
-}
