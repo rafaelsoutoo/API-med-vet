@@ -22,7 +22,18 @@ export class PrismaUsersRepository implements UsersRepository {
         registration,
       },
     })
-
+    return user
+  }
+  async searchStudentByRegistration(query: string, page: number) {
+    const user = await prisma.student.findMany({
+      where: {
+        registration: {
+          startsWith: query,
+        }
+      },
+      take: 10,
+      skip: (page - 1) * 10
+    })
     return user
   }
 
