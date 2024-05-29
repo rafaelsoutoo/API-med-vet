@@ -46,12 +46,8 @@ export class PrismaAnimalsRepository implements AnimalRepository {
       take: numberOfItems,
       skip: skipTtens,
     })
-    const usersWithPasswordHash = animal.map(user => ({
-      ...user,
-      password_hash: '',
-    }))
 
-    return usersWithPasswordHash
+    return animal
   }
 
   async createAnimal(data: Prisma.AnimalUncheckedCreateInput) {
