@@ -6,16 +6,17 @@ import { z } from "zod";
 export async function createPrescription(request: FastifyRequest, reply: FastifyReply) {
     const validateIdParamsSchema = z.object({
         enchiridion_id: z.string(),
+        medications: z.any()
     });
 
-
-    const { enchiridion_id } = validateIdParamsSchema.parse(request.body);
+    const { enchiridion_id, medications } = validateIdParamsSchema.parse(request.body);
 
     try {
         const createPrescriptionUseCase = makeCreatePrescriptionUseCase();
 
         await createPrescriptionUseCase.execute({
-            enchiridion_id
+            enchiridion_id,
+            medications
         });
 
     } catch (error) {

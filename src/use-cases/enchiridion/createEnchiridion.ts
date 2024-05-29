@@ -8,7 +8,6 @@ import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { validDate } from '@/utils/date-validation';
 import { VaccinationRepository } from '@/repositories/vaccination-repository';
-// import { Sequence } from '@/utils/sequence'
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -77,12 +76,11 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         });
 
         const enchiridion_id = enchiridions.id
-
         if (vaccination && Array.isArray(vaccination)) {
             vaccination.forEach(async (vaccine) => {
                 const date = vaccine.date;
                 const name = vaccine.name;
-    
+
                 await this.vacinationRepository.createVaccination({
                     enchiridion_id,
                     date,
