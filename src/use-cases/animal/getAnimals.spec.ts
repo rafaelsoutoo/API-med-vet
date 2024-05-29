@@ -20,7 +20,7 @@ describe('Get all Animal Use Case', () => {
         tutorRepository = new InMemoryTutorRepository
 
         getAllTest = new GetAllAnimalsUseCase(animalRepository)
-            
+
         tutorRepository.createTutor({
             id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             sequence: "1",
@@ -30,26 +30,28 @@ describe('Get all Animal Use Case', () => {
             phone: "(62)91234-1234",
             created_at: new Date(),
         })
-    
+
         animalRepository.createAnimal({
             id:  '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             sequence: "1",
             name: "name",
             created_at: new Date(),
             species: "buldog",
+            weight: '12kg',
             race: "cachorro",
             gender: "masculino",
             age: "12",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
         })
-    
+
         animalRepository.createAnimal({
             id:  '27b62603-c3a5-456e-bf25-d911de1138f3',
             sequence: "1",
             name: "name",
             created_at: new Date(),
             species: "buldog",
+            weight: '12kg',
             race: "cachorro",
             gender: "masculino",
             age: "12",
@@ -62,15 +64,15 @@ describe('Get all Animal Use Case', () => {
         const animal = await getAllTest.execute(1, 2)
 
         expect(animal).toHaveLength(2)
-    }) 
+    })
 
 
     it('get all the animals with pagination', async () => {
 
         const  animal1  = await getAllTest.execute(1, 2)
-    
-        const animal2 = await getAllTest.execute(2, 1) 
-        
+
+        const animal2 = await getAllTest.execute(2, 1)
+
         expect(animal1).toHaveLength(2)
         expect(animal2).toHaveLength(1)// testar se retorna nada quando estiver em uma pagina sem dados
     })
@@ -88,7 +90,7 @@ describe('Get Animal by the id of tutor', () => {
         tutorRepository = new InMemoryTutorRepository()
 
         getAnimalByTutorTest = new GetAnimalByTutorUseCase(animalRepository, tutorRepository)
-            
+
         tutorRepository.createTutor({
             id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             sequence: "1",
@@ -98,7 +100,7 @@ describe('Get Animal by the id of tutor', () => {
             phone: "(62)91234-1234",
             created_at: new Date(),
         })
-    
+
         animalRepository.createAnimal({
             id:  'b4539f0f-34e1-4aa8-a49d-5f780670f35d',
             sequence: "1",
@@ -106,12 +108,13 @@ describe('Get Animal by the id of tutor', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
+            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
         })
-    
+
         animalRepository.createAnimal({
             id:  '27b62603-c3a5-456e-bf25-d911de1138f3',
             sequence: "1",
@@ -119,6 +122,7 @@ describe('Get Animal by the id of tutor', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
+            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -128,23 +132,23 @@ describe('Get Animal by the id of tutor', () => {
 
     it('return all animal`s tutor', async () => {
         const animals = await getAnimalByTutorTest.execute('2c05d159-abb8-466d-a6bd-90da8d0c2d6e')
-    
+
         expect(animals).toHaveLength(2)
         expect(animals[0].id).toEqual('b4539f0f-34e1-4aa8-a49d-5f780670f35d')
         expect(animals[1].id).toEqual('27b62603-c3a5-456e-bf25-d911de1138f3')
     })
 
     it('show error TutorNotExists', async () => {
-        
-        
-        await expect(getAnimalByTutorTest.execute('e24b8849-71c4-419b-a549-fb0560eaa2ff')).rejects.toBeInstanceOf(TutorNotExistsError)      
+
+
+        await expect(getAnimalByTutorTest.execute('e24b8849-71c4-419b-a549-fb0560eaa2ff')).rejects.toBeInstanceOf(TutorNotExistsError)
     })
 
     it('show error AnimalNoExists when no animal exist in the tutor`s reference', async () => {
 
         animalRepository.items = []
 
-        await expect(getAnimalByTutorTest.execute('2c05d159-abb8-466d-a6bd-90da8d0c2d6e')).rejects.toBeInstanceOf(AnimalNoexists)      
+        await expect(getAnimalByTutorTest.execute('2c05d159-abb8-466d-a6bd-90da8d0c2d6e')).rejects.toBeInstanceOf(AnimalNoexists)
     })
 })
 
@@ -154,7 +158,7 @@ describe('Get Animal by it ID', () => {
         tutorRepository = new InMemoryTutorRepository()
 
         getAnimalByIdTest = new GetAnimalById(animalRepository, tutorRepository)
-            
+
         tutorRepository.createTutor({
             id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             sequence: "1",
@@ -164,7 +168,7 @@ describe('Get Animal by it ID', () => {
             phone: "(62)91234-1234",
             created_at: new Date(),
         })
-    
+
         animalRepository.createAnimal({
             id:  'b4539f0f-34e1-4aa8-a49d-5f780670f35d',
             sequence: "1",
@@ -172,12 +176,13 @@ describe('Get Animal by it ID', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
+            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
         })
-    
+
         animalRepository.createAnimal({
             id:  '27b62603-c3a5-456e-bf25-d911de1138f3',
             sequence: "1",
@@ -185,6 +190,7 @@ describe('Get Animal by it ID', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
+            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -201,7 +207,7 @@ describe('Get Animal by it ID', () => {
     })
 
     it('show the error AnimalNoexists when the animal id no is for a animal in the database', async () => {
-        
+
         await expect(getAnimalByIdTest.execute('0bb53b14-d47d-4016-a3d6-551c79ac68a8')).rejects.toBeInstanceOf(AnimalNoexists)
     })
 })
