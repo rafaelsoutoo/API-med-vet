@@ -101,7 +101,7 @@ model Consult {
   phone       String
   species     String
   description String?
-  done        Boolean @default(false)
+  done        Boolean  @default(false)
   tutor       Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id    String   @db.ObjectId
   created_at  DateTime @default(now())

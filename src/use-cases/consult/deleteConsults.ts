@@ -1,7 +1,7 @@
 import { ConsultsNotExistsError } from '@/use-cases/errors/consult-error'
 import { ConsultsRepository } from '@/repositories/consult-repository'
 
-export class DeleteConsultUseCase {
+export class MarkAsDoneConsultUseCase {
 
   constructor(
     private consultRepository: ConsultsRepository
@@ -13,11 +13,11 @@ export class DeleteConsultUseCase {
     const consultExists = await this.consultRepository.findById(id)
 
 
-    if (!consultExists) { 
+    if (!consultExists) {
       throw new ConsultsNotExistsError()
     }
 
-    await this.consultRepository.deleteConsult(id)
+    await this.consultRepository.markAsDoneConsult(id)
 
   }
 }

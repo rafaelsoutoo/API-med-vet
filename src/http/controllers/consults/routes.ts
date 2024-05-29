@@ -17,7 +17,7 @@ export async function consultRoutes(app: FastifyInstance) {
 
     app.get('/get/consults/sequence/:sequence', getConsultBySequence)
 
-    app.delete('/delete/consult/:id', deleteConsult)
+    app.patch('/delete/consult', deleteConsult)
 
     app.put('/put/consults', updateConsult)
 }

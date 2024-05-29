@@ -7,7 +7,7 @@ export class GetAllConsultsUseCase {
   constructor(private consultsRepository: ConsultsRepository, private tutorRepository: TutorRepository) { }
 
   async execute() {
-    const consults = await this.consultsRepository.getAllConsultsDone()
+    const consults = await this.consultsRepository.getAllConsultsUndone()
 
     interface ConsultInfo {
       id: string,
@@ -31,8 +31,8 @@ export class GetAllConsultsUseCase {
       if (data) {
         let idTutor = data.tutor_id
         let idConsult = data.id
-        
-        
+
+
         let tutor = await this.tutorRepository.findById(idTutor)
 
 
@@ -72,7 +72,7 @@ export class GetAllConsultsUseCase {
             result[time] = [consultInfo];
           }
         };
-        
+
         function setTime(dataTime: string) {
           let dataTimeSplit: string = dataTime.split('T')[0]
           let time: string[] = dataTimeSplit.split('-')
@@ -89,7 +89,7 @@ export class GetAllConsultsUseCase {
 
 }
 
-  
+
 export class GetConsultBySequenceUseCase {
   constructor(private usersRepository: ConsultsRepository) { }
 
