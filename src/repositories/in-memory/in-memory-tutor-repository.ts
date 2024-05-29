@@ -12,6 +12,7 @@ export class InMemoryTutorRepository implements TutorRepository {
             name: data.name,
             cpf: data.cpf ?? null,
             email: data.email ?? null,
+            adress: data.adress ?? null,
             phone: data.phone,
             created_at: new Date(),
             animals: data.animals ?? [],

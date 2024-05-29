@@ -12,6 +12,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 		cpf: z.string().refine(Validation.isValidCPForNull, {
 			message: "CPF inválido",
 		}),
+		adress: z.string().nullable(),
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
@@ -23,7 +24,7 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 		).nullable()
 	});
 
-	const { name, cpf, phone, email } = registerBodySchema.parse(request.body);
+	const { name, cpf, phone, email, adress } = registerBodySchema.parse(request.body);
 
 	try {
 		const registerUserCase = makeRegisterUseCase()
@@ -32,7 +33,8 @@ export async function createTutor(request: FastifyRequest, reply: FastifyReply) 
 			name,
 			cpf,
 			phone,
-			email
+			email,
+			adress
 		})
 	} catch (err) {
 		if (err instanceof TutorAlreadyExistsError) {

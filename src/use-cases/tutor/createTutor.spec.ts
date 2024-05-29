@@ -13,19 +13,21 @@ describe('testing the create tutors use case', () => {
 
         tutorRepository.createTutor({
             sequence: '2',
-            name: 'jonas', 
-            email: 'clod@email.com', 
-            cpf: '02286831068', 
+            name: 'jonas',
+            email: 'clod@email.com',
+            cpf: '02286831068',
             phone: '62912341234'
+            adress: 'rua dos caipavas'
         })
     })
 
     it('Creating a Tutor with all data', async () => {
         const tutor = await createTutorTest.execute({
-            name: 'clodovil', 
-            email: 'clod@email.com', 
-            cpf: '26501216028', 
-            phone: '62987568213'
+            name: 'clodovil',
+            email: 'clod@email.com',
+            cpf: '26501216028',
+            phone: '62987568213',
+            adress: 'rua dos caiajos'
         })
 
         expect(tutor).toBeInstanceOf(Object)
@@ -38,10 +40,11 @@ describe('testing the create tutors use case', () => {
     it('creating tutor without cpf and email', async () => {
 
         const tutor = await createTutorTest.execute({
-            name: 'clodovil', 
-            email: '', 
-            cpf: '', 
-            phone: '62987568213'
+            name: 'clodovil',
+            email: '',
+            cpf: '',
+            phone: '62987568213',
+            adress: 'rua muito engraçada'
         })
 
         expect(tutor).toBeInstanceOf(Object)
@@ -49,15 +52,16 @@ describe('testing the create tutors use case', () => {
         expect(tutor.email).toEqual('')
         expect(tutor.cpf).toEqual('')
         expect(tutor.phone).toEqual('62987568213')
-        
+
     })
 
     it('show error TutorAlreadyExistsError when the the tutor with same phone and cpf exists', async () => {
         await expect(createTutorTest.execute({
-            name: 'croves', 
-            email: 'clod@email.com', 
-            cpf: '02286831068', 
-            phone: '62912341234'
+            name: 'croves',
+            email: 'clod@email.com',
+            cpf: '02286831068',
+            phone: '62912341234',
+            adress: 'rua dos camarões'
         })).rejects.toBeInstanceOf(TutorAlreadyExistsError)
     })
 })

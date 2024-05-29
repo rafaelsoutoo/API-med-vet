@@ -7,6 +7,7 @@ interface RegisterUseCaseRequest {
   cpf: string | null,
   email: string | null
   phone: string,
+  adress: string | null
 }
 
 
@@ -15,12 +16,13 @@ export class CreateTutorsUseCase {
     private tutorRepository: TutorRepository
   ) { }
 
-  async execute({ 
-    name, 
-    email, 
-    cpf, 
-    phone 
-    }: RegisterUseCaseRequest): Promise<Tutor> {
+  async execute({
+    name,
+    email,
+    cpf,
+    phone,
+    adress
+  }: RegisterUseCaseRequest): Promise<Tutor> {
     const sequence = await this.tutorRepository.sequence();
 
     if (cpf) {
@@ -39,6 +41,7 @@ export class CreateTutorsUseCase {
       cpf,
       email,
       phone,
+      adress
     });
 
     return tutor
