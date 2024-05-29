@@ -32,9 +32,12 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 	try {
 		const createAnimalUserCase = makeCreateAnimalUseCase()
 
-		await createAnimalUserCase.execute({
+		const animal = await createAnimalUserCase.execute({
 			name, species, race, gender, age, weight, coat, tutor_id
 		})
+
+		return reply.status(201).send(animal)
+
 	} catch (err) {
 		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
@@ -45,6 +48,4 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 
 		throw err
 	}
-
-	return reply.status(201).send()
 }

@@ -59,7 +59,7 @@ export class PrismaAnimalsRepository implements AnimalRepository {
       data,
     })
 
-    return animal
+    return animal.id
   }
 
   async findManyIdTutor(tutor_id: string) {

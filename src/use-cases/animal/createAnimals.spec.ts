@@ -34,6 +34,7 @@ describe('Create animal use case', () => {
             species: "buldog",
             race: "cachorro",
             gender: "masculino",
+            weight: "12kg",
             age: "12",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
@@ -46,6 +47,7 @@ describe('Create animal use case', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
+            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -56,24 +58,18 @@ describe('Create animal use case', () => {
     })
 
     it('Creating animal', async () => {
-        const { animal } = await createAnimalTest.execute({
+        const animal = await createAnimalTest.execute({
             name: "Secundario",
             species: "buldog",
             race: "cachorro",
             gender: "masculino",
             age: "12",
+            weight: "12kg",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
         })
 
-        expect(animal).toBeTypeOf('object')
-        expect(animal.name).toEqual('Secundario')
-        expect(animal.species).toEqual('buldog')
-        expect(animal.race).toEqual('cachorro')
-        expect(animal.gender).toEqual('masculino')
-        expect(animal.age).toEqual('12')
-        expect(animal.coat).toEqual('cinza')
-        expect(animal.tutor_id).toEqual('2c05d159-abb8-466d-a6bd-90da8d0c2d6e')
+        expect(animal).toBeTypeOf('string')
     })
 
 
@@ -83,6 +79,7 @@ describe('Create animal use case', () => {
             species: "buldog",
             race: "cachorro",
             gender: "masculino",
+            weight: '12gg',
             age: "12",
             coat: "cinza",
             tutor_id: '2c032159-abb8-466d-a6bd-90da8d0c2d6e'
@@ -96,6 +93,7 @@ describe('Create animal use case', () => {
                 race: "cachorro",
                 gender: "masculino",
                 age: "12",
+                weight: '12kg',
                 coat: "cinza",
                 tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             })

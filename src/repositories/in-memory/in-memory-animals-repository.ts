@@ -5,7 +5,7 @@ import { AnimalRepository } from '@/repositories/animal-repository'
 export class InMemoryAnimalRepository implements AnimalRepository {
     public items: Animal[] = []
 
-    async createAnimal(data: Prisma.AnimalUncheckedCreateInput): Promise<Animal> {
+    async createAnimal(data: Prisma.AnimalUncheckedCreateInput): Promise<string> {
         const animal = {
             id: data.id ?? randomUUID(),
             sequence: data.sequence,
@@ -16,13 +16,14 @@ export class InMemoryAnimalRepository implements AnimalRepository {
             gender: data.gender,
             age: data.age,
             coat: data.coat ?? null,
+            weight: data.weight ?? null,
             tutor_id: data.tutor_id,
             enchiridion: data.enchiridion ?? [],
         }
 
         this.items.push(animal)
 
-        return animal
+        return animal.id
     }
 
     async findById(id: string): Promise<Animal | null> {

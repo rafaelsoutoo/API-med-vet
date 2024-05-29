@@ -58,7 +58,7 @@ export class GetAnimalById {
             id: animal.id,
             sequence: animal.sequence,
             name: animal.name,
-            created_at: animal.created_at, 
+            created_at: animal.created_at,
             species: animal.species,
             race: animal.race,
             gender: animal.gender,
@@ -101,8 +101,8 @@ export class GetAnimalByNameTutorUseCase {
 
         if (!tutor){
             throw new TutorNotExistsError()
-        } 
-        
+        }
+
         const data = []
 
         for(let i = 0; i < tutor.length; i++) {
@@ -122,6 +122,6 @@ export class GetAnimalByNameTutorUseCase {
         }
 
         return data
-    
+
     }
 }
