@@ -13,13 +13,14 @@ export async function updateTutor(request: FastifyRequest, reply: FastifyReply) 
 		cpf: z.string().refine(Validation.isValidCPF, {
 			message: "CPF inválido",
 		}),
+		adress: z.string().nullable(),
 		phone: z.string().refine(Validation.isValidPhoneNumber, {
 			message: "Numero de contato inválido",
 		}),
 		email: z.string().email().nullable()
 	});
 
-	const { id, name, cpf, phone, email } = updateBodySchema.parse(request.body);
+	const { id, name, cpf, phone, email, adress } = updateBodySchema.parse(request.body);
 
 	try {
 		const updateUserCase = MakeUpdateTutorUseCase()
@@ -30,6 +31,7 @@ export async function updateTutor(request: FastifyRequest, reply: FastifyReply) 
 			cpf,
 			phone,
 			email,
+			adress
 		})
 	} catch (err) {
 		if (err instanceof TutorNotExistsError) {

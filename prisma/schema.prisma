@@ -68,6 +68,7 @@ model Tutor {
   cpf        String?   @unique
   email      String?   @unique
   phone      String
+  adress     String?
   animals    Animal[]
   consult    Consult[]
   created_at DateTime  @default(now())
