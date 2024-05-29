@@ -52,7 +52,7 @@ export class SearchTutorByNameUseCase {
   }: SearchTutorUseCaseRequest): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchByNameTutor(query, page)
 
-    if (query.length === 0 || tutors === null || tutors.length === 0) {
+    if (tutors === null || tutors.length === 0) {
       throw new getAllTutorsError()
     }
 
