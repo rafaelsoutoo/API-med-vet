@@ -6,10 +6,10 @@ import { VaccinationRepository } from '@/repositories/vaccination-repository'
 
 
 
-import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
+import { Enchiridion, Animal, Tutor } from '@prisma/client'  //tipagem propria do prisma
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
-import { EnchiridionNotExitsError} from '@/use-cases/errors/enchiridion-errors';
+import { EnchiridionNotExitsError } from '@/use-cases/errors/enchiridion-errors';
 
 interface EnchiridionUseCaseRequest {
   tutor_id: string
@@ -21,6 +21,30 @@ interface EnchiridionAnimalUseCaseRequest {
 
 interface RegisterUseCaseResponse {
   enchiridions: Enchiridion[]
+}
+
+interface TutorReturn {
+  phone: string;
+  name: string;
+}
+
+interface AnimalReturn {
+  name: string
+  sequence: string;
+  species: string;
+  race: string | null;
+  gender: string;
+  age: string;
+  coat: string | null;
+  weight: string | null;
+
+}
+
+interface AnimalIdEnchiridionResponse {
+  enchiridions: Enchiridion[],
+  animal: AnimalReturn,
+  tutor: TutorReturn
+
 }
 
 
@@ -67,7 +91,7 @@ export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
         vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
       };
     });
-  
+
     return {
       enchiridions: enchiridionsWithVaccinations
     };
@@ -79,18 +103,26 @@ export class getTutorIdEnchiridionUseCase {  //cada classe tem um método
 export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
   constructor(private enchiridionRepository: EnchiridionRepository,
     private animalRepository: AnimalRepository,
-    private vaccinationRepository: VaccinationRepository
+    private vaccinationRepository: VaccinationRepository,
+    private tutorRepository: TutorRepository,
   ) { }   //receber as dependencia dentro do construtor
   //retorna isso
-  async execute({ animal_id }: EnchiridionAnimalUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  async execute({ animal_id }: EnchiridionAnimalUseCaseRequest): Promise<AnimalIdEnchiridionResponse> {
 
-    const AnimalNoExists = await this.animalRepository.findById(animal_id);
+    const animal = await this.animalRepository.findById(animal_id);
 
-    if (!AnimalNoExists) {
+    if (!animal) {
       throw new AnimalNoexists()
     };
 
+    const tutot_id = animal.tutor_id
 
+    const tutor = await this.tutorRepository.findById(tutot_id)
+
+
+    if (!tutor) {
+      throw new TutorNotExistsError()
+    };
 
     const enchiridions = await this.enchiridionRepository.findByIdUniqueAnimalEnchiridion(animal_id);
 
@@ -108,8 +140,22 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
         vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
       };
     });
-  
+
     return {
+      tutor: {
+        phone: tutor.phone,
+        name: tutor.name
+      },
+      animal: {
+        name: animal.name,
+        sequence: animal.sequence,
+        species: animal.species,
+        race: animal.race,
+        gender: animal.gender,
+        age: animal.age,
+        coat: animal.coat,
+        weight: animal.weight
+      },
       enchiridions: enchiridionsWithVaccinations
     };
   }
@@ -141,7 +187,7 @@ export class getAllEnchiridionUseCase {
         vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
       };
     });
-  
+
     return {
       enchiridions: enchiridionsWithVaccinations
     };
@@ -157,14 +203,14 @@ export class GetSequenceByEnchiridionUseCase {
   async execute(sequence: string) {
     const enchiridion = await this.enchiridionRepository.findBySequenceEnchiridion(sequence);
 
-    
+
     if (enchiridion === null) {
       throw new EnchiridionNotExitsError()
     }
 
     const vaccinations = await this.vaccinationRepository.findByEnchiridionId(enchiridion.id);
 
-    
+
     const enchiridionWithVaccinations = {
       ...enchiridion,
       vaccinations
