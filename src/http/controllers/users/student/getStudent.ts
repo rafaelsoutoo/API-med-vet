@@ -4,6 +4,7 @@ import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-reposi
 import { z } from "zod";
 import { NoExistsUsersError } from "@/use-cases/errors/user-error";
 import { studentNotFound } from "@/use-cases/errors/student-errors";
+import { searchStudentByRegistration } from "@/use-cases/factories/users/student/make-search-student";
 
 interface Params {
   id: string;
@@ -57,21 +58,23 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
     throw error
   }
 }
-export async function getStudentByRegistration(request: FastifyRequest<{ Params: Params }>, reply: FastifyReply) {
+export async function getStudentByRegistration(request: FastifyRequest, reply: FastifyReply) {
+
+  const searchStudentQuerySchema = z.object({
+    q: z.string(),
+    page: z.coerce.number().min(1).default(1),
+  })
+
   try {
-    const prismaUsersRepository = new PrismaUsersRepository();
-    const getStudentByRegistrationUseCase = new GetStudentByRegistrationUseCase(prismaUsersRepository);
+    const { q, page } = searchStudentQuerySchema.parse(request.query)
+    const searchStudentByRegistrationUseCase = searchStudentByRegistration()
 
-    const { registration } = request.params;
-
-    const user = await getStudentByRegistrationUseCase.execute(registration);
-
-    return reply.status(200).send({
-      user: {
-        ...user,
-        password_hash: undefined
-      }
+    const user = await searchStudentByRegistrationUseCase.execute({
+      query: q,
+      page,
     });
+
+    return reply.status(200).send(user);
   } catch (error) {
     if (error instanceof studentNotFound) {
       return reply.status(404).send({ message: error.message })

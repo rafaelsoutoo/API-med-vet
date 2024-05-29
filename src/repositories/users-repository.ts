@@ -5,6 +5,7 @@ export interface UsersRepository {
   findTeacherById(id: string): Promise<Teacher | null>
   findByRegistrationTeachers(registration: string): Promise<Teacher | null>
   searchByRegistrationTeachers(query: string, page: number): Promise<Teacher[]>
+  searchStudentByRegistration(query: string, page: number): Promise<Student[]>
   findAllTeachers(page: number, numberOfItems: number): Promise<Teacher[]>;
   findByCpfTeacher(cpf: string): Promise<Teacher | null>
   createTeachers(data: Prisma.TeacherCreateInput): Promise<Teacher>

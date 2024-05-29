@@ -1,6 +1,15 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { NoExistsUsersError } from "../../errors/user-error";
 import { studentNotFound } from "@/use-cases/errors/student-errors";
+import { Student } from "@prisma/client";
+
+
+
+
+interface SearchStudentUseCaseRequest {
+  query: string
+  page: number
+}
 
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }
@@ -35,10 +44,10 @@ export class GetStudentByIdUseCase {
 export class GetStudentByRegistrationUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute(registration: string) {
-    const user = await this.usersRepository.findByRegistrationStudent(registration)
+  async execute({ query, page }: SearchStudentUseCaseRequest): Promise<Student[]> {
+    const user = await this.usersRepository.searchStudentByRegistration(query, page)
 
-    if (!user) {
+    if (user.length === 0) {
       throw new studentNotFound()
     }
 
