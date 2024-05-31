@@ -11,7 +11,6 @@ export interface UsersRepository {
   createTeachers(data: Prisma.TeacherCreateInput): Promise<Teacher>
   updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher>
   findTeacherByName(query: string, page: number): Promise<Teacher[]>
-
   markAsDeleteTeacher(id: string): any
   findAllTeachersDeleted(): Promise<Teacher[]>
 
@@ -22,7 +21,7 @@ export interface UsersRepository {
   findByCpfStudent(cpf: string): Promise<Student | null>
   createStudent(data: Prisma.StudentCreateInput): Promise<Student>
   updateStudent(id: string, data: Prisma.StudentUpdateInput): Promise<Student>
-  deleteStudent(id: string): any
+  markSecretaryAsDelete(id: string): any
 
   //secretary
   findSecretaryById(id: string): Promise<Secretary | null>

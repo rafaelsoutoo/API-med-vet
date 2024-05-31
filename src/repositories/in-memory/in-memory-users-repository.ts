@@ -187,6 +187,7 @@ export class InMemoryUsersRepository implements UsersRepository {
             email: data.email ?? null,
             phone: data.phone ?? null,
             role: data.role ?? 'SECRETARY',
+            status_delete: false,
             created_at: new Date(),
         }
 
@@ -227,5 +228,24 @@ export class InMemoryUsersRepository implements UsersRepository {
         this.secretarys[secretaryIndex] = secretary as Secretary
 
         return this.secretarys[secretaryIndex]
+    }
+
+    async markSecretaryAsDelete(id: string) {
+        const index = this.secretarys.findIndex((item) => item.id === id)
+
+        const itemUpdate: Secretary = {
+            id: this.secretarys[index].id,
+            name: this.secretarys[index].name,
+            cpf: this.secretarys[index].cpf,
+            password_hash: this.secretarys[index].password_hash,
+            email: this.secretarys[index].email ?? null,
+            phone: this.secretarys[index].phone ?? null,
+            status_delete: true,
+            role: this.secretarys[index].role ?? 'TEACHER',
+            created_at: this.secretarys[index].created_at
+
+        }
+
+        this.secretarys.splice(index, 1, itemUpdate)
     }
 }

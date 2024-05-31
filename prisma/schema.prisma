@@ -55,6 +55,7 @@ model Secretary {
   password_hash String
   email         String?  @unique
   phone         String?
+  status_delete Boolean @default(false)
   role          Role     @default(SECRETARY)
   created_at    DateTime @default(now())
 

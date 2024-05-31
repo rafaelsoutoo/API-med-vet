@@ -266,5 +266,17 @@ export class PrismaUsersRepository implements UsersRepository {
       },
     });
   }
+
+  async markSecretaryAsDelete(id: string) {
+    await prisma.secretary.update({
+      where: {
+        id: id
+      },
+      data: {
+        status_delete: true,
+      },
+    });
+  }
+
 }
 
