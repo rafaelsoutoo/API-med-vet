@@ -23,7 +23,7 @@ export class PrismaConsultsRepository implements ConsultsRepository {
     return consult
   }
 
-  async getAllConsultsDone() {
+  async getAllConsultsUndone() {
 
     const consults = await prisma.consult.findMany({
       where: {
@@ -58,10 +58,13 @@ export class PrismaConsultsRepository implements ConsultsRepository {
     return consult
   }
 
-  async deleteConsult(id: string) {
-    await prisma.consult.delete({
+  async markAsDoneConsult(id: string) {
+    await prisma.consult.update({
       where: {
         id: id
+      },
+      data: {
+        done: true
       }
     });
   }

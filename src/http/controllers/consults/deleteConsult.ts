@@ -10,14 +10,12 @@ export async function deleteConsult(request: FastifyRequest, reply: FastifyReply
 		id: z.string(),
 	});
 
-	const { id } = updateBodySchema.parse(request.params);
-	
+	const { id } = updateBodySchema.parse(request.body);
+
 	try {
 		const updateUserCase = MakeDeleteConsultUseCase()
 
-		await updateUserCase.execute(
-			id
-		)
+		await updateUserCase.execute(id)
 	} catch (err) {
 		if (err instanceof ConsultsNotExistsError) {
 			return reply.status(409).send({ message: err.message })
