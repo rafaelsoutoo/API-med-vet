@@ -51,6 +51,11 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
     }
 
 
+    async findById(id: string): Promise<Enchiridion | null> {
+      return this.items.find((item) => item.id === id) ?? null
+    }
+
+
     async findByIdAnimalEnchiridion(animalsId: string[]) {
         return this.items.filter((item) => animalsId.includes(item.animal_id))
       }

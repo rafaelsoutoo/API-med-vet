@@ -7,12 +7,14 @@ import { getTutorIdEnchiridionUseCase, getAnimalIdEnchiridionUseCase, getAllEnch
 import {TutorNotExistsError } from '@/use-cases/errors/tutor-error'
 import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { EnchiridionNotExitsError} from '@/use-cases/errors/enchiridion-errors';
+import { InMemoryVaccinationRepository } from '@/repositories/in-memory/in-memory-vaccination-repository'
 
 
 
 let enchiridionRepository: InMemoryEnchiridionRepository
 let animalsRepository: InMemoryAnimalRepository
 let usersRepository: InMemoryUsersRepository
+let vaccinationRepository: InMemoryVaccinationRepository
 let tutorsRepository: InMemoryTutorRepository
 let getTeacherIdEnchiridionTest: getTutorIdEnchiridionUseCase
 let getAnimalIdEnchiridionTest: getAnimalIdEnchiridionUseCase
@@ -24,9 +26,10 @@ let getSequenceByEnchiridionTest: GetSequenceByEnchiridionUseCase
 describe('Get the tutor id and return all enchridions', () => {
   beforeEach(() => {
     enchiridionRepository = new InMemoryEnchiridionRepository()
-    animalsRepository = new InMemoryAnimalRepository() //istanciar meu repositório
-    tutorsRepository = new InMemoryTutorRepository() //istanciar meu repositório
-    getTeacherIdEnchiridionTest = new getTutorIdEnchiridionUseCase(enchiridionRepository, tutorsRepository, animalsRepository)
+    animalsRepository = new InMemoryAnimalRepository() 
+    tutorsRepository = new InMemoryTutorRepository() 
+    vaccinationRepository = new InMemoryVaccinationRepository()
+    getTeacherIdEnchiridionTest = new getTutorIdEnchiridionUseCase(enchiridionRepository, tutorsRepository, animalsRepository, vaccinationRepository)
 
 
     tutorsRepository.createTutor({
@@ -50,20 +53,28 @@ describe('Get the tutor id and return all enchridions', () => {
       gender: 'Macho',
       age: '5',
       coat: 'Preto',
+      weight: "133",
       tutor_id: '6616d924ee0af0e50602ca14', // ID do tutor
 
     })
 
 
+    vaccinationRepository.createVaccination({
+      id: "36314c11974bd8a7cd2078b7",
+      enchiridion_id: "26314c11974bd8a7cd2078b7",
+      date: "12/05/2025",
+      name: "aintiraiva"
+    })
+
+
     enchiridionRepository.createEnchiridion({
+      id: "26314c11974bd8a7cd2078b7",
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"1",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
-      vaccination: "Sim",
-      date_vaccination: "24/04/2024",
       deworming: "Não",
       date_deworming: "30/04/2024",
       temperature: "38.5",
@@ -85,7 +96,6 @@ describe('Get the tutor id and return all enchridions', () => {
       diagnosis: "Não",
       trataments: "Não",
       observations: "Rex está em boas condições.",
-      responsible: "João",
     })
 
   })
@@ -122,9 +132,11 @@ describe('Get the tutor id and return all enchridions', () => {
 describe('Get the animal_id and return all enchridions', () => {
   beforeEach(() => {
     enchiridionRepository = new InMemoryEnchiridionRepository()
-    animalsRepository = new InMemoryAnimalRepository() //istanciar meu repositório
-    tutorsRepository = new InMemoryTutorRepository() //istanciar meu repositório
-    getAnimalIdEnchiridionTest = new getAnimalIdEnchiridionUseCase(enchiridionRepository, animalsRepository)
+    animalsRepository = new InMemoryAnimalRepository() 
+    tutorsRepository = new InMemoryTutorRepository() 
+    vaccinationRepository = new InMemoryVaccinationRepository()
+    tutorsRepository = new InMemoryTutorRepository() 
+    getAnimalIdEnchiridionTest = new getAnimalIdEnchiridionUseCase(enchiridionRepository, animalsRepository, vaccinationRepository, tutorsRepository)
 
 
 
@@ -138,20 +150,37 @@ describe('Get the animal_id and return all enchridions', () => {
       gender: 'Macho',
       age: '5',
       coat: 'Preto',
+      weight: '233kg',
       tutor_id: '6616d924ee0af0e50602ca14', // ID do tutor
 
     })
 
+    
+    tutorsRepository.createTutor({
+      id: '6616d924ee0af0e50602ca14', // ID do tutor
+      sequence: '123',
+      name: 'João',
+      cpf: '123.456.789-00',
+      email: 'joao@example.com',
+      phone: '(11) 98765-4321',
+      created_at: new Date(),
+    })
+
+    vaccinationRepository.createVaccination({
+      id: "36314c11974bd8a7cd2078b7",
+      enchiridion_id: "26314c11974bd8a7cd2078b7",
+      date: "12/05/2025",
+      name: "aintiraiva"
+    })
 
     enchiridionRepository.createEnchiridion({
+      id: "26314c11974bd8a7cd2078b7",
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"1",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
-      vaccination: "Sim",
-      date_vaccination: "24/04/2024",
       deworming: "Não",
       date_deworming: "30/04/2024",
       temperature: "38.5",
@@ -173,7 +202,6 @@ describe('Get the animal_id and return all enchridions', () => {
       diagnosis: "Não",
       trataments: "Não",
       observations: "Rex está em boas condições.",
-      responsible: "João",
     })
 
   })
@@ -210,18 +238,33 @@ describe('Get the animal_id and return all enchridions', () => {
 describe('Get all enchridions with page and numberOfItems', () => {
   beforeEach(() => {
     enchiridionRepository = new InMemoryEnchiridionRepository()
-    getAllEnchiridionTest = new getAllEnchiridionUseCase(enchiridionRepository)
+    vaccinationRepository = new InMemoryVaccinationRepository()
+    getAllEnchiridionTest = new getAllEnchiridionUseCase(enchiridionRepository, vaccinationRepository)
 
+    
+    vaccinationRepository.createVaccination({
+      id: "36314c11974bd8a7cd2078b7",
+      enchiridion_id: "26314c11974bd8a7cd2078b7",
+      date: "12/05/2025",
+      name: "aintiraiva"
+    })
+
+
+    vaccinationRepository.createVaccination({
+      id: "26314c11974bd8a7cd2078b7",
+      enchiridion_id: "36314c11974bd8a7cd2078b7",
+      date: "12/05/2025",
+      name: "aintiraiva"
+    })
 
     enchiridionRepository.createEnchiridion({
+      id: "26314c11974bd8a7cd2078b7",
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"1",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
-      vaccination: "Sim",
-      date_vaccination: "24/04/2024",
       deworming: "Não",
       date_deworming: "30/04/2024",
       temperature: "38.5",
@@ -243,18 +286,16 @@ describe('Get all enchridions with page and numberOfItems', () => {
       diagnosis: "Não",
       trataments: "Não",
       observations: "Rex está em boas condições.",
-      responsible: "João",
     })
 
     enchiridionRepository.createEnchiridion({
+      id: "36314c11974bd8a7cd2078b7",
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"2",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
-      vaccination: "Sim",
-      date_vaccination: "24/04/2024",
       deworming: "Não",
       date_deworming: "30/04/2024",
       temperature: "38.5",
@@ -276,7 +317,7 @@ describe('Get all enchridions with page and numberOfItems', () => {
       diagnosis: "Não",
       trataments: "Não",
       observations: "Rex está em boas condições.",
-      responsible: "João",
+     
     })
    
   })
