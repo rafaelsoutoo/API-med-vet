@@ -20,7 +20,6 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
         history: data.history ?? null,
         reason_consult: data.reason_consult ?? null,
         vaccination: data.vaccination ?? null,
-        date_vaccination: data.date_vaccination ?? null,
         deworming: data.deworming ?? null,
         date_deworming: data.date_deworming ?? null,
         temperature: data.temperature ?? null,
@@ -42,7 +41,6 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
         diagnosis: data.diagnosis ?? null,
         trataments: data.trataments ?? null,
         observations: data.observations ?? null,
-        responsible: data.responsible ?? null,
         created_at: new Date(),
         prescription: data.prescription,
       }
@@ -50,6 +48,11 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
       this.items.push(enchiridion)
   
       return enchiridion
+    }
+
+
+    async findById(id: string): Promise<Enchiridion | null> {
+      return this.items.find((item) => item.id === id) ?? null
     }
 
 
