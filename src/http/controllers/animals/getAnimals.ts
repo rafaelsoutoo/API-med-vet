@@ -8,7 +8,7 @@ import { makeGetByTutorAnimalUseCase } from "@/use-cases/factories/animals/make-
 import { TutorNotExistsError } from "@/use-cases/errors/tutor-error";
 import { makeGetAnimalSequence } from "@/use-cases/factories/animals/make-get-animal-sequence";
 import { makeGetAnimalByNameTutor } from "@/use-cases/factories/animals/make-get-animal-by-name-tutor";
-
+import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository"
 
 
 interface Params {
@@ -27,7 +27,8 @@ export async function getAllAnimals(request: FastifyRequest, reply: FastifyReply
 
     try {
         const prismaAnimalsRepository = new PrismaAnimalsRepository()
-        const getAnimalsUseCase = new GetAllAnimalsUseCase(prismaAnimalsRepository)
+        const prismaTutorsRepository = new PrismaTutorsRepository()
+        const getAnimalsUseCase = new GetAllAnimalsUseCase(prismaAnimalsRepository, prismaTutorsRepository)
 
         const users = await getAnimalsUseCase.execute(page, numberOfItems)
 
@@ -74,7 +75,7 @@ export async function getAnimalsByTutor(request: FastifyRequest, reply: FastifyR
         if (error instanceof TutorNotExistsError) {
             return reply.status(404).send({ message: error.message })
         }
-         
+
         if(error instanceof AnimalNoexists) {
             return reply.status(404).send({ message: error.message })
         }

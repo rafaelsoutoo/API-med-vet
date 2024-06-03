@@ -6,18 +6,35 @@ import { TutorRepository } from "@/repositories/tutors-repository";
 
 
 export class GetAllAnimalsUseCase {
-    constructor(private animalRepository: AnimalRepository) { }
+    constructor(
+        private animalRepository: AnimalRepository,
+        private tutorRepository: TutorRepository
+    ) { }
 
     async execute(page: number, numberOfItems: number) {
         const animals = await this.animalRepository.getAllAnimals(page, numberOfItems);
 
         if (animals.length === 0) {
-            throw new AnimalNoexists()
+            throw new AnimalNoexists();
         }
 
-        return animals;
+        if (animals && Array.isArray(animals)) {
+            const dataPromises = animals.map(async (animal) => {
+                const tutor = await this.tutorRepository.findById(animal.tutor_id);
+
+                return {
+                    animal_id: animal.id,
+                    animal_name: animal.name,
+                    tutor_name: tutor?.name
+                };
+            });
+
+            const data = await Promise.all(dataPromises);
+            return data;
+        }
     }
 }
+
 
 export class GetAnimalByTutorUseCase {
     constructor(private animalRepository: AnimalRepository, private tutorRepository: TutorRepository) { }
