@@ -16,7 +16,6 @@ export class InMemoryAnimalRepository implements AnimalRepository {
             gender: data.gender,
             age: data.age,
             coat: data.coat ?? null,
-            weight: data.weight ?? null,
             tutor_id: data.tutor_id,
             enchiridion: data.enchiridion ?? [],
         }

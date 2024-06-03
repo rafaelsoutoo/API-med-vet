@@ -86,7 +86,6 @@ model Animal {
   gender       String
   age          String
   coat         String?
-  weight       String
   tutor        Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id     String   @db.ObjectId
   enchiridion  Enchiridion[]
@@ -118,6 +117,7 @@ model Enchiridion {
   teacher       Teacher    @relation(fields: [teacher_id], references: [id])
   teacher_id    String   @db.ObjectId
   date        DateTime
+  weight       Float
   history     String?
   reason_consult String?
   deworming     String?

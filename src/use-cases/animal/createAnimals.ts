@@ -11,7 +11,6 @@ interface registerusecaserequest {
   race: string | null;
   gender: string;
   age: string;
-  weight: string | null
   coat: string | null;
   tutor_id: string;
 }
@@ -29,7 +28,6 @@ export class CreateAnimalsUsecase {
     race,
     gender,
     age,
-    weight,
     coat,
     tutor_id
   }: registerusecaserequest): Promise<String> {
@@ -49,7 +47,7 @@ export class CreateAnimalsUsecase {
 
 
     const animal = await this.animalrepository.createAnimal({
-      sequence, name, species, race, gender, age, weight, coat, tutor_id
+      sequence, name, species, race, gender, age, coat, tutor_id
     })
 
     return animal

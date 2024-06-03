@@ -13,6 +13,7 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         stringDate: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
+        weight: z.number(),
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
         deworming: z.string().nullable(),
@@ -38,14 +39,14 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         observations: z.string().nullable()
     });
 
-    const { vaccination, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations} = registerBodySchema.parse(request.body);
+    const { vaccination, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight} = registerBodySchema.parse(request.body);
 
 
     try {
         const registerUserCase = makeRegisterUseCase()
 
         await registerUserCase.execute({
-            animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations
+            animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight 
         })
     } catch (err) {
         if (err instanceof InvalidDateError) {

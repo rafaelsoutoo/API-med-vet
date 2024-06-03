@@ -16,6 +16,7 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
         sequence: data.sequence,
         animal_id: data.animal_id,
         teacher_id: data.teacher_id,
+        weight: data.weight,
         date: data.date ? new Date(data.date) : new Date(),
         history: data.history ?? null,
         reason_consult: data.reason_consult ?? null,
