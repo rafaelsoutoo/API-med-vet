@@ -5,7 +5,7 @@ interface DeleteUseCaseRequest {
   id: string
 };
 
-export class DeleteStudentUseCase {
+export class MarkAsDeleteStudentUseCase {
 
   constructor(
     private usersRepository: UsersRepository
@@ -16,10 +16,11 @@ export class DeleteStudentUseCase {
 
     const userExists = await this.usersRepository.findStudentById(id);
 
-    if (!userExists) { 
+    if (!userExists) {
       throw new NoExistsUsersError();
     };
 
-    await this.usersRepository.deleteStudent(id);
+    await this.usersRepository.markStudentAsDelete(id);
+
   };
 }
