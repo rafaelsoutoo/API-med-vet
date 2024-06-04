@@ -44,7 +44,7 @@ export class GetStudentByIdUseCase {
 export class GetStudentByRegistrationUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute({ query, page }: SearchStudentUseCaseRequest): Promise<Student[]> {
+  async execute( query: string, page:number ): Promise<Student[]> {
     const user = await this.usersRepository.searchStudentByRegistration(query, page)
 
     if (user.length === 0) {

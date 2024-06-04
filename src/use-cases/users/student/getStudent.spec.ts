@@ -142,16 +142,16 @@ describe('Get student with Registration', () => {
     it('should get Student', async () => {
 
    
-        const user  = await getRegistrationStudentUseCaseTest.execute('123456')
+        const user  = await getRegistrationStudentUseCaseTest.execute('123456',1)
 
-        expect(user).toBeTypeOf('object')
-        expect(user.id).toEqual('6616d924ee0af0e50602ca14')
-        expect(user.cpf).toEqual('12345678900')
+        expect(user).toHaveLength(1)
+        expect(user[0].name).toBe('João');
+        expect(user[0].cpf).toBe('12345678900');
     })
 
 
     it('Shown error User not exist ', async () => {
-        await expect(getRegistrationStudentUseCaseTest.execute('654321')).rejects.toBeInstanceOf(studentNotFound)
+        await expect(getRegistrationStudentUseCaseTest.execute('654321', 1)).rejects.toBeInstanceOf(studentNotFound)
     })
 
 })
