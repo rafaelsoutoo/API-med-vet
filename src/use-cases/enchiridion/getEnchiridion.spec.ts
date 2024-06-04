@@ -53,7 +53,6 @@ describe('Get the tutor id and return all enchridions', () => {
       gender: 'Macho',
       age: '5',
       coat: 'Preto',
-      weight: "133",
       tutor_id: '6616d924ee0af0e50602ca14', // ID do tutor
 
     })
@@ -72,6 +71,7 @@ describe('Get the tutor id and return all enchridions', () => {
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
+      weight: 423254,
       sequence:"1",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
@@ -150,7 +150,6 @@ describe('Get the animal_id and return all enchridions', () => {
       gender: 'Macho',
       age: '5',
       coat: 'Preto',
-      weight: '233kg',
       tutor_id: '6616d924ee0af0e50602ca14', // ID do tutor
 
     })
@@ -179,6 +178,7 @@ describe('Get the animal_id and return all enchridions', () => {
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"1",
+      weight: 432.432,
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
       deworming: "Não",
@@ -263,6 +263,7 @@ describe('Get all enchridions with page and numberOfItems', () => {
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"1",
+      weight: 3241.23234,
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
       deworming: "Não",
@@ -293,6 +294,7 @@ describe('Get all enchridions with page and numberOfItems', () => {
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
+      weight: 3342.233,
       sequence:"2",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
@@ -366,6 +368,7 @@ describe('Get all enchridions with sequence', () => {
       animal_id: "66314c11974bd8a7cd2078b7",
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
+      weight: 42314.423,
       sequence:"1",
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina",
@@ -399,6 +402,7 @@ describe('Get all enchridions with sequence', () => {
       teacher_id: "6616d924ee0af0e50602ca14",
       date:"30/04/2024",
       sequence:"2",
+      weight: 35342.132,
       history: "Rex foi adotado em 2022.",
       reason_consult: "Consulta de rotina 2",
       deworming: "Não",

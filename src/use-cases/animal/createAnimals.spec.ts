@@ -34,7 +34,6 @@ describe('Create animal use case', () => {
             species: "buldog",
             race: "cachorro",
             gender: "masculino",
-            weight: "12kg",
             age: "12",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
@@ -47,7 +46,6 @@ describe('Create animal use case', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
-            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -64,7 +62,6 @@ describe('Create animal use case', () => {
             race: "cachorro",
             gender: "masculino",
             age: "12",
-            weight: "12kg",
             coat: "cinza",
             tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e'
         })
@@ -79,7 +76,6 @@ describe('Create animal use case', () => {
             species: "buldog",
             race: "cachorro",
             gender: "masculino",
-            weight: '12gg',
             age: "12",
             coat: "cinza",
             tutor_id: '2c032159-abb8-466d-a6bd-90da8d0c2d6e'
@@ -93,7 +89,6 @@ describe('Create animal use case', () => {
                 race: "cachorro",
                 gender: "masculino",
                 age: "12",
-                weight: '12kg',
                 coat: "cinza",
                 tutor_id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
             })

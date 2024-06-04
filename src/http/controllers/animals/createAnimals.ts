@@ -18,7 +18,6 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 		species: z.string().min(1, { message: "Species cannot be empty" }),
 		age: z.string().min(1, { message: "Age cannot be empty" }),
 		gender: z.string().min(1, { message: "Gender cannot be empty" }),
-		weight: z.string().nullable(),
 		coat: z.string().nullable(),
 		race: z.string().nullable(),
 
@@ -26,14 +25,14 @@ export async function createAnimals(request: FastifyRequest, reply: FastifyReply
 
 
 
-	const { name, species, race, gender, age, weight, coat, } = animalsCreateBodySchema.parse(request.body);
+	const { name, species, race, gender, age, coat, } = animalsCreateBodySchema.parse(request.body);
 	const { tutor_id } = validateIdParamsSchema.parse(request.params)
 
 	try {
 		const createAnimalUserCase = makeCreateAnimalUseCase()
 
 		const animal = await createAnimalUserCase.execute({
-			name, species, race, gender, age, weight, coat, tutor_id
+			name, species, race, gender, age, coat, tutor_id
 		})
 
 		return reply.status(201).send(animal)

@@ -32,7 +32,6 @@ describe('Create Enchiridion Use Case', () => {
           race: 'Labrador',
           gender: 'Macho',
           age: '5',
-          weight: '3455',
           coat: 'Preto',
           tutor_id: '6616d924ee0af0e50602ca14',
          
@@ -61,6 +60,7 @@ describe('Create Enchiridion Use Case', () => {
     it('should to create enchiridion', async () => {
 
         const { enchiridions } = await sut.execute({
+            weight: 2455.34243,
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca14",
             stringDate: "30/04/2025",
@@ -114,6 +114,7 @@ describe('Create Enchiridion Use Case', () => {
             stringDate: "30/04/2024",
             history: "Rex foi adotado em 2022.",
             reason_consult: "Consulta de rotina",
+            weight: 2455.34243,
             vaccination: "Sim",
             
             deworming: "Não",
@@ -151,6 +152,7 @@ describe('Create Enchiridion Use Case', () => {
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca11",
             stringDate: "30/04/2024",
+            weight: 2455.34243,
             history: "Rex foi adotado em 2022.",
             reason_consult: "Consulta de rotina",
             vaccination: "Sim",
@@ -188,6 +190,7 @@ describe('Create Enchiridion Use Case', () => {
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca14",
             stringDate: stringDate,
+            weight: 2455.34243,
             history: "Rex foi adotado em 2022.",
             reason_consult: "Consulta de rotina",
             vaccination: "Sim",
