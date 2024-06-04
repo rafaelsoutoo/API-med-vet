@@ -98,6 +98,13 @@ export class InMemoryUsersRepository implements UsersRepository {
 
         return this.students[studentIndex]
     }
+    
+    async searchStudentByRegistration(query: string, page: number) {
+        const filteredTeachers = this.students.filter((item) => item.registration.includes(query))
+        return filteredTeachers.slice((page - 1) * 10, page * 10)
+    }
+
+
 
     //teacher
 
@@ -176,6 +183,11 @@ export class InMemoryUsersRepository implements UsersRepository {
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
 
+    async searchByRegistrationTeachers(query: string, page: number) {
+        const filteredTeachers = this.teachers.filter((item) => item.registration.includes(query))
+        return filteredTeachers.slice((page - 1) * 10, page * 10)
+    }
+
     async markAsDeleteTeacher(id: string) {
         const index = this.teachers.findIndex((item) => item.id === id)
 
@@ -201,6 +213,11 @@ export class InMemoryUsersRepository implements UsersRepository {
     async findAllTeachersDeleted(): Promise<Teacher[]> {
         return this.teachers.filter((item) => item.status_delete === true)
     }
+
+
+
+
+
 
     //secretary
     async createSecretarys(data: Prisma.SecretaryCreateInput): Promise<Secretary> {

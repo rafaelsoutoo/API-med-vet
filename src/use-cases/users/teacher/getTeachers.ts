@@ -43,7 +43,7 @@ export class GetTeacherByIdUseCase {
 export class GetTeachersByRegistrationUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute({ query, page }: SearchTeacherUseCaseRequest): Promise<Teacher[]> {
+  async execute( query: string, page: number): Promise<Teacher[]> {
     const teacher = await this.usersRepository.searchByRegistrationTeachers(query, page);
 
     if (teacher.length === 0) {
