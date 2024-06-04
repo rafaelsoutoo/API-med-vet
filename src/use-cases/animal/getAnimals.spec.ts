@@ -19,7 +19,7 @@ describe('Get all Animal Use Case', () => {
         animalRepository = new InMemoryAnimalRepository
         tutorRepository = new InMemoryTutorRepository
 
-        getAllTest = new GetAllAnimalsUseCase(animalRepository)
+        getAllTest = new GetAllAnimalsUseCase(animalRepository, tutorRepository)
 
         tutorRepository.createTutor({
             id: '2c05d159-abb8-466d-a6bd-90da8d0c2d6e',
@@ -37,7 +37,6 @@ describe('Get all Animal Use Case', () => {
             name: "name",
             created_at: new Date(),
             species: "buldog",
-            weight: '12kg',
             race: "cachorro",
             gender: "masculino",
             age: "12",
@@ -51,7 +50,6 @@ describe('Get all Animal Use Case', () => {
             name: "name",
             created_at: new Date(),
             species: "buldog",
-            weight: '12kg',
             race: "cachorro",
             gender: "masculino",
             age: "12",
@@ -108,7 +106,6 @@ describe('Get Animal by the id of tutor', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
-            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -122,7 +119,6 @@ describe('Get Animal by the id of tutor', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
-            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -176,7 +172,6 @@ describe('Get Animal by it ID', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
-            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
@@ -190,7 +185,6 @@ describe('Get Animal by it ID', () => {
             created_at: new Date(),
             species: "buldog",
             race: "cachorro",
-            weight: "12kg",
             gender: "masculino",
             age: "12",
             coat: "cinza",
