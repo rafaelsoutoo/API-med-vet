@@ -1,9 +1,9 @@
 import { PrismaUsersRepository } from '@/repositories/Prisma/prisma-users-repository'
-import { DeleteSecretaryUseCase } from '@/use-cases/users/secretary/deleteSecretary'
+import { MarkAsDeleteSecretaryUseCase } from '@/use-cases/users/secretary/deleteSecretary'
 
-export function makeDeleteUseCase() {
+export function makeMarkAsDeleteUseCase() {
   const usersRepository = new PrismaUsersRepository()
-  const useCase = new DeleteSecretaryUseCase(usersRepository)
+  const useCase = new MarkAsDeleteSecretaryUseCase(usersRepository)
 
   return useCase
 }

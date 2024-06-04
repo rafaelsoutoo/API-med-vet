@@ -12,6 +12,30 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students.find((item) => item.id === id) ?? null
     }
 
+    async markAsDeleteStudent(id: string) {
+        const index = this.students.findIndex((item) => item.id === id)
+
+        const itemUpdate: Student = {
+            id: this.students[index].id,
+            registration: this.students[index].registration,
+            name: this.students[index].name,
+            cpf: this.students[index].cpf,
+            password_hash: this.students[index].password_hash,
+            email: this.students[index].email ?? null,
+            course: this.students[index].course ?? null,
+            shift: this.students[index].shift ?? null,
+            phone: this.students[index].phone ?? null,
+            period: this.students[index].period ?? null,
+            status_delete: true,
+            role: this.students[index].role ?? 'TEACHER',
+            created_at: this.students[index].created_at
+
+        }
+
+        this.teachers.splice(index, 1, itemUpdate)
+    }
+
+
     async findByRegistrationStudent(registration: string) {
         return this.students.find((item) => item.registration === registration) ?? null
     }
@@ -36,6 +60,7 @@ export class InMemoryUsersRepository implements UsersRepository {
             shift: data.shift ?? null,
             period: data.period ?? null,
             phone: data.phone ?? null,
+            status_delete: false,
             role: data.role ?? 'STUDENT',
             created_at: new Date(),
         }

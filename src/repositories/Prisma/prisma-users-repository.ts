@@ -84,11 +84,14 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async deleteStudent(id: string) {
-    await prisma.student.delete({
+  async markStudentAsDelete(id: string) {
+    await prisma.student.update({
       where: {
         id: id
       },
+      data: {
+        status_delete: true
+      }
     });
   }
 
@@ -180,7 +183,7 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async markAsDeleteTeacher(id: string) {
+  async markTeacherAsDelete(id: string) {
     await prisma.teacher.update({
       where: {
         id: id
@@ -200,14 +203,6 @@ export class PrismaUsersRepository implements UsersRepository {
     });
 
     return user
-  }
-
-  async deleteTeacher(id: string) {
-    await prisma.teacher.delete({
-      where: {
-        id: id
-      },
-    });
   }
 
   async findAllTeachersDeleted(): Promise<Teacher[]> {
@@ -257,14 +252,6 @@ export class PrismaUsersRepository implements UsersRepository {
     });
 
     return user
-  }
-
-  async deleteSecretary(id: string) {
-    await prisma.secretary.delete({
-      where: {
-        id: id
-      },
-    });
   }
 
   async markSecretaryAsDelete(id: string) {
