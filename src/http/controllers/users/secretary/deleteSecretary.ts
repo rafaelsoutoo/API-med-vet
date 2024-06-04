@@ -1,4 +1,4 @@
-import { makeDeleteUseCase } from '@/use-cases/factories/users/secretary/make-delete-secretary';
+import { makeMarkAsDeleteUseCase } from '@/use-cases/factories/users/secretary/make-delete-secretary';
 import { NoExistsUsersError } from '@/use-cases/errors/user-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -10,10 +10,10 @@ export async function deleteSecretary(request: FastifyRequest, reply: FastifyRep
 		id: z.string(),
 	});
 
-	const { id } = deleteBodySchema.parse(request.params);
+	const { id } = deleteBodySchema.parse(request.body);
 
 	try {
-		const deleteUserCase = makeDeleteUseCase()
+		const deleteUserCase = makeMarkAsDeleteUseCase()
 
 		await deleteUserCase.execute({
 			id

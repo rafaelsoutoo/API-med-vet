@@ -1,26 +1,26 @@
 import { NoExistsUsersError } from "@/use-cases/errors/user-error"
 import { UsersRepository } from "@/repositories/users-repository"
 
-interface DeleteUseCaseRequest {
+interface MarkAsDeleteUseCaseRequest {
   id: string
 }
 
-export class DeleteSecretaryUseCase {
+export class MarkAsDeleteSecretaryUseCase {
 
   constructor(
     private usersRepository: UsersRepository
   ) { }
 
-  async execute({ id }: DeleteUseCaseRequest) {
+  async execute({ id }: MarkAsDeleteUseCaseRequest) {
 
 
     const userExists = await this.usersRepository.findSecretaryById(id)
 
-    if (!userExists) { 
+    if (!userExists) {
       throw new NoExistsUsersError()
     }
 
-    await this.usersRepository.deleteSecretary(id)
+    await this.usersRepository.markSecretaryAsDelete(id)
 
   }
 }
