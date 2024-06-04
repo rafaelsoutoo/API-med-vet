@@ -79,6 +79,21 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return animal
   }
 
+  async searchByNameAnimalorTutor(query: string) {
+    const queryNormalized = query.toLowerCase();
+
+    const animal = await prisma.animal.findMany({
+      where: {
+        name: {
+          contains: queryNormalized,
+          mode: 'insensitive',
+        }
+      },
+    });
+
+    return animal 
+  }
+
   async sequence(): Promise<string> {
     let nextSequence = await prisma.animal.count() + 1
 

@@ -1,9 +1,15 @@
 import { AnimalRepository } from "@/repositories/animal-repository"
 import { AnimalNoexists } from "../errors/animal-errors";
-import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository";
 import { TutorNotExistsError } from "../errors/tutor-error";
 import { TutorRepository } from "@/repositories/tutors-repository";
+import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-repository";
+import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository";
+import { Animal } from "@prisma/client";
 
+
+interface SearchTutorUseCaseRequest {
+    query: string
+  }
 
 export class GetAllAnimalsUseCase {
     constructor(
@@ -137,8 +143,23 @@ export class GetAnimalByNameTutorUseCase {
 
             data.push(datased)
         }
-
+        
         return data
 
     }
 }
+
+
+export class GetAnimalByNameAndTutorAndSequence {
+    constructor(
+        private animalRepository: PrismaAnimalsRepository,
+        private tutorRepository: PrismaTutorsRepository,
+    ) { }
+
+    async execute({ query }: SearchTutorUseCaseRequest): Promise<Animal[]> { 
+
+        const animal= await this.animalRepository.searchByNameAnimalorTutor(query)
+        const tutor = await this.tutorRepository.searchAnimalByTutorName(query)
+
+        return animal
+    }}

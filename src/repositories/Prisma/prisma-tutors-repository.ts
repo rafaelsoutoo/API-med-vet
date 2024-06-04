@@ -135,6 +135,21 @@ export class PrismaTutorsRepository implements TutorRepository {
     });
   }
 
+  async searchAnimalByTutorName(query:string){
+    const queryNormalized = query.toLowerCase();
+
+    const tutor = await prisma.tutor.findMany({
+      where: {
+        name: {
+          contains: queryNormalized,
+          mode: 'insensitive',
+        }
+      },
+    })
+
+    return tutor
+  }
+
   async sequence(): Promise<string> {
     let nextSequence = await prisma.tutor.count() + 1
 

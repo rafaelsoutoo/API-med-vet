@@ -12,6 +12,7 @@ export interface TutorRepository {
 
   searchByNameTutor(query: string, page: number): Promise<Tutor[]>
   searchManyPhone(query: string, page: number): Promise<Tutor[]>
+  searchAnimalByTutorName(query: string): Promise<Tutor[]>
 
   getAllTutors(page: number, numberOfItems: number): Promise<Tutor[]>
 

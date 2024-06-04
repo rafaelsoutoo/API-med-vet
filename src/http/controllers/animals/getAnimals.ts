@@ -9,12 +9,18 @@ import { TutorNotExistsError } from "@/use-cases/errors/tutor-error";
 import { makeGetAnimalSequence } from "@/use-cases/factories/animals/make-get-animal-sequence";
 import { makeGetAnimalByNameTutor } from "@/use-cases/factories/animals/make-get-animal-by-name-tutor";
 import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository"
+import { makeSearchAnimalByTutorBySequnce } from "@/use-cases/factories/animals/make-search-animal-tutor-sequence";
 
 
 interface Params {
     id: string;
     sequence: string;
     name: string
+}
+
+interface QueryParams {
+    tutor_name?: string;
+    animal_name?: string;
 }
 
 
@@ -114,5 +120,26 @@ export async function getAnimalByNameTutor(request: FastifyRequest<{ Params: Par
         }
 
         throw err
+    }
+}
+
+export async function getAnimalByNameAndTutorAndSequence(request: FastifyRequest<{ Querystring: QueryParams }>, reply: FastifyReply) {
+    const searchParmsSchema = z.object({
+        q: z.string(),
+    });
+
+    try {
+        const { q } = searchParmsSchema.parse(request.query);
+
+        const useCase = makeSearchAnimalByTutorBySequnce();
+
+        const data = await useCase.execute({ query: q});
+
+        return reply.status(200).send({ data });
+    } catch (err) {
+        if (err instanceof TutorNotExistsError || err instanceof AnimalNoexists) {
+            return reply.status(404).send({ message: err.message });
+        }
+        throw err;
     }
 }
