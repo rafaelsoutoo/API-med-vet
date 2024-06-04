@@ -5,12 +5,12 @@ import { NoExistsUsersError } from '@/use-cases/errors/user-error'
 import { compare } from 'bcryptjs'
 
 let usersRepository: InMemoryUsersRepository
-let sut: MarkAsDeleteSecretaryUseCase
+let markAsDeleteTest: MarkAsDeleteSecretaryUseCase
 
-describe('Update Secretary Use Case', () => {
+describe('Mark Secretary as delete Use Case', () => {
     beforeEach(() => {
         usersRepository = new InMemoryUsersRepository() //istanciar meu repositório
-        sut = new MarkAsDeleteSecretaryUseCase( usersRepository)
+        markAsDeleteTest = new MarkAsDeleteSecretaryUseCase( usersRepository)
 
 
         usersRepository.createSecretarys({
@@ -31,26 +31,21 @@ describe('Update Secretary Use Case', () => {
 
         const password = 'senha123';
 
-        await sut.execute({
+        await markAsDeleteTest.execute({
             id: '6616d924ee0af0e50602ca14',
         })
 
-        const user = usersRepository.findSecretaryById('6616d924ee0af0e50602ca14')
+        const user = await usersRepository.findSecretaryById('6616d924ee0af0e50602ca14')
 
-        expect(user).toBeTruthy()
+        expect(user?.status_delete).toBeTruthy()
     })
 
 
     it('Should error', async () => {
 
 
-        await expect(sut.execute({
-            id: '663001cfdfda412be8b38771',
-            name: 'felipe',
-            cpf: '02336937182',
-            password: 'senha123',
-            email: 'filpstr2004@gmail.comd',
-            phone: '(64) 99909-4004',
+        await expect(markAsDeleteTest.execute({
+            id: '663001cfdfda412be8b38771'
         })).rejects.toBeInstanceOf( NoExistsUsersError)
 
 

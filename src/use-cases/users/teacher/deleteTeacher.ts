@@ -15,7 +15,7 @@ export class DeleteTeacherUseCase {
       throw new NoExistsUsersError();
     };
 
-    await this.usersRepository.markAsDeleteTeacher(id);
+    await this.usersRepository.markTeacherAsDelete(id);
   };
 
 }

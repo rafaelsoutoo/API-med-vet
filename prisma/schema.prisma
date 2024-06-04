@@ -25,7 +25,7 @@ model Student {
   shift         String?
   period        String?
   phone         String?
-  status_delete Boolean @default(false)
+  status_delete Boolean  @default(false)
   role          Role     @default(STUDENT)
   created_at    DateTime @default(now())
 

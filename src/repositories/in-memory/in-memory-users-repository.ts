@@ -12,7 +12,13 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students.find((item) => item.id === id) ?? null
     }
 
-    async markAsDeleteStudent(id: string) {
+    async searchStudentByRegistration(query: string) {
+        const student = this.students.filter((item) => item.registration === query)
+
+        return student
+    }
+
+    async markStudentAsDelete(id: string) {
         const index = this.students.findIndex((item) => item.id === id)
 
         const itemUpdate: Student = {
@@ -32,7 +38,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
         }
 
-        this.teachers.splice(index, 1, itemUpdate)
+        this.students.splice(index, 1, itemUpdate)
     }
 
 
@@ -103,8 +109,6 @@ export class InMemoryUsersRepository implements UsersRepository {
         const filteredTeachers = this.students.filter((item) => item.registration.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
-
-
 
     //teacher
 
@@ -182,15 +186,18 @@ export class InMemoryUsersRepository implements UsersRepository {
         const filteredTeachers = this.teachers.filter((item) => item.name.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
-
+  
     async searchByRegistrationTeachers(query: string, page: number) {
         const filteredTeachers = this.teachers.filter((item) => item.registration.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
+       
 
-    async markAsDeleteTeacher(id: string) {
-        const index = this.teachers.findIndex((item) => item.id === id)
 
+    async markTeacherAsDelete(id: string) {
+      
+       const index = this.teachers.findIndex((item) => item.id === id)
+       
         const itemUpdate: Teacher = {
             id: this.teachers[index].id,
             registration: this.teachers[index].registration,
@@ -213,11 +220,6 @@ export class InMemoryUsersRepository implements UsersRepository {
     async findAllTeachersDeleted(): Promise<Teacher[]> {
         return this.teachers.filter((item) => item.status_delete === true)
     }
-
-
-
-
-
 
     //secretary
     async createSecretarys(data: Prisma.SecretaryCreateInput): Promise<Secretary> {

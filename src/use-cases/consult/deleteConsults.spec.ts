@@ -9,7 +9,7 @@ let tutorRepository: InMemoryTutorRepository
 
 let markAsDoneConsultTest: MarkAsDoneConsultUseCase
 
-describe('Updating Consult Test Use case', () => {
+describe('Marking Consult as done Test Use case', () => {
     beforeEach(() => {
         consultRepository = new InMemoryConsultsRepository()
         tutorRepository = new InMemoryTutorRepository()
