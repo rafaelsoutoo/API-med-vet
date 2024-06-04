@@ -5,10 +5,7 @@ import { getAllTutorsError } from '../errors/tutor-error'
 //buscar academias pelo nome
 
 
-interface SearchTutorUseCaseRequest {
-  query: string
-  page: number
-}
+
 
 export class GetAllTutorsUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
@@ -29,10 +26,10 @@ export class GetAllTutorsUseCase {
 export class SearchPhoneTutorUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
-  async execute({
-    query,
-    page,
-  }: SearchTutorUseCaseRequest): Promise<Tutor[]> {
+  async execute(
+    query: string,
+    page: number,
+  ): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchManyPhone(query, page)
 
     if (query.length === 0 || tutors === null || tutors.length === 0) {
@@ -46,10 +43,10 @@ export class SearchPhoneTutorUseCase {
 export class SearchTutorByNameUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
-  async execute({
-    query,
-    page,
-  }: SearchTutorUseCaseRequest): Promise<Tutor[]> {
+  async execute(
+    query: string,
+    page:number
+  ): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchByNameTutor(query, page)
 
     if (tutors === null || tutors.length === 0) {
