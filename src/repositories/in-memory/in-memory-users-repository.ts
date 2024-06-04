@@ -12,7 +12,13 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students.find((item) => item.id === id) ?? null
     }
 
-    async markAsDeleteStudent(id: string) {
+    async searchStudentByRegistration(query: string) {
+        const student = this.students.filter((item) => item.registration === query)
+
+        return student
+    }
+
+    async markStudentAsDelete(id: string) {
         const index = this.students.findIndex((item) => item.id === id)
 
         const itemUpdate: Student = {
@@ -32,7 +38,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
         }
 
-        this.teachers.splice(index, 1, itemUpdate)
+        this.students.splice(index, 1, itemUpdate)
     }
 
 
@@ -176,7 +182,7 @@ export class InMemoryUsersRepository implements UsersRepository {
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
 
-    async markAsDeleteTeacher(id: string) {
+    async markTeacherAsDelete(id: string) {
         const index = this.teachers.findIndex((item) => item.id === id)
 
         const itemUpdate: Teacher = {

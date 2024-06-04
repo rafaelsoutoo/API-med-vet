@@ -1,17 +1,13 @@
 import { NoExistsUsersError } from "@/use-cases/errors/user-error"
 import { UsersRepository } from "@/repositories/users-repository"
 
-interface DeleteUseCaseRequest {
-  id: string
-};
-
 export class MarkAsDeleteStudentUseCase {
 
   constructor(
     private usersRepository: UsersRepository
   ) { }
 
-  async execute({ id }: DeleteUseCaseRequest) {
+  async execute(id : string) {
 
 
     const userExists = await this.usersRepository.findStudentById(id);
