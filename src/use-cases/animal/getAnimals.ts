@@ -23,6 +23,7 @@ export class GetAllAnimalsUseCase {
                 const tutor = await this.tutorRepository.findById(animal.tutor_id);
 
                 return {
+                    sequence: animal.sequence,
                     animal_id: animal.id,
                     animal_name: animal.name,
                     tutor_name: tutor?.name
@@ -81,7 +82,6 @@ export class GetAnimalById {
             gender: animal.gender,
             age: animal.age,
             coat: animal.coat,
-            weight: animal.weight,
             tutor: {
                 id: tutor?.id,
                 name: tutor?.name,

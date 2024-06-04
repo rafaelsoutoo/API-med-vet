@@ -4,7 +4,7 @@ import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeRegisterUseCase } from '@/use-cases/factories/enchiridion/make-create-enchiridion';
-
+import { Validation } from '@/utils/weight-validate';
 
 export async function createEnchiridion(request: FastifyRequest, reply: FastifyReply) {
 
@@ -13,7 +13,9 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         stringDate: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
-        weight: z.number(),
+        weight: z.number().refine(Validation.isValidWeight, {
+			message: "Invalid weight",
+		}),
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
         deworming: z.string().nullable(),

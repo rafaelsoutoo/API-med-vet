@@ -104,6 +104,11 @@ export class InMemoryUsersRepository implements UsersRepository {
 
         return this.students[studentIndex]
     }
+    
+    async searchStudentByRegistration(query: string, page: number) {
+        const filteredTeachers = this.students.filter((item) => item.registration.includes(query))
+        return filteredTeachers.slice((page - 1) * 10, page * 10)
+    }
 
     //teacher
 
@@ -181,10 +186,18 @@ export class InMemoryUsersRepository implements UsersRepository {
         const filteredTeachers = this.teachers.filter((item) => item.name.includes(query))
         return filteredTeachers.slice((page - 1) * 10, page * 10)
     }
+  
+    async searchByRegistrationTeachers(query: string, page: number) {
+        const filteredTeachers = this.teachers.filter((item) => item.registration.includes(query))
+        return filteredTeachers.slice((page - 1) * 10, page * 10)
+    }
+       
+
 
     async markTeacherAsDelete(id: string) {
-        const index = this.teachers.findIndex((item) => item.id === id)
-
+      
+       const index = this.teachers.findIndex((item) => item.id === id)
+       
         const itemUpdate: Teacher = {
             id: this.teachers[index].id,
             registration: this.teachers[index].registration,
