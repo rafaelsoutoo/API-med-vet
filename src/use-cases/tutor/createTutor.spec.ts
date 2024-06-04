@@ -16,7 +16,7 @@ describe('testing the create tutors use case', () => {
             name: 'jonas',
             email: 'clod@email.com',
             cpf: '02286831068',
-            phone: '62912341234'
+            phone: '62912341234',
             adress: 'rua dos caipavas'
         })
     })

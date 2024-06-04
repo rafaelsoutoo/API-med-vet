@@ -89,8 +89,8 @@ describe('Testing Search the Tutor by the phone', () => {
     
 
     it('Creating a Tutor with all data', async () => {
-        const tutor = await searchPhoneTutorTest.execute({query: '629',page: 1})
-        const tutor1 = await searchPhoneTutorTest.execute({query: '6297',page: 1})
+        const tutor = await searchPhoneTutorTest.execute( '629', 1)
+        const tutor1 = await searchPhoneTutorTest.execute('6297', 1)
 
 
         expect(tutor).toHaveLength(3)
@@ -100,7 +100,7 @@ describe('Testing Search the Tutor by the phone', () => {
 
     
     it('show error getAllTutorsError when have no tutor in page select', async () => {
-        await expect(searchPhoneTutorTest.execute({query: '62512341234',page: 1})).rejects.toBeInstanceOf(getAllTutorsError)
+        await expect(searchPhoneTutorTest.execute( '62512341234', 1)).rejects.toBeInstanceOf(getAllTutorsError)
     })
 })
 
@@ -136,9 +136,9 @@ describe('Testing Search the Tutor by the name', () => {
     
 
     it('Creating a Tutor with all data', async () => {
-        const tutor = await searchTutorByNameTest.execute({query: 'j',page: 1})
-        const tutor1 = await searchTutorByNameTest.execute({query: 'l',page: 1})
-        const tutor2 = await searchTutorByNameTest.execute({query: 'lo',page: 1})
+        const tutor = await searchTutorByNameTest.execute( 'j', 1)
+        const tutor1 = await searchTutorByNameTest.execute( 'l', 1)
+        const tutor2 = await searchTutorByNameTest.execute( 'lo', 1)
 
 
         expect(tutor).toHaveLength(1)
@@ -147,14 +147,11 @@ describe('Testing Search the Tutor by the name', () => {
     })
     
     it('show error getAllTutorsError when have no tutor in page select', async () => {
-        await expect(searchTutorByNameTest.execute({query: 'lo',page: 2})).rejects.toBeInstanceOf(getAllTutorsError)
+        await expect(searchTutorByNameTest.execute('lo', 2)).rejects.toBeInstanceOf(getAllTutorsError)
     })
 
-    it('show error getAllTutorsError when query param is empty', async () => {
-        await expect(searchTutorByNameTest.execute({query: '',page: 1})).rejects.toBeInstanceOf(getAllTutorsError)
-    })
 
     it('show error getAllTutorsError when have no tutor in page select', async () => {
-        await expect(searchTutorByNameTest.execute({query: 'leornado',page: 1})).rejects.toBeInstanceOf(getAllTutorsError)
+        await expect(searchTutorByNameTest.execute( 'leornado', 1)).rejects.toBeInstanceOf(getAllTutorsError)
     })
 })
