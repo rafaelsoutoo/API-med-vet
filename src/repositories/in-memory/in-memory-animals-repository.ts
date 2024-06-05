@@ -74,4 +74,19 @@ export class InMemoryAnimalRepository implements AnimalRepository {
 
         return nextSequence.toString();
     }
+
+    async markAsDelete(id: string) {
+        const index = this.items.findIndex((item) => item.id === id)
+
+        if(index === -1) {
+            throw new Error('Enchiridion not found')
+        }
+
+        const enchiridion = {
+            ...this.items[index],
+            status_delete: true
+        }
+
+        this.items[index] = enchiridion as Animal
+    }
 }

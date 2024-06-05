@@ -100,4 +100,15 @@ export class PrismaAnimalsRepository implements AnimalRepository {
 
     return nextSequence.toString();
   }
+
+  async markAsDelete(id: string) {
+    await prisma.animal.update({
+      where: {
+        id: id,
+      },
+      data: {
+        status_delete: true
+      }
+    })
+  }
 }
