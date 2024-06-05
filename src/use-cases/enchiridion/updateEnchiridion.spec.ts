@@ -153,7 +153,6 @@ describe('Update Enchiridion Use Case', () => {
             observations: "Rex está em boas condições."
         })).rejects.toBeInstanceOf( EnchiridionNotExitsError)
 
-
     })
 
 })
