@@ -4,7 +4,7 @@ import { AnimalRepository } from '@/repositories/animal-repository'
 import { AnimalExist } from '../errors/animal-errors'
 
 
-export class DeleteTutorUseCase {
+export class MarkTutorAsDeleteUseCase {
 
   constructor(
     private tutorRepository: TutorRepository,
@@ -24,7 +24,7 @@ export class DeleteTutorUseCase {
       throw new TutorNotExistsError()
     }
 
-    await this.tutorRepository.deleteTutor(id)
+    await this.tutorRepository.markAsDelete(id)
 
   }
 }

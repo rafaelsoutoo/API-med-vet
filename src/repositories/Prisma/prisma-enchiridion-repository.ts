@@ -101,6 +101,7 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
   }
 
 
+
   async updateEnchiridion(id: string, data: Prisma.EnchiridionUpdateInput) {
 
     const tutorUpdated = await prisma.enchiridion.update({
@@ -113,3 +114,16 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     return tutorUpdated
   }
 }
+
+  async markAsDelete(id: string) {
+    await prisma.enchiridion.update({
+      where: {
+        id: id
+      },
+      data: {
+        status_delete: true
+      }
+    })
+  }
+}
+

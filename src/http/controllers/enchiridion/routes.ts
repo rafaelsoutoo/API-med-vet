@@ -1,8 +1,18 @@
 
 import { createEnchiridion} from '@/http/controllers/enchiridion/createEnchiridion'
-import { updateEnchiridion} from '@/http/controllers/enchiridion/updateEnchiridion'
-import { getEnchiridionByTutor, getEnchiridionByAnimal, getAllEnchiridion, getSequenceEnchiridion} from '@/http/controllers/enchiridion/getEnchiridion'
 
+import { updateEnchiridion} from '@/http/controllers/enchiridion/updateEnchiridion'
+
+
+import {
+    getEnchiridionByTutor,
+    getEnchiridionByAnimal,
+    getAllEnchiridion,
+    getSequenceEnchiridion
+    } from '@/http/controllers/enchiridion/getEnchiridion'
+
+
+import { DeleteEnchiridion } from './deleteEnchiridion'
 
 import { FastifyInstance } from 'fastify'
 
@@ -19,5 +29,5 @@ export async function enchiridionRoutes(app: FastifyInstance) {
     app.get('/get/enchiridion/sequence/:sequence', getSequenceEnchiridion)
     app.put('/put/enchiridion',updateEnchiridion)
 
-  
+    app.patch('/delete/enchiridion', DeleteEnchiridion)
 }

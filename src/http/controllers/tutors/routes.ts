@@ -22,7 +22,7 @@ export async function tutorRoutes(app: FastifyInstance) {
 
     app.put('/put/tutor', updateTutor)
 
-    app.delete('/delete/tutor/:id', deleteTutor) 
+    app.patch('/delete/tutor', deleteTutor)
 }
 
 

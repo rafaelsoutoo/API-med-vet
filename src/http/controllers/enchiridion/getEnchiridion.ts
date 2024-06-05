@@ -37,7 +37,7 @@ export async function getEnchiridionByTutor(request: FastifyRequest, reply: Fast
 		throw err
 	}
 
-	
+
 }
 
 
@@ -69,7 +69,7 @@ export async function getEnchiridionByAnimal(request: FastifyRequest, reply: Fas
 		throw err
 	}
 
-	
+
 }
 
 
@@ -92,7 +92,7 @@ export async function getAllEnchiridion(request: FastifyRequest, reply: FastifyR
 
 	} catch (err) {
 
-	
+
 
 		throw err
 	};
@@ -113,7 +113,7 @@ export async function getSequenceEnchiridion(request: FastifyRequest, reply: Fas
 		return data;
 
 	} catch (err) {
-        
+
 		if (err instanceof EnchiridionNotExitsError) {
 			return reply.status(409).send({ message: err.message })
 		}

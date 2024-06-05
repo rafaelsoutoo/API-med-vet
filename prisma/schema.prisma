@@ -64,16 +64,17 @@ model Secretary {
 }
 
 model Tutor {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  sequence   String   @unique
-  name       String
-  cpf        String?   @unique
-  email      String?   @unique
-  phone      String
-  adress     String?
-  animals    Animal[]
-  consult    Consult[]
-  created_at DateTime  @default(now())
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  sequence      String   @unique
+  name          String
+  cpf           String?   @unique
+  email         String?   @unique
+  phone         String
+  adress        String?
+  status_delete Boolean @default(false)
+  animals       Animal[]
+  consult       Consult[]
+  created_at    DateTime  @default(now())
 
   @@map("tutors")
 }
@@ -143,6 +144,7 @@ model Enchiridion {
   diagnosis String?
   trataments String?
   observations String?
+  status_delete Boolean @default(false)
   created_at  DateTime @default(now())
   prescription  Prescription[]
   vaccination   Vaccination[]
