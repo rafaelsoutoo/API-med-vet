@@ -87,13 +87,13 @@ export class PrismaAnimalsRepository implements AnimalRepository {
         OR: [
           {
             name: {
-              contains: queryNormalized,
+              startsWith: queryNormalized,
               mode: 'insensitive',
             },
           },
           {
             sequence: {
-              contains: queryNormalized,
+              startsWith: queryNormalized,
               mode: 'insensitive',
             },
           },
