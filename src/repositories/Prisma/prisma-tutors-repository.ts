@@ -127,10 +127,13 @@ export class PrismaTutorsRepository implements TutorRepository {
     return tutorUpdated
   }
 
-  async deleteTutor(id: string) {
-    await prisma.tutor.delete({
+  async markAsDelete(id: string) {
+    await prisma.tutor.update({
       where: {
         id: id,
+      },
+      data: {
+        status_delete: true
       }
     });
   }

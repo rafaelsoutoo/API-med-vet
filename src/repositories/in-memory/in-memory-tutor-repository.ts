@@ -79,13 +79,26 @@ export class InMemoryTutorRepository implements TutorRepository {
         return this.items[tutorIndex]
     }
 
-    async deleteTutor(id: string) {
+    async markAsDelete(id: string) {
         const index = this.items.findIndex((item) => item.id === id)
+
         if (index === -1) {
             throw new Error('Tutor not found')
         }
 
-        this.items.splice(index, 1)
+        const itemUpdate: Tutor = {
+            id: this.items[index].id,
+            sequence: this.items[index].sequence,
+            name: this.items[index].name,
+            cpf: this.items[index].cpf,
+            email: this.items[index].email,
+            adress: this.items[index].adress,
+            phone: this.items[index].phone,
+            created_at: this.items[index].created_at,
+            status_delete: true
+        }
+
+        this.items.splice(index, 1, itemUpdate)
     }
 
     async sequence(): Promise<string> {

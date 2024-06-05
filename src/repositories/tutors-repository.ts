@@ -17,5 +17,5 @@ export interface TutorRepository {
 
   updateTutor(id: string, data: Prisma.TutorUpdateInput): Promise<Tutor>
 
-  deleteTutor(id: string): any
+  markAsDelete(id: string): any
 }

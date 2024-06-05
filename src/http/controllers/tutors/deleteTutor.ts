@@ -1,4 +1,4 @@
-import { MakeDeleteTutorUseCase } from '@/use-cases/factories/tutor/make-delete-tutor';
+import { MakeMarkTutorAsDelete } from '@/use-cases/factories/tutor/make-delete-tutor';
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
@@ -11,22 +11,20 @@ export async function deleteTutor(request: FastifyRequest, reply: FastifyReply) 
 		id: z.string(),
 	});
 
-	const { id } = deleteBodySchema.parse(request.params);
+	const { id } = deleteBodySchema.parse(request.body);
 
 	try {
-		const updateUserCase = MakeDeleteTutorUseCase()
+		const deleteUserCase = MakeMarkTutorAsDelete()
 
-		await updateUserCase.execute(id)
+		await deleteUserCase.execute(id)
 	} catch (err) {
+
 		if (err instanceof TutorNotExistsError) {
 			return reply.status(409).send({ message: err.message })
-		} 
-		
+		}
+
 		if (err instanceof AnimalExist) {
 			return reply.status(409).send({ message: err.message })
-		}
-		if (err instanceof AnimalExist) {
-			return reply.status(409).send({ message: err.message })			
 		}
 
 		throw err
