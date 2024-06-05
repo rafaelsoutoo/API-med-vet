@@ -9,4 +9,5 @@ export interface EnchiridionRepository {
   findByIdUniqueAnimalEnchiridion(animal_id: string): Promise<Enchiridion[]>
   getAllEnchiridion(page: number, numberOfItems: number): Promise<Enchiridion[]>
   findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null>
+  updateEnchiridion(id: string, data: Prisma.EnchiridionUncheckedUpdateInput): Promise<Enchiridion>
 }

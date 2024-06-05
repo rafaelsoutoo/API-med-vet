@@ -99,4 +99,17 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
 
     return nextSequence.toString();
   }
+
+
+  async updateEnchiridion(id: string, data: Prisma.EnchiridionUpdateInput) {
+
+    const tutorUpdated = await prisma.enchiridion.update({
+      where: {
+        id: id
+      },
+      data
+    });
+
+    return tutorUpdated
+  }
 }
