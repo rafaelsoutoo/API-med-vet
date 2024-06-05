@@ -3,13 +3,8 @@ import { AnimalNoexists } from "../errors/animal-errors";
 import { TutorNotExistsError } from "../errors/tutor-error";
 import { TutorRepository } from "@/repositories/tutors-repository";
 import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-repository";
-import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository";
-import { Animal } from "@prisma/client";
 
 
-interface SearchTutorUseCaseRequest {
-    query: string
-  }
 
 export class GetAllAnimalsUseCase {
     constructor(
@@ -150,16 +145,30 @@ export class GetAnimalByNameTutorUseCase {
 }
 
 
-export class GetAnimalByNameAndTutorAndSequence {
+export class GetAnimalByAnimalorTutor {
     constructor(
         private animalRepository: PrismaAnimalsRepository,
-        private tutorRepository: PrismaTutorsRepository,
+        private tutorRepository: TutorRepository
     ) { }
 
-    async execute({ query }: SearchTutorUseCaseRequest): Promise<Animal[]> { 
+    async execute(q: string){
+        const animals = await this.animalRepository.searchByNameAnimalorSequnce(q)
 
-        const animal= await this.animalRepository.searchByNameAnimalorTutor(query)
-        const tutor = await this.tutorRepository.searchAnimalByTutorName(query)
+        if (animals && Array.isArray(animals)) {
+            const dataPromises = animals.map(async (animal) => {
+                const tutor = await this.tutorRepository.findById(animal.tutor_id);
 
-        return animal
-    }}
+                return {
+                    sequence: animal.sequence,
+                    animal_id: animal.id,
+                    animal_name: animal.name,
+                    tutor_name: tutor?.name
+                };
+            });
+
+            const data = await Promise.all(dataPromises);
+            return data;
+        }
+    }
+}
+

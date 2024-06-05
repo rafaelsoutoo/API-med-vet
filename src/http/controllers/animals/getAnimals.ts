@@ -18,10 +18,6 @@ interface Params {
     name: string
 }
 
-interface QueryParams {
-    tutor_name?: string;
-    animal_name?: string;
-}
 
 
 export async function getAllAnimals(request: FastifyRequest, reply: FastifyReply) {
@@ -123,19 +119,17 @@ export async function getAnimalByNameTutor(request: FastifyRequest<{ Params: Par
     }
 }
 
-export async function getAnimalByNameAndTutorAndSequence(request: FastifyRequest<{ Querystring: QueryParams }>, reply: FastifyReply) {
+export async function getAnimalByNameAndTutorAndSequence(request: FastifyRequest, reply: FastifyReply) {
     const searchParmsSchema = z.object({
         q: z.string(),
     });
 
     try {
         const { q } = searchParmsSchema.parse(request.query);
-
         const useCase = makeSearchAnimalByTutorBySequnce();
-
-        const data = await useCase.execute({ query: q});
-
-        return reply.status(200).send({ data });
+        const data = await useCase.execute(q);
+        
+        return reply.status(200).send(data);
     } catch (err) {
         if (err instanceof TutorNotExistsError || err instanceof AnimalNoexists) {
             return reply.status(404).send({ message: err.message });

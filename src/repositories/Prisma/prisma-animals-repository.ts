@@ -79,19 +79,29 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return animal
   }
 
-  async searchByNameAnimalorTutor(query: string) {
-    const queryNormalized = query.toLowerCase();
+  async searchByNameAnimalorSequnce(q: string) {
+    const queryNormalized = q.toLowerCase();
 
     const animal = await prisma.animal.findMany({
       where: {
-        name: {
-          contains: queryNormalized,
-          mode: 'insensitive',
-        }
+        OR: [
+          {
+            name: {
+              contains: queryNormalized,
+              mode: 'insensitive',
+            },
+          },
+          {
+            sequence: {
+              contains: queryNormalized,
+              mode: 'insensitive',
+            },
+          },
+        ],
       },
     });
 
-    return animal 
+    return animal;
   }
 
   async sequence(): Promise<string> {
