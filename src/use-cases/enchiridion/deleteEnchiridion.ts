@@ -2,7 +2,7 @@ import { EnchiridionRepository } from '@/repositories/enchiridion-repository'
 import { EnchiridionNotExitsError } from '@/use-cases/errors/enchiridion-errors'
 import { Enchiridion } from '@prisma/client'
 
-export class MakeMarkAsDeleteUseCase {
+export class MarkEnchiridionAsDeleteUseCase {
   constructor(
     private enchiridionRepository: EnchiridionRepository
   ) {}

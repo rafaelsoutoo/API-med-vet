@@ -1,9 +1,9 @@
 import { PrismaEnchiridionRepository } from '@/repositories/Prisma/prisma-enchiridion-repository'
-import { MakeMarkAsDeleteUseCase } from '@/use-case/enchiridion/deleteEnchiridion'
+import { MarkEnchiridionAsDeleteUseCase } from '@/use-cases/enchiridion/deleteEnchiridion'
 
-export function makegetTutorIdEnchiridionUseCase() {
+export function MakeMarkEnchiridionAsDelete() {
   const enchiridionRepository = new PrismaEnchiridionRepository() //istanciar meu repositório
-  const useCase = new  MakeMarkAsDeleteUseCase(enchiridionRepository)
+  const useCase = new  MarkEnchiridionAsDeleteUseCase(enchiridionRepository)
 
   return useCase
 }
