@@ -127,7 +127,7 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
       observations: this.items[index].observations,
       created_at: this.items[index].created_at,
       status_delete: true
-      
+    }
        this.items.splice(index, 1, itemUpdate)
     }
 
