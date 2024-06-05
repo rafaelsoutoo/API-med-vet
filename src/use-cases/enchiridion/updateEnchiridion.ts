@@ -16,7 +16,6 @@ interface UpdateEnchiridionUseCaseRequest {
     stringDate: string;
     history: string | null;
     reason_consult: string | null;
-    vaccination: string | null | any;
     deworming: string | null;
     date_deworming: string | null;
     weight: GLfloat;
@@ -50,7 +49,7 @@ interface RegisterUseCaseResponse {
 export class UpdateEnchiridionUseCase {  
     constructor(private enchiridionRepository: EnchiridionRepository,
     ) { }
-    async execute({ id, animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight }: UpdateEnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    async execute({ id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight }: UpdateEnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
         const enchiridionExists = await this.enchiridionRepository.findById(id)
@@ -63,7 +62,7 @@ export class UpdateEnchiridionUseCase {
         const date = validDate(stringDate)
 
         const enchiridion = await this.enchiridionRepository.updateEnchiridion(id, {
-            animal_id, teacher_id, date, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight
+            animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight
         })
 
         return {

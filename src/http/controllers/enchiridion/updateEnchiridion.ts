@@ -8,7 +8,6 @@ import { Validation } from '@/utils/weight-validate';
 export async function updateEnchiridion(request: FastifyRequest, reply: FastifyReply) {
 
     const registerBodySchema = z.object({
-        vaccination: z.any(),
         stringDate: z.string(),
         id: z.string(),
         animal_id: z.string(),
@@ -41,14 +40,14 @@ export async function updateEnchiridion(request: FastifyRequest, reply: FastifyR
         observations: z.string().nullable()
     });
 
-    const { id, vaccination, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight} = registerBodySchema.parse(request.body);
+    const { id,  animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight} = registerBodySchema.parse(request.body);
 
 
     try {
         const updateUserCase = makeUpdateUseCase()
 
         await updateUserCase.execute({
-           id, animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight 
+           id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight 
         })
     } catch (err) {
         if (err instanceof EnchiridionNotExitsError) {

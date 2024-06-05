@@ -12,11 +12,7 @@ export class InMemoryUsersRepository implements UsersRepository {
         return this.students.find((item) => item.id === id) ?? null
     }
 
-    async searchStudentByRegistration(query: string) {
-        const student = this.students.filter((item) => item.registration === query)
-
-        return student
-    }
+    
 
     async markStudentAsDelete(id: string) {
         const index = this.students.findIndex((item) => item.id === id)
