@@ -99,4 +99,15 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
 
     return nextSequence.toString();
   }
+
+  async markAsDelete(id: string) {
+    await prisma.enchiridion.update({
+      where: {
+        id: id
+      },
+      data: {
+        status_delete: true
+      }
+    })
+  }
 }

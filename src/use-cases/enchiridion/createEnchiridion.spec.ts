@@ -18,7 +18,7 @@ let sut: CreateEnchiridionUseCase
 describe('Create Enchiridion Use Case', () => {
     beforeEach(() => {
         enchiridionRepository = new InMemoryEnchiridionRepository()
-        animalsRepository = new InMemoryAnimalRepository() 
+        animalsRepository = new InMemoryAnimalRepository()
         usersRepository = new InMemoryUsersRepository()
         vaccinationRepository = new InMemoryVaccinationRepository()
         sut = new CreateEnchiridionUseCase(enchiridionRepository, animalsRepository,  usersRepository, vaccinationRepository)
@@ -34,14 +34,14 @@ describe('Create Enchiridion Use Case', () => {
           age: '5',
           coat: 'Preto',
           tutor_id: '6616d924ee0af0e50602ca14',
-         
+
         })
 
 
-        
- 
+
+
         usersRepository.createTeachers({
-          id: '6616d924ee0af0e50602ca14', 
+          id: '6616d924ee0af0e50602ca14',
           name: 'João',
           cpf: '123.456.789-00',
           password_hash: 'senha_hash',
@@ -73,7 +73,7 @@ describe('Create Enchiridion Use Case', () => {
               },
              {
                 "date": "12/05/2023",
-                 "name": "antiraiva"	 
+                 "name": "antiraiva"
               }
             ],
             deworming: "Não",
@@ -116,7 +116,7 @@ describe('Create Enchiridion Use Case', () => {
             reason_consult: "Consulta de rotina",
             weight: 2455.34243,
             vaccination: "Sim",
-            
+
             deworming: "Não",
             date_deworming: "30/04/2024",
             temperature: "38.5",
@@ -138,15 +138,13 @@ describe('Create Enchiridion Use Case', () => {
             diagnosis: "Não",
             trataments: "Não",
             observations: "Rex está em boas condições.",
-           
+
         })).rejects.toBeInstanceOf(AnimalNoexists)
 
-       
+
     })
 
     it('should throw error teacherNoexists', async () => {
-
-        
 
           await expect(sut.execute({
             animal_id: "66314c11974bd8a7cd2078b7",
@@ -177,15 +175,15 @@ describe('Create Enchiridion Use Case', () => {
             diagnosis: "Não",
             trataments: "Não",
             observations: "Rex está em boas condições.",
-        })).rejects.toBeInstanceOf(teacherNoexists)  
+        })).rejects.toBeInstanceOf(teacherNoexists)
     })
 
 
     it('should throw error InvalidDateError for invalid date', async () => {
-    
+
         // Fornecer uma data inválida
         const stringDate = "32/56/2024";
-    
+
         await expect(sut.execute({
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca14",

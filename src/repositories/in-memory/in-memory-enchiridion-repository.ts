@@ -6,10 +6,7 @@ import { randomUUID } from 'node:crypto'
 
 export class InMemoryEnchiridionRepository implements EnchiridionRepository {
     public items: Enchiridion[] = []
-  
-    
-  
-  
+
     async createEnchiridion(data: Prisma.EnchiridionUncheckedCreateInput) {
       const enchiridion = {
         id:  data.id ?? randomUUID(),
@@ -43,11 +40,12 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
         trataments: data.trataments ?? null,
         observations: data.observations ?? null,
         created_at: new Date(),
+        status_delete: false,
         prescription: data.prescription,
       }
-  
+
       this.items.push(enchiridion)
-  
+
       return enchiridion
     }
 
@@ -60,38 +58,78 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
     async findByIdAnimalEnchiridion(animalsId: string[]) {
         return this.items.filter((item) => animalsId.includes(item.animal_id))
       }
-    
-      async findByIdUniqueAnimalEnchiridion(animal_id: string): Promise<Enchiridion[]> {
-        return this.items.filter((item) => item.animal_id === animal_id)
-      }
-    
-      async getAllEnchiridion(page: number, numberOfItems: number): Promise<Enchiridion[]> {
-        return this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
-      }
-    
-      async findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null> {
-        return this.items.find((item) => item.sequence === sequence) ?? null
-      }
 
-      async sequence(): Promise<string> {
-        // let nextSequence = await prisma.animal.count() + 1
-        let nextSequence = this.items.length + 1
-
-        let sequenceExists = true;
-
-        while (sequenceExists) {
-            const existingSequence = this.items.find((item) => {
-                item.sequence == nextSequence.toString()
-            });
-
-            if (!existingSequence) {
-                sequenceExists = false;
-            } else {
-                nextSequence++;
-            }
-        }
-
-        return nextSequence.toString();
+    async findByIdUniqueAnimalEnchiridion(animal_id: string): Promise<Enchiridion[]> {
+      return this.items.filter((item) => item.animal_id === animal_id)
     }
+
+    async getAllEnchiridion(page: number, numberOfItems: number): Promise<Enchiridion[]> {
+      return this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
+    }
+
+    async findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null> {
+      return this.items.find((item) => item.sequence === sequence) ?? null
+    }
+
+    async sequence(): Promise<string> {
+      // let nextSequence = await prisma.animal.count() + 1
+      let nextSequence = this.items.length + 1
+
+      let sequenceExists = true;
+
+      while (sequenceExists) {
+          const existingSequence = this.items.find((item) => {
+              item.sequence == nextSequence.toString()
+          });
+
+          if (!existingSequence) {
+              sequenceExists = false;
+          } else {
+              nextSequence++;
+          }
+      }
+
+      return nextSequence.toString();
   }
+
+  async markAsDelete(id: string) {
+    const index =  this.items.findIndex((item) => item.id === id)
+
+    const itemUpdate: Enchiridion = {
+      id:  this.items[index].id ?? randomUUID(),
+      sequence: this.items[index].sequence,
+      animal_id: this.items[index].animal_id,
+      teacher_id: this.items[index].teacher_id,
+      weight: this.items[index].weight,
+      date: this.items[index].date,
+      history: this.items[index].history,
+      reason_consult: this.items[index].reason_consult,
+      deworming: this.items[index].deworming,
+      date_deworming: this.items[index].date_deworming,
+      temperature: this.items[index].temperature,
+      frequency_cardiac: this.items[index].frequency_cardiac,
+      frequency_respiratory: this.items[index].frequency_respiratory,
+      dehydration: this.items[index].dehydration,
+      lymph_node: this.items[index].lymph_node,
+      type_mucous: this.items[index].type_mucous,
+      whats_mucous: this.items[index].whats_mucous,
+      skin_annex: this.items[index].skin_annex,
+      system_circulatory: this.items[index].system_circulatory,
+      system_respiratory: this.items[index].system_respiratory,
+      system_digestive: this.items[index].system_digestive,
+      system_locomotor: this.items[index].system_locomotor,
+      system_nervous: this.items[index].system_nervous,
+      system_genitourinary: this.items[index].system_genitourinary,
+      others: this.items[index].others,
+      complementary_exams: this.items[index].complementary_exams,
+      diagnosis: this.items[index].diagnosis,
+      trataments: this.items[index].trataments,
+      observations: this.items[index].observations,
+      created_at: this.items[index].created_at,
+      status_delete: true
+    }
+
+    this.items.splice(index, 1, itemUpdate)
+  }
+}
 

@@ -143,6 +143,7 @@ model Enchiridion {
   diagnosis String?
   trataments String?
   observations String?
+  status_delete Boolean @default(false)
   created_at  DateTime @default(now())
   prescription  Prescription[]
   vaccination   Vaccination[]
