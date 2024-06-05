@@ -100,6 +100,21 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     return nextSequence.toString();
   }
 
+
+
+  async updateEnchiridion(id: string, data: Prisma.EnchiridionUpdateInput) {
+
+    const tutorUpdated = await prisma.enchiridion.update({
+      where: {
+        id: id
+      },
+      data
+    });
+
+    return tutorUpdated
+  }
+}
+
   async markAsDelete(id: string) {
     await prisma.enchiridion.update({
       where: {
@@ -111,3 +126,4 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     })
   }
 }
+
