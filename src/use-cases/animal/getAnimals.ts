@@ -145,14 +145,18 @@ export class GetAnimalByNameTutorUseCase {
 }
 
 
-export class GetAnimalByAnimalorTutor {
+export class searchAnimalByNameOrSequnce {
     constructor(
         private animalRepository: PrismaAnimalsRepository,
         private tutorRepository: TutorRepository
     ) { }
 
-    async execute(q: string){
-        const animals = await this.animalRepository.searchByNameAnimalorSequnce(q)
+    async execute(q: string, page: number){
+        const animals = await this.animalRepository.searchByNameAnimalorSequnce(q, page)
+
+        if(!animals){
+            throw new AnimalNoexists()
+        }
 
         if (animals && Array.isArray(animals)) {
             const dataPromises = animals.map(async (animal) => {

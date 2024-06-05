@@ -79,7 +79,7 @@ export class PrismaAnimalsRepository implements AnimalRepository {
     return animal
   }
 
-  async searchByNameAnimalorSequnce(q: string) {
+  async searchByNameAnimalorSequnce(q: string, page: number) {
     const queryNormalized = q.toLowerCase();
 
     const animal = await prisma.animal.findMany({
@@ -99,6 +99,9 @@ export class PrismaAnimalsRepository implements AnimalRepository {
           },
         ],
       },
+
+      take:10,
+      skip: (page- 1) * 10,
     });
 
     return animal;
