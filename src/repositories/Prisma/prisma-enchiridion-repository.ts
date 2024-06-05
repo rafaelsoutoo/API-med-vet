@@ -113,7 +113,6 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
 
     return tutorUpdated
   }
-}
 
   async markAsDelete(id: string) {
     await prisma.enchiridion.update({
@@ -126,4 +125,5 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     })
   }
 }
+
 

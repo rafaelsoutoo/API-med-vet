@@ -11,8 +11,9 @@ export interface EnchiridionRepository {
   findBySequenceEnchiridion(sequence: string): Promise<Enchiridion | null>
 
   updateEnchiridion(id: string, data: Prisma.EnchiridionUncheckedUpdateInput): Promise<Enchiridion>
-}
-
   markAsDelete(id: string): any
 }
+
+
+
 
