@@ -1,11 +1,14 @@
-import { EnchiridionRepository } from "@/repositories/enchiridion-repository";
 import { PrescriptionRepository } from "@/repositories/prescription-repository";
 import { Prescription } from "@prisma/client";
-import { EnchiridionNotExitsError } from "../errors/enchiridion-errors";
 import { MedicationRepository } from "@/repositories/medication-repository";
+import { UsersRepository } from "@/repositories/users-repository";
+import { teacherNoexists } from "../errors/teacher-error";
+import { AnimalRepository } from "@/repositories/animal-repository";
+import { AnimalNoexists } from "../errors/animal-errors";
 
 interface PrescriptionUseCaseRequest {
-    enchiridion_id: string;
+    animal_id: string;
+    teacher_id: string;
     medications: string | null | any;
 }
 
@@ -16,23 +19,29 @@ interface PrescriptionUseCaseResponse {
 export class CreatePrescriptionUseCase {
     constructor(
         private prescriptionRepository: PrescriptionRepository,
-        private enchiridionRepository: EnchiridionRepository,
+        private animalRepository: AnimalRepository,
+        private userRepository: UsersRepository,
         private medicationRepository: MedicationRepository
     ) { }
 
     async execute({
-        enchiridion_id,
+        teacher_id,
+        animal_id,
         medications,
     }: PrescriptionUseCaseRequest): Promise<PrescriptionUseCaseResponse> {
 
-        const enchiridionWithSameID = await this.enchiridionRepository.findById(enchiridion_id);
+        const teacher = await this.userRepository.findTeacherById(teacher_id);
+        const animal = await this.animalRepository.findById(animal_id);
 
-        if (!enchiridionWithSameID) {
-            throw new EnchiridionNotExitsError();
+        if (!teacher) {
+            throw new teacherNoexists();
+        }
+        if (!animal) {
+            throw new AnimalNoexists();
         }
 
         const prescription = await this.prescriptionRepository.createPrescription({
-            enchiridion_id
+            teacher_id, animal_id
         })
 
         const prescription_id = prescription.id
