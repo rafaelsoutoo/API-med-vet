@@ -11,4 +11,14 @@ export class PrismaPrescriptionRepository implements PrescriptionRepository {
         return prescription
     }
 
+    async findPrescriptionById(id: string) {
+        const prescription = await prisma.prescription.findUnique({
+            where: {
+                id,
+            },
+        })
+
+        return prescription;
+    }
+
 }
