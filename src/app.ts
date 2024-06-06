@@ -18,6 +18,7 @@ import { animalsRoutes } from '@/http/controllers/animals/routes'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
 import { prescriptionRoutes } from "./http/controllers/prescription/routes";
+import { vaccinationRoutes } from "./http/controllers/vaccination/routes";
 
 export const app = fastify()
 
@@ -38,6 +39,7 @@ app.register(consultRoutes)
 app.register(enchiridionRoutes)
 app.register(animalsRoutes)
 app.register(prescriptionRoutes)
+app.register(vaccinationRoutes)
 
 
 
