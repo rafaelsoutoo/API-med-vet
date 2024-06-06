@@ -10,4 +10,11 @@ export class PrismaMedicationRepository implements MedicationRepository {
 
         return medication
     }
+    async findMedicationsByPrescriptionId(prescription_id: string){
+        const medications = await prisma.medication.findMany({
+            where: { prescription_id },
+        });
+
+        return medications;
+    }
 }
