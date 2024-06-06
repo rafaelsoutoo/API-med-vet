@@ -1,10 +1,6 @@
 import { PrescriptionRepository } from "@/repositories/prescription-repository";
 import { MedicationRepository } from "@/repositories/medication-repository";
-import { Prescription, Medication } from "@prisma/client";
-
-interface PrescriptionWithMedications extends Prescription {
-    medications: Medication[];
-}
+import { PrescriptionNoExist } from "../errors/prescription-errors";
 
 export class GetPrescriptionByIdUseCase {
     constructor(
@@ -12,13 +8,14 @@ export class GetPrescriptionByIdUseCase {
         private medicationRepository: MedicationRepository
     ) {}
 
-    async execute(id: string): Promise<PrescriptionWithMedications | null> {
+    async execute(id: string){
         const prescription = await this.prescriptionRepository.findPrescriptionById(id);
         if (!prescription) {
-            return null;
+            throw new PrescriptionNoExist()
         }
 
         const medications = await this.medicationRepository.findMedicationsByPrescriptionId(id);
+
         return { ...prescription, medications };
     }
 }

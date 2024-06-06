@@ -1,9 +1,9 @@
 import { FastifyInstance } from "fastify";
-import { createPrescription } from "./createPrescription"; // Corrigido para "Prescription"
-import { getPrescriptionById } from "./getPrescription";
+import { createPrescription } from "./createPrescription"; 
+import { PDFPrescriptionById } from "./getPrescription";
 
 export async function prescriptionRoutes(app: FastifyInstance) {
-    app.post('/create/prescription', createPrescription) // Corrigido para "prescription"
+    app.post('/create/prescription', createPrescription)
 
-    app.get('/get/prescription/id/:prescription_id', getPrescriptionById)
+    app.get('/pdf/prescription/:prescription_id', PDFPrescriptionById)
 } 
