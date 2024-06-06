@@ -166,6 +166,7 @@ model Vaccination {
 
 model Prescription {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  status_delete Boolean @default(false)
   created_at  DateTime @default(now())
   enchiridion  Enchiridion    @relation(fields: [enchiridion_id], references: [id])
   enchiridion_id    String   @db.ObjectId
