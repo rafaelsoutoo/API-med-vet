@@ -46,6 +46,8 @@ model Teacher {
   role          Role     @default(TEACHER)
   created_at    DateTime @default(now())
   enchiridion  Enchiridion[]
+  prescription Prescription[]
+
   @@map("teachers")
 }
 
@@ -92,6 +94,7 @@ model Animal {
   tutor        Tutor    @relation(fields: [tutor_id], references: [id])
   tutor_id     String   @db.ObjectId
   enchiridion  Enchiridion[]
+  prescription Prescription[]
   @@map("animals")
 }
 
@@ -146,7 +149,6 @@ model Enchiridion {
   observations String?
   status_delete Boolean @default(false)
   created_at  DateTime @default(now())
-  prescription  Prescription[]
   vaccination   Vaccination[]
 
   @@map("enchiridion")
@@ -166,8 +168,10 @@ model Vaccination {
 model Prescription {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   created_at  DateTime @default(now())
-  enchiridion  Enchiridion    @relation(fields: [enchiridion_id], references: [id])
-  enchiridion_id    String   @db.ObjectId
+  animal       Animal    @relation(fields: [animal_id], references: [id])
+  animal_id    String   @db.ObjectId
+  teacher       Teacher    @relation(fields: [teacher_id], references: [id])
+  teacher_id    String   @db.ObjectId
   medication Medication[]
 
   @@map("prescription")
