@@ -128,8 +128,29 @@ export class InMemoryEnchiridionRepository implements EnchiridionRepository {
       created_at: this.items[index].created_at,
       status_delete: true
     }
+       this.items.splice(index, 1, itemUpdate)
+    }
 
-    this.items.splice(index, 1, itemUpdate)
+
+
+    async updateEnchiridion(id: string, data: Prisma.EnchiridionUncheckedUpdateInput) {
+
+      const enchiridionIndex = this.items.findIndex((item) => item.id === id)
+
+      if (enchiridionIndex === -1) {
+          throw new Error('Enchridion not found')
+      }
+
+      const teacher = {
+          ...this.items[enchiridionIndex],
+          ...data,
+      }
+
+      
+      this.items[enchiridionIndex] = teacher as Enchiridion
+
+      return this.items[enchiridionIndex]
   }
+
 }
 

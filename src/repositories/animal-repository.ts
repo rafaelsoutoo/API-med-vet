@@ -10,4 +10,5 @@ export interface AnimalRepository {
   findByTutor(id: string): Promise<Animal[]>
   findByNameAgeSpecies(name: string, age: string, species: string, tutor_id: string): Promise<Animal | null>
   markAsDelete(id: string): any
+  searchByNameAnimalorSequnce(q: string, page: number): Promise<Animal[]>
 }

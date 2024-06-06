@@ -1,8 +1,15 @@
 
 import { createAnimals } from '@/http/controllers/animals/createAnimals'
 import { FastifyInstance } from 'fastify'
-import { getAllAnimals, getAnimalById, getAnimalsByTutor, getAnimalBySequence, getAnimalByNameTutor } from './getAnimals'
 import { deleteAnimal } from './deleteAnimal'
+import { 
+  getAllAnimals, 
+  getAnimalById, 
+  getAnimalsByTutor, 
+  getAnimalBySequence, 
+  getAnimalByNameTutor, 
+  searchAnimalByNameOrSequnce
+} from './getAnimals'
 
 
 
@@ -15,4 +22,5 @@ export async function animalsRoutes(app: FastifyInstance) {
     app.get('/get/animals/bytutor/:tutor_id', getAnimalsByTutor)
     app.get('/get/animal/tutor/name/:name', getAnimalByNameTutor)
     app.patch('/delete/animal', deleteAnimal)
+    app.get('/search/animal',searchAnimalByNameOrSequnce)
 }
