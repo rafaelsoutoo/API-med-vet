@@ -57,7 +57,7 @@ describe('Update Enchiridion Use Case', () => {
             id: "26314c11974bd8a7cd2078b7",
             animal_id: "66314c11974bd8a7cd2078b7",
             teacher_id: "6616d924ee0af0e50602ca14",
-            stringDate:"05/06/2024",
+            stringDate:"05/09/2024",
             weight: 164.13,
             history: "Cavalo de Troia",
             reason_consult: "Consulta de rotina 1",
