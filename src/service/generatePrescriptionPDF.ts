@@ -3,6 +3,12 @@ import { Prescription, Medication } from '@prisma/client';
 
 interface PrescriptionWithMedications extends Prescription {
     medications: Medication[];
+    animalName: string
+    species: string
+    age: string
+    gender: string
+    race: string
+    teacherName: string
 }
 
 export async function generatePrescriptionPDF(prescription: PrescriptionWithMedications): Promise<Buffer> {
@@ -16,14 +22,16 @@ export async function generatePrescriptionPDF(prescription: PrescriptionWithMedi
                 resolve(pdfBuffer);
             });
 
-            doc.fontSize(12).text(`Prescription ID: ${prescription.id}`);
-            doc.text(`Animal ID: ${prescription.animal_id}`);
-            doc.text(`Teacher ID: ${prescription.teacher_id}`);
-            doc.text(`Created At: ${prescription.created_at}`);
+            doc.text(`Paciente: ${prescription.animalName}`);
+            doc.text(`Tutor: ${prescription.teacherName}`);
+            doc.text(`Espécie: ${prescription.species}`);
+            doc.text(`Raça: ${prescription.race}`);
+            doc.text(`Sexo: ${prescription.gender}`);
+            doc.text(`Idade: ${prescription.age}`);
+            doc.text(`Espécie: ${prescription.species}`);
             doc.moveDown();
 
             if (prescription.medications && prescription.medications.length > 0) {
-                doc.text('Medications:', { underline: true });
                 prescription.medications.forEach((medication, index) => {
                     doc.text(`Medication ${index + 1}:`);
                     doc.text(`  Use Type: ${medication.use_type}`);
