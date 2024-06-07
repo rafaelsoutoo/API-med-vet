@@ -33,7 +33,6 @@ export class UpdateVaccinationUseCase {
       return updatedVaccinations;
     }
     return [];
-
   }
 }
 
