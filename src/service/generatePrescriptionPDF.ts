@@ -3,6 +3,12 @@ import { Prescription, Medication } from '@prisma/client';
 
 interface PrescriptionWithMedications extends Prescription {
     medications: Medication[];
+    animalName: string;
+    species: string;
+    age: string;
+    gender: string;
+    race: string;
+    teacherName: string;
 }
 
 export async function generatePrescriptionPDF(prescription: PrescriptionWithMedications): Promise<Buffer> {
@@ -16,22 +22,49 @@ export async function generatePrescriptionPDF(prescription: PrescriptionWithMedi
                 resolve(pdfBuffer);
             });
 
-            doc.fontSize(12).text(`Prescription ID: ${prescription.id}`);
-            doc.text(`Animal ID: ${prescription.animal_id}`);
-            doc.text(`Teacher ID: ${prescription.teacher_id}`);
-            doc.text(`Created At: ${prescription.created_at}`);
+            doc.fontSize(14);
+            let startX = 50;
+            let startY = 50; 
+            let spacing = 150; 
+
+            doc.font('Helvetica-Bold').text('Paciente:', startX, startY);
+            doc.font('Helvetica').text(prescription.animalName, startX, startY + 16);
+
+            doc.font('Helvetica-Bold').text('Tutor:', startX + spacing, startY);
+            doc.font('Helvetica').text(prescription.teacherName, startX + spacing , startY + 16);
+
+            doc.font('Helvetica-Bold').text('Espécie:', startX + spacing * 2, startY);
+            doc.font('Helvetica').text(prescription.species, startX + spacing * 2, startY + 16);
+            
+            startY += 45;
+
+            doc.font('Helvetica-Bold').text('Sexo:', startX, startY);
+            doc.font('Helvetica').text(prescription.gender, startX, startY + 16);
+
+            doc.font('Helvetica-Bold').text('Raça:', startX + spacing, startY);
+            doc.font('Helvetica').text(prescription.race, startX + spacing, startY + 16);
+
+            doc.font('Helvetica-Bold').text('Idade:', startX + spacing * 2, startY);
+            doc.font('Helvetica').text(prescription.age, startX + spacing * 2, startY + 16);
             doc.moveDown();
 
+
+            startY += 70;
+
             if (prescription.medications && prescription.medications.length > 0) {
-                doc.text('Medications:', { underline: true });
                 prescription.medications.forEach((medication, index) => {
-                    doc.text(`Medication ${index + 1}:`);
-                    doc.text(`  Use Type: ${medication.use_type}`);
-                    doc.text(`  Pharmacy: ${medication.pharmacy}`);
-                    doc.text(`  Unit: ${medication.unit}`);
-                    doc.text(`  Measurement: ${medication.measurement}`);
-                    doc.text(`  Description: ${medication.description}`);
-                    doc.moveDown();
+                    doc.font('Helvetica-Bold').text(`Medicação ${index + 1}:`, startX, startY);
+                    startY += 15;
+                    doc.font('Helvetica').text(`  Uso: ${medication.use_type}`, startX, startY);
+                    startY += 15;
+                    doc.text(`  Farmacia: ${medication.pharmacy}`, startX, startY);
+                    startY += 15;
+                    doc.text(`  Unidade: ${medication.unit}`, startX, startY);
+                    startY += 15;
+                    doc.text(`  Medição: ${medication.measurement}`, startX, startY);
+                    startY += 15;
+                    doc.text(`  Descrição: ${medication.description}`, startX, startY);
+                    startY += 40;
                 });
             }
 
