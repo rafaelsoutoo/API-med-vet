@@ -36,7 +36,6 @@ interface AnimalReturn {
   gender: string;
   age: string;
   coat: string | null;
-  weight: string | null;
 
 }
 
@@ -154,7 +153,6 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
         gender: animal.gender,
         age: animal.age,
         coat: animal.coat,
-        weight: animal.weight
       },
       enchiridions: enchiridionsWithVaccinations
     };

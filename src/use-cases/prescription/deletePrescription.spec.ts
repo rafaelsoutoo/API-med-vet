@@ -1,21 +1,21 @@
+import { Prescription } from '@prisma/client';
 import { InMemoryEnchiridionRepository } from '@/repositories/in-memory/in-memory-enchiridion-repository'
 import { InMemoryAnimalRepository } from '@/repositories/in-memory/in-memory-animals-repository'
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository'
 import { InMemoryTutorRepository } from '@/repositories/in-memory//in-memory-tutor-repository'
 import { InMemoryVaccinationRepository } from '@/repositories/in-memory/in-memory-vaccination-repository'
 import { expect, describe, it, beforeEach } from 'vitest'
-import { MarkEnchiridionAsDeleteUseCase } from '@/use-cases/enchiridion/deleteEnchiridion'
-import { TutorNotExistsError } from '@/use-cases/errors/tutor-error'
-import { EnchiridionNotExitsError} from '@/use-cases/errors/enchiridion-errors';
-
-
+import { MarkPrescriptionAsDeleteUseCase } from './deletePrescription'
+import { InMemoryPrescriptionRepository } from '@/repositories/in-memory/in-memory-prescription-repository'
+import { PrescriptionNotExists } from '../errors/prescription-errors';
 
 let enchiridionRepository: InMemoryEnchiridionRepository
 let animalsRepository: InMemoryAnimalRepository
 let usersRepository: InMemoryUsersRepository
 let vaccinationRepository: InMemoryVaccinationRepository
 let tutorsRepository: InMemoryTutorRepository
-let markAsDeleteTest: MarkEnchiridionAsDeleteUseCase
+let prescriptionRespository: InMemoryPrescriptionRepository
+let markAsDeleteTest: MarkPrescriptionAsDeleteUseCase
 
 describe('Marking the enchridions as delete', () => {
   beforeEach(() => {
@@ -23,7 +23,8 @@ describe('Marking the enchridions as delete', () => {
     animalsRepository = new InMemoryAnimalRepository()
     tutorsRepository = new InMemoryTutorRepository()
     vaccinationRepository = new InMemoryVaccinationRepository()
-    markAsDeleteTest = new MarkEnchiridionAsDeleteUseCase(enchiridionRepository)
+    prescriptionRespository = new InMemoryPrescriptionRepository()
+    markAsDeleteTest = new MarkPrescriptionAsDeleteUseCase(prescriptionRespository)
 
 
     tutorsRepository.createTutor({
@@ -93,17 +94,22 @@ describe('Marking the enchridions as delete', () => {
       observations: "Rex está em boas condições."
     })
 
+    prescriptionRespository.createPrescription({
+      id: '26314c11974bd8a7cd2078b4',
+      enchiridion_id: '26314c11974bd8a7cd2078b7'
+    })
+
   })
 
-  it('Need mark the status delete as true', async () => {
-    await markAsDeleteTest.execute("26314c11974bd8a7cd2078b7")
+  it('Marking prescription as deleted', async () => {
+    await markAsDeleteTest.execute('26314c11974bd8a7cd2078b4')
 
-    const enchiridion = await enchiridionRepository.findById("26314c11974bd8a7cd2078b7")
+    const prescription = await prescriptionRespository.findById('26314c11974bd8a7cd2078b4')
+    
+    expect(prescription?.status_delete).toBeTruthy()
+    })
 
-    expect(enchiridion?.status_delete).toBeTruthy()
-  })
-
-  it('show EnchiridionNotExitsError when the id dont exists in database', async () => {
-    await expect(markAsDeleteTest.execute("12")).rejects.toBeInstanceOf(EnchiridionNotExitsError)
-  })
+    it('show the error PrescriptionNotExists when the presciption dont exists', async () => {
+    await expect(markAsDeleteTest.execute('12')).rejects.toBeInstanceOf(PrescriptionNotExists)
+    })
 })
