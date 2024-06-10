@@ -28,3 +28,23 @@ export async function PDFPrescriptionById(request: FastifyRequest, reply: Fastif
         throw error
     }
 }
+
+export async function GetPrescriptionById(request: FastifyRequest, reply: FastifyReply) {
+    const validateIdParamsSchema = z.object({
+        prescription_id: z.string(),
+    });
+
+    const { prescription_id } = validateIdParamsSchema.parse(request.params);
+    try {
+        const useCase = makeGetPrescriptionUseCase();
+        const prescriptionData = await useCase.execute(prescription_id);
+
+        
+        return reply.status(200).send(prescriptionData);
+    } catch (error) {
+        if(error instanceof PrescriptionNoExist){
+            return reply.status(409).send({ message: error.message })
+        }
+        throw error
+    }
+}
