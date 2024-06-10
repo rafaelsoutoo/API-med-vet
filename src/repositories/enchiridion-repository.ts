@@ -1,4 +1,4 @@
-import { Prisma, Enchiridion } from '@prisma/client'
+import { Prisma, Enchiridion, Prescription } from '@prisma/client'
 
 
 export interface EnchiridionRepository {

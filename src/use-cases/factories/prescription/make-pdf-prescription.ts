@@ -4,7 +4,7 @@ import { PrismaPrescriptionRepository } from "@/repositories/Prisma/prisma-presc
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { GetPrescriptionByIdUseCase } from "@/use-cases/prescription/getPrescription";
 
-export function makeGetPrescriptionUseCase() {
+export function makePdfPrescriptionUseCase() {
     const prescriptionRepository = new PrismaPrescriptionRepository()
     const medicationRepository = new PrismaMedicationRepository()
     const animalRepository = new PrismaAnimalsRepository()

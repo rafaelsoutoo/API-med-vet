@@ -1,8 +1,10 @@
-import { makeGetPrescriptionUseCase } from "@/use-cases/factories/prescription/make-get-prescription";
+import { makePdfPrescriptionUseCase } from "@/use-cases/factories/prescription/make-pdf-prescription";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { generatePrescriptionPDF } from "@/service/generatePrescriptionPDF";
 import { PrescriptionNoExist } from "@/use-cases/errors/prescription-errors";
+import { makeGetPrescriptionByAnimalIdUseCase } from "@/use-cases/factories/prescription/make-get-prescription-animalID";
+import { AnimalNoexists } from "@/use-cases/errors/animal-errors";
 
 export async function PDFPrescriptionById(request: FastifyRequest, reply: FastifyReply) {
     const validateIdParamsSchema = z.object({
@@ -12,7 +14,7 @@ export async function PDFPrescriptionById(request: FastifyRequest, reply: Fastif
     const { prescription_id } = validateIdParamsSchema.parse(request.params);
 
     try {
-        const useCase = makeGetPrescriptionUseCase();
+        const useCase = makePdfPrescriptionUseCase();
         const prescriptionData = await useCase.execute(prescription_id);
 
         const pdfBuffer = await generatePrescriptionPDF(prescriptionData);
@@ -28,6 +30,27 @@ export async function PDFPrescriptionById(request: FastifyRequest, reply: Fastif
         throw error
     }
 }
+
+export async function getPrescriptionByAnimalId(request: FastifyRequest, reply: FastifyReply) {
+    const validateIdParamsSchema = z.object({
+        animal_id: z.string(),
+    });
+    
+    const { animal_id } = validateIdParamsSchema.parse(request.params);
+
+    try {
+        const getPrescriptionByAnimalIdUseCase = makeGetPrescriptionByAnimalIdUseCase();
+
+        const data = await getPrescriptionByAnimalIdUseCase.execute(animal_id);
+
+        return reply.send(data);
+
+    } catch (err) {
+        if (err instanceof AnimalNoexists) {
+            return reply.status(409).send({ message: err.message });
+        }
+
+        throw err;
 
 export async function GetPrescriptionById(request: FastifyRequest, reply: FastifyReply) {
     const validateIdParamsSchema = z.object({

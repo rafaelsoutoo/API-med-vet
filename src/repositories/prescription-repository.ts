@@ -5,4 +5,6 @@ export interface PrescriptionRepository {
     markAsDelete(id: string): any
     findById(id: string): Promise<Prescription | null>
     findPrescriptionById(id: string): Promise<Prescription | null>
+    getPrescriptionByAnimalId(animal_id: string): Promise<Prescription[]>
+
 }
