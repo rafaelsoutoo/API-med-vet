@@ -26,12 +26,12 @@ export class GetPrescriptionByIdUseCase {
         return { 
             ...prescription, 
             medications,
-            animalName: animal ? animal.name : 'Unknown',
-            species: animal ? animal.species : 'Unknown',
-            race: animal ? animal.race: 'Unknown',
-            gender: animal ? animal.gender : 'Unknown',
-            age: animal ? animal.age: 'Unknown',
-            teacherName: teacher ? teacher.name : 'Unknown' 
+            animalName: animal?.name ?? 'Unknown',
+            species: animal?.species ?? 'Unknown',
+            race: animal?.race ?? 'Unknown',
+            gender: animal?.gender ?? 'Unknown',
+            age: animal?.age ?? 'Unknown',
+            teacherName: teacher?.name ?? 'Unknown' 
         };
     }
 }
