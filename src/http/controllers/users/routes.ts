@@ -2,6 +2,7 @@ import { createStudent } from "./student/createStudents";
 import { createTeacher } from "./teacher/createTeachers";
 import { createSecretary } from "./secretary/createSecretary";
 import { authenticate } from "@/http/controllers/users/authenticate";
+import { refresh } from "@/http/controllers/users/refresh";
 
 import { studentSchema } from "@/docs/swagger/studentSchema";
 import { teacherSchema } from "@/docs/swagger/teacherSchema";
@@ -30,7 +31,8 @@ export async function usersRoutes(app: FastifyInstance) {
   app.post("/users/secretary", createSecretary);
 
 
-  app.post("/sessions", authenticate); //seção de autnhenticate
+  app.post("/sessions", authenticate); //seção de authenticate
+  app.patch('/token/refresh', refresh)
 
 
   app.get("/get/student", getAllStudent);
