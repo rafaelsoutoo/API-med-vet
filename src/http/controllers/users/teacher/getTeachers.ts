@@ -70,10 +70,10 @@ export async function getTeachersByRegistration(request: FastifyRequest<{ Params
     const { q, page } = searchTeacherQuerySchema.parse(request.query)
     const searchTeacherByRegistrationUseCase = searchTeachersByRegistration()
 
-    const user = await searchTeacherByRegistrationUseCase.execute({
-      query: q,
+    const user = await searchTeacherByRegistrationUseCase.execute(
+      q,
       page,
-    });
+    );
 
     return reply.status(200).send(user);
 

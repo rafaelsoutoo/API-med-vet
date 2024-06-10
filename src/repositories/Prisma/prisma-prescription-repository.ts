@@ -1,8 +1,18 @@
 import { prisma } from "@/lib/prisma";
-import { Prisma } from "@prisma/client";
+import { Prescription, Prisma } from "@prisma/client";
 import { PrescriptionRepository } from "../prescription-repository";
 
 export class PrismaPrescriptionRepository implements PrescriptionRepository {
+
+    async findById(id: string): Promise<Prescription | null> {
+        const prescription = await prisma.prescription.findUnique({
+            where: {
+                id: id
+            }
+        })
+        
+        return prescription
+    }
     
     async createPrescription(data: Prisma.PrescriptionUncheckedCreateInput) {
         const prescription = await prisma.prescription.create({
@@ -11,13 +21,15 @@ export class PrismaPrescriptionRepository implements PrescriptionRepository {
         return prescription
     }
 
-    async findPrescriptionById(id: string) {
-        const prescription = await prisma.prescription.findUnique({
+    async markAsDelete(id: string) {
+        await prisma.prescription.update({
             where: {
-                id,
+                id: id
             },
+            data: {
+                status_delete: true
+            }
         })
-        return prescription;
     }
     async getPrescriptionByAnimalId(animla_id: string){
         const prescription = await prisma.prescription.findMany({
