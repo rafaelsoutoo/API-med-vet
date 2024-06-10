@@ -57,8 +57,17 @@ export class GetPrescriptionByAnimalIdUseCase {
             prescriptions.map(async (prescription) => {
                 const medications = await this.medicationRepository.findMedicationsByPrescriptionId(prescription.id);
                 return {
-                    ...prescription,
-                    medications,
+                    id: prescription.id,
+                    createdAt: prescription.created_at,
+                    teacherId: prescription.teacher_id,
+                    medications: medications.map(medication => ({
+                        id: medication.id,
+                        useType: medication.use_type,
+                        pharmacy: medication.pharmacy,
+                        unit: medication.unit,
+                        measurement: medication.measurement,
+                        description: medication.description
+                    }))
                 };
             })
         );
