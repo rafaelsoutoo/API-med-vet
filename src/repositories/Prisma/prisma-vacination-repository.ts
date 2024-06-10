@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
 import { VaccinationRepository } from '../vaccination-repository'
+import { Prisma } from '@prisma/client'
 
 export class PrismaVaccinationRepository implements VaccinationRepository {
 
@@ -33,6 +33,19 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
       where: {
         enchiridion_id: enchiridionId,
       },
+    })
+
+    return vaccination
+  }
+
+
+  async updateVaccination(id:string, data: Prisma.VaccinationUpdateInput) {
+
+    const vaccination = await prisma.vaccination.update({
+      where: {
+        id: id
+      },
+      data
     })
 
     return vaccination

@@ -20,6 +20,7 @@ export interface UsersRepository {
   findAllStudent(page: number, numberOfItems: number): Promise<Student[]>;
   findByCpfStudent(cpf: string): Promise<Student | null>
   createStudent(data: Prisma.StudentCreateInput): Promise<Student>
+
   updateStudent(id: string, data: Prisma.StudentUpdateInput): Promise<Student>
   markStudentAsDelete(id: string): any
 

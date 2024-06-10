@@ -1,6 +1,6 @@
 
-export class PrescriptionNotExists extends Error {
+export class PrescriptionNoExist extends Error {
     constructor() {
-        super('Prescription not exists')
+      super('Prescription no exists.')
     }
-}
+  }

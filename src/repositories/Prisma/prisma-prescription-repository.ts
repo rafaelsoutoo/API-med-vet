@@ -18,7 +18,6 @@ export class PrismaPrescriptionRepository implements PrescriptionRepository {
         const prescription = await prisma.prescription.create({
             data,
         })
-
         return prescription
     }
 

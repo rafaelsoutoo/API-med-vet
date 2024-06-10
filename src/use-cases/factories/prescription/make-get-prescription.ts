@@ -2,15 +2,15 @@ import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-re
 import { PrismaMedicationRepository } from "@/repositories/Prisma/prisma-medication-repository";
 import { PrismaPrescriptionRepository } from "@/repositories/Prisma/prisma-prescription-repository";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
-import { CreatePrescriptionUseCase } from "@/use-cases/prescription/createPrescription";
+import { GetPrescriptionByIdUseCase } from "@/use-cases/prescription/getPrescription";
 
-export function makeCreatePrescriptionUseCase() {
+export function makeGetPrescriptionUseCase() {
     const prescriptionRepository = new PrismaPrescriptionRepository()
-    const aniamlRepository = new PrismaAnimalsRepository()
-    const userRepository = new PrismaUsersRepository()
     const medicationRepository = new PrismaMedicationRepository()
+    const animalRepository = new PrismaAnimalsRepository()
+    const teacherRepository = new PrismaUsersRepository()
 
-    const useCase = new CreatePrescriptionUseCase(prescriptionRepository, aniamlRepository, userRepository,medicationRepository)
+    const useCase = new GetPrescriptionByIdUseCase(prescriptionRepository, medicationRepository,animalRepository, teacherRepository)
 
     return useCase
 }

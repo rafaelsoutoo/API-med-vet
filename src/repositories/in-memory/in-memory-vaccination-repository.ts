@@ -27,25 +27,21 @@ export class InMemoryVaccinationRepository implements VaccinationRepository {
   }
 
   async updateVaccination(id: string, data: Prisma.VaccinationUpdateInput): Promise<Vaccination> {
-    const vaccinationIndex = this.items.findIndex(item => item.id === id);
+    const vaccinationIndex = this.items.findIndex((item) => item.id === id)
 
-    if (vaccinationIndex === -1) {
-      throw new Error('Vaccination not found');
-    }
+      if (vaccinationIndex === -1) {
+          throw new Error('Vaccination not found')
+      }
 
-    const vaccination = {
-      ...this.items[vaccinationIndex],
-      ...data,
-    };
+      const vaccination = {
+          ...this.items[vaccinationIndex],
+          ...data,
+      }
 
-    // Ensure that the properties are of the correct type
-    vaccination.name = typeof vaccination.name === 'string' ? vaccination.name : vaccination.name?.set || this.items[vaccinationIndex].name;
-    vaccination.date = data.date ?? this.items[vaccinationIndex].date;
+      
+      this.items[vaccinationIndex] = vaccination as Vaccination
 
-    // Cast the vaccination object to the Vaccination type
-    this.items[vaccinationIndex] = vaccination as Vaccination;
-
-    return this.items[vaccinationIndex];
+      return this.items[vaccinationIndex]
   }
 
   async deleteVaccination(id: string): Promise<void> {
