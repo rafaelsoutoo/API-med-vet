@@ -19,5 +19,13 @@ export class PrismaPrescriptionRepository implements PrescriptionRepository {
         })
         return prescription;
     }
+    async getPrescriptionByAnimalId(animla_id: string){
+        const prescription = await prisma.prescription.findMany({
+            where: {
+                animal_id: animla_id
+            }
+        })
+        return prescription
+    }
 
 }
