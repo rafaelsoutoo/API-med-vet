@@ -8,7 +8,7 @@ export function makeGetPrescriptionByAnimalIdUseCase() {
     const medicationRepository = new PrismaMedicationRepository()
     const animalRepository = new PrismaAnimalsRepository()
 
-    const useCase = new GetPrescriptionByAnimalIdUseCase(prescriptionRepository, medicationRepository,animalRepository)
+    const useCase = new GetPrescriptionByAnimalIdUseCase(prescriptionRepository, medicationRepository, animalRepository)
 
     return useCase
 }

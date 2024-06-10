@@ -1,6 +1,5 @@
-import { Prescription } from '@prisma/client';
 import { PrescriptionRepository } from '@/repositories/prescription-repository';
-import { PrescriptionNotExists } from '../errors/prescription-errors'
+import { PrescriptionNoExist } from '../errors/prescription-errors';
 
 export class MarkPrescriptionAsDeleteUseCase {
 
@@ -13,7 +12,7 @@ export class MarkPrescriptionAsDeleteUseCase {
     const prescription = await this.prescriptionRepository.findById(id)
 
     if (!prescription) {
-      throw new PrescriptionNotExists()
+      throw new PrescriptionNoExist()
     }
 
     await this.prescriptionRepository.markAsDelete(id)

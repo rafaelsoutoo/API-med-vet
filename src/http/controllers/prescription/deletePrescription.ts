@@ -1,5 +1,5 @@
 import { MakeDeletePrescription } from "@/use-cases/factories/prescription/make-delete-prescription";
-import { PrescriptionNotExists } from "@/use-cases/errors/prescription-errors";
+import { PrescriptionNoExist } from "@/use-cases/errors/prescription-errors";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -17,7 +17,7 @@ export async function deletePrescription(request: FastifyRequest, reply: Fastify
         await deletePrescription.execute(id)
 
     } catch(error) {
-        if(error instanceof PrescriptionNotExists){
+        if(error instanceof PrescriptionNoExist){
             return reply.status(409).send({message: error.message})
         }
 

@@ -14,7 +14,7 @@ export class GetPrescriptionByIdUseCase {
     ) {}
 
     async execute(id: string){
-        const prescription = await this.prescriptionRepository.findPrescriptionById(id);
+        const prescription = await this.prescriptionRepository.findById(id);
         if (!prescription) {
             throw new PrescriptionNoExist();
         }

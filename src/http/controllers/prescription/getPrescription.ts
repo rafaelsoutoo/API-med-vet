@@ -51,6 +51,10 @@ export async function getPrescriptionByAnimalId(request: FastifyRequest, reply: 
         }
 
         throw err;
+    }
+}
+
+
 
 export async function GetPrescriptionById(request: FastifyRequest, reply: FastifyReply) {
     const validateIdParamsSchema = z.object({
@@ -59,7 +63,7 @@ export async function GetPrescriptionById(request: FastifyRequest, reply: Fastif
 
     const { prescription_id } = validateIdParamsSchema.parse(request.params);
     try {
-        const useCase = makeGetPrescriptionUseCase();
+        const useCase = makePdfPrescriptionUseCase();
         const prescriptionData = await useCase.execute(prescription_id);
 
         
