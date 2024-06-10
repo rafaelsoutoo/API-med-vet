@@ -38,9 +38,28 @@ export async function authenticate(
       },
     )
 
+    const refreshToken = await reply.jwtSign(//criar o refresh token
+      {
+        role: user.role,
+      },
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: '7d',//refresh token expira em 7 dias 
+        },
+      },
+    )
 
 
-    return reply.status(200).send({
+
+    return reply
+    .setCookie('refreshToken', refreshToken, {  //e o refresh token vai enviar pelo cokies
+      path: '/',//todo nosso backend pode ver o valor desse cokie 
+      secure: true,//vai ser encriptado https
+      sameSite: true,//so vai ser acessivel dentro do mesmo dominio, do site
+      httpOnly: true,//so vai ser conseguido acessar pelo backend da nossa aplicação
+    })
+    .status(200).send({
       user,
       token,
     });
