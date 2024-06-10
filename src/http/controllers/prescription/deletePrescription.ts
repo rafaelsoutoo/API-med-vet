@@ -1,27 +1,28 @@
-import { MakeMarkAsDelete } from "@/use-cases/factories/animals/make-delete-animal";
+import { MakeDeletePrescription } from "@/use-cases/factories/prescription/make-delete-prescription";
 import { PrescriptionNotExists } from "@/use-cases/errors/prescription-errors";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export async function deletePrescription(reply: FastifyReply, request: FastifyRequest) {
+export async function deletePrescription(request: FastifyRequest, reply: FastifyReply) {
     
-    const DeleteSchemaBody = z.object({
+    const DeleteBodySchema = z.object({
         id: z.string()
     })
 
-    const { id } = DeleteSchemaBody.parse(request.body)
+    const { id } = DeleteBodySchema.parse(request.body)
 
     try{
-        const deletePrescription = MakeMarkAsDelete()
+        const deletePrescription = MakeDeletePrescription();
 
         await deletePrescription.execute(id)
-    } catch(err) {
-        if(err instanceof PrescriptionNotExists){
-            return reply.status(409).send({message: err.message})
+
+    } catch(error) {
+        if(error instanceof PrescriptionNotExists){
+            return reply.status(409).send({message: error.message})
         }
 
-        throw err
+        throw error;
     }
 
-    return reply.status(200).send()
+    return reply.status(200).send();
 }
