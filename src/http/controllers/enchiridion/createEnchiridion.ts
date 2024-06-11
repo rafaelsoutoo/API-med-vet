@@ -13,11 +13,9 @@ export async function createEnchiridion(request: FastifyRequest, reply: FastifyR
         stringDate: z.string(),
         animal_id: z.string(),
         teacher_id: z.string(),
-        weight: z.object({
-            weight: z.number().refine(Validation.isValidWeight, {
-                message: "Invalid weight",
-            })
-        }).nullable(),
+        weight: z.number().refine(Validation.isValidWeight, {
+			message: "Invalid weight",
+		}),
         history: z.string().nullable(),
         reason_consult: z.string().nullable(),
         deworming: z.string().nullable(),
