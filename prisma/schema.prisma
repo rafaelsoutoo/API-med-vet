@@ -96,6 +96,7 @@ model Animal {
   tutor_id     String   @db.ObjectId
   enchiridion  Enchiridion[]
   prescription Prescription[]
+  weight Weight[]
   @@map("animals")
 }
 
@@ -124,7 +125,6 @@ model Enchiridion {
   teacher       Teacher    @relation(fields: [teacher_id], references: [id])
   teacher_id    String   @db.ObjectId
   date        DateTime
-  weight       Float
   history     String?
   reason_consult String?
   deworming     String?
@@ -151,6 +151,8 @@ model Enchiridion {
   status_delete Boolean @default(false)
   created_at  DateTime @default(now())
   vaccination   Vaccination[]
+  weight       Weight[] @relation("EnchiridionWeights")
+
 
   @@map("enchiridion")
 }
@@ -191,4 +193,16 @@ model Medication{
 
 
   @@map("medication")
+}
+
+model Weight {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  weight Float
+  created_at  DateTime @default(now())
+  animal_id String @db.ObjectId
+  enchiridion_id String @db.ObjectId
+  animal Animal @relation(fields: [animal_id], references: [id])
+  enchiridion Enchiridion @relation("EnchiridionWeights", fields: [enchiridion_id], references: [id])
+
+  @@map("weights")
 }

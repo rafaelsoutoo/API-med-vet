@@ -1,6 +1,5 @@
 import { AnimalRepository } from '@/repositories/animal-repository'
 import { TutorRepository } from '@/repositories/tutors-repository'
-import { Animal } from '@prisma/client'  //tipagem propria do prisma
 import { TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { AnimalAlreadyExistsError } from '../errors/animal-errors';
 
