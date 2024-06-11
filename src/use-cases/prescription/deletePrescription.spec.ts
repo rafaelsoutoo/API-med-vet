@@ -7,7 +7,7 @@ import { InMemoryVaccinationRepository } from '@/repositories/in-memory/in-memor
 import { expect, describe, it, beforeEach } from 'vitest'
 import { MarkPrescriptionAsDeleteUseCase } from './deletePrescription'
 import { InMemoryPrescriptionRepository } from '@/repositories/in-memory/in-memory-prescription-repository'
-import { PrescriptionNotExists } from '../errors/prescription-errors';
+import { PrescriptionNoExist } from '@/use-cases/errors/prescription-errors';
 
 let enchiridionRepository: InMemoryEnchiridionRepository
 let animalsRepository: InMemoryAnimalRepository
@@ -110,6 +110,6 @@ describe('Marking the enchridions as delete', () => {
     })
 
     it('show the error PrescriptionNotExists when the presciption dont exists', async () => {
-    await expect(markAsDeleteTest.execute('12')).rejects.toBeInstanceOf(PrescriptionNotExists)
+    await expect(markAsDeleteTest.execute('12')).rejects.toBeInstanceOf(PrescriptionNoExist)
     })
 })
