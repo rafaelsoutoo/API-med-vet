@@ -9,6 +9,7 @@ interface PrescriptionWithMedications extends Prescription {
     gender: string;
     race: string;
     teacherName: string;
+    tutorName: string
 }
 
 export async function generatePrescriptionPDF(prescription: PrescriptionWithMedications): Promise<Buffer> {
@@ -31,7 +32,7 @@ export async function generatePrescriptionPDF(prescription: PrescriptionWithMedi
             doc.font('Helvetica').text(prescription.animalName, startX, startY + 16);
 
             doc.font('Helvetica-Bold').text('Tutor:', startX + spacing, startY);
-            doc.font('Helvetica').text(prescription.teacherName, startX + spacing , startY + 16);
+            doc.font('Helvetica').text(prescription.tutorName, startX + spacing , startY + 16);
 
             doc.font('Helvetica-Bold').text('Espécie:', startX + spacing * 2, startY);
             doc.font('Helvetica').text(prescription.species, startX + spacing * 2, startY + 16);
