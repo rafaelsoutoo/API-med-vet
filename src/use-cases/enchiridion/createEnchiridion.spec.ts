@@ -7,12 +7,15 @@ import {AnimalNoexists } from '@/use-cases/errors/animal-errors'
 import {teacherNoexists } from '@/use-cases/errors/teacher-error'
 import {InvalidDateError } from '@/use-cases/errors/invalid-date-error'
 import { InMemoryVaccinationRepository } from '@/repositories/in-memory/in-memory-vaccination-repository'
+import { InMemoryWeightRepository } from '@/repositories/in-memory/in-memory-weight-repository'
 
 
 let enchiridionRepository: InMemoryEnchiridionRepository
 let animalsRepository: InMemoryAnimalRepository
 let usersRepository: InMemoryUsersRepository
 let vaccinationRepository: InMemoryVaccinationRepository
+let weightRepositoy: InMemoryWeightRepository
+
 let sut: CreateEnchiridionUseCase
 
 describe('Create Enchiridion Use Case', () => {
@@ -21,7 +24,9 @@ describe('Create Enchiridion Use Case', () => {
         animalsRepository = new InMemoryAnimalRepository()
         usersRepository = new InMemoryUsersRepository()
         vaccinationRepository = new InMemoryVaccinationRepository()
-        sut = new CreateEnchiridionUseCase(enchiridionRepository, animalsRepository,  usersRepository, vaccinationRepository)
+        weightRepositoy = new InMemoryWeightRepository()
+        
+        sut = new CreateEnchiridionUseCase(enchiridionRepository, animalsRepository,  usersRepository, vaccinationRepository, weightRepositoy)
 
         animalsRepository.items.push({
           id: '66314c11974bd8a7cd2078b7',
@@ -34,6 +39,8 @@ describe('Create Enchiridion Use Case', () => {
           age: '5',
           coat: 'Preto',
           tutor_id: '6616d924ee0af0e50602ca14',
+          status_delete: false, 
+
 
         })
 

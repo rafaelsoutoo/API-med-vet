@@ -8,6 +8,7 @@ import { AnimalNoexists } from '@/use-cases/errors/animal-errors';
 import { teacherNoexists } from '@/use-cases/errors/teacher-error';
 import { validDate } from '@/utils/date-validation';
 import { VaccinationRepository } from '@/repositories/vaccination-repository';
+import { WeightRepository } from '@/repositories/weight-repository';
 
 interface EnchiridionUseCaseRequest {
     animal_id: string;
@@ -18,7 +19,7 @@ interface EnchiridionUseCaseRequest {
     vaccination: string | null | any;
     deworming: string | null;
     date_deworming: string | null;
-    weight: GLfloat;
+    weight: number | null,
     temperature: string | null;
     frequency_cardiac: string | null;
     frequency_respiratory: string | null;
@@ -47,10 +48,13 @@ interface RegisterUseCaseResponse {
 
 
 export class CreateEnchiridionUseCase {  //cada classe tem um método
-    constructor(private enchiridionRepository: EnchiridionRepository,
+    constructor(
+        private enchiridionRepository: EnchiridionRepository,
         private animalRepository: AnimalRepository,
         private usersRepository: UsersRepository,
-        private vacinationRepository: VaccinationRepository
+        private vacinationRepository: VaccinationRepository,
+        private weightRepository: WeightRepository
+
     ) { }   //receber as dependencia dentro do construtor
     //retorna isso
     async execute({ animal_id, teacher_id, stringDate, history, reason_consult, vaccination, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight }: EnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
@@ -73,10 +77,46 @@ export class CreateEnchiridionUseCase {  //cada classe tem um método
         const date = validDate(stringDate)
 
         const enchiridions = await this.enchiridionRepository.createEnchiridion({
-            sequence, animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight 
+            sequence, 
+            animal_id, 
+            teacher_id,
+            date, 
+            history, 
+            reason_consult, 
+            deworming, 
+            date_deworming, 
+            temperature, 
+            frequency_cardiac, 
+            frequency_respiratory, 
+            dehydration, 
+            lymph_node, 
+            type_mucous, 
+            whats_mucous, 
+            skin_annex, 
+            system_circulatory, 
+            system_respiratory, 
+            system_digestive, 
+            system_locomotor, 
+            system_nervous, 
+            system_genitourinary, 
+            others, 
+            complementary_exams, 
+            diagnosis, 
+            trataments, 
+            observations,  
+
         });
 
         const enchiridion_id = enchiridions.id
+
+
+        if (weight) {
+            await this.weightRepository.createWeight({
+                weight: weight,
+                animal_id,
+                enchiridion_id,
+            });
+        }
         if (vaccination && Array.isArray(vaccination)) {
             vaccination.forEach(async (vaccine) => {
                 const date = vaccine.date;
