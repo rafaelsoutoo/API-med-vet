@@ -1,7 +1,7 @@
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { prisma } from '@/lib/prisma'
-import { Prisma } from '@prisma/client'
-
+import { Prisma, Tutor } from '@prisma/client'
+import { dataGetAll } from '@/@types/tutor-return-type';
 
 
 export class PrismaTutorsRepository implements TutorRepository {
@@ -79,7 +79,11 @@ export class PrismaTutorsRepository implements TutorRepository {
   }
 
 
-  async getAllTutors(page: number, numberOfItems: number) {
+  async getAllTutors(page: number, numberOfItems: number): Promise<dataGetAll> {
+    const count = await prisma.tutor.count()
+
+    const numberOfPages = Math.floor((count - 1) / (numberOfItems))
+
     const skipItens = (page - 1) * numberOfItems
 
     const alltutors = await prisma.tutor.findMany({
@@ -87,7 +91,13 @@ export class PrismaTutorsRepository implements TutorRepository {
       skip: skipItens
     })
 
-    return alltutors
+    const data: dataGetAll = {
+      numberOfPages: numberOfPages + 1,
+      tutor: alltutors
+    }
+
+
+    return data
   }
 
   async searchManyPhone(query: string, page: number) { //buscar pelo nome e retorna a academia

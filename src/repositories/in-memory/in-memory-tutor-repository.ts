@@ -1,6 +1,7 @@
 import { Prisma, Tutor } from '@prisma/client'
 import { randomUUID } from 'node:crypto'
 import { TutorRepository } from '@/repositories/tutors-repository'
+import { dataGetAll } from '@/@types/tutor-return-type';
 
 export class InMemoryTutorRepository implements TutorRepository {
     public items: Tutor[] = []
@@ -53,8 +54,20 @@ export class InMemoryTutorRepository implements TutorRepository {
         return this.items.filter((item) => item.phone.includes(query)).slice((page - 1) * 10, page * 10)
     }
 
-    async getAllTutors(page: number, numberOfItems: number) {
-        return this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
+    async getAllTutors(page: number, numberOfItems: number):Promise<dataGetAll> {
+        var count = await this.items.length
+
+        const numberOfPages = Math.floor((count - 1) / (numberOfItems))
+
+
+        const alltutor = this.items.slice((page - 1) * numberOfItems, page * numberOfItems)
+        
+        const data: dataGetAll = {
+            numberOfPages: numberOfPages + 1,
+            tutor: alltutor
+        }
+
+        return data
     }
 
     async updateTutor(id: string, data: Prisma.TutorUpdateInput): Promise<Tutor> {

@@ -1,6 +1,7 @@
 import { TutorRepository } from '@/repositories/tutors-repository'
 import { Tutor } from '@prisma/client'
 import { getAllTutorsError } from '../errors/tutor-error'
+import { dataGetAll } from '@/@types/tutor-return-type'
 
 //buscar academias pelo nome
 
@@ -10,10 +11,10 @@ import { getAllTutorsError } from '../errors/tutor-error'
 export class GetAllTutorsUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
-  async execute(page: number, numberOfItems: number): Promise<Tutor[]> {
+  async execute(page: number, numberOfItems: number): Promise<dataGetAll> {
     const tutors = await this.tutorsRepository.getAllTutors(page, numberOfItems)
 
-    if (tutors.length === 0) {
+    if (tutors.tutor.length === 0) {
       throw new getAllTutorsError()
     }
 

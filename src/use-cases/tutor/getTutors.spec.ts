@@ -16,6 +16,7 @@ describe('testing the create tutors use case', () => {
         tutorRepository = new InMemoryTutorRepository
         getAllTutorsTest = new GetAllTutorsUseCase(tutorRepository)
 
+        //1
         tutorRepository.createTutor({
             sequence: '1',
             name: 'jonas', 
@@ -23,7 +24,7 @@ describe('testing the create tutors use case', () => {
             cpf: '02286831068', 
             phone: '62912344321'
         })
-
+        //2
         tutorRepository.createTutor({
             sequence: '2',
             name: 'gomes', 
@@ -31,7 +32,7 @@ describe('testing the create tutors use case', () => {
             cpf: '73412780057', 
             phone: '62912342314'
         })
-
+        //3
         tutorRepository.createTutor({
             sequence: '3',
             name: 'lopes',
@@ -39,21 +40,63 @@ describe('testing the create tutors use case', () => {
             cpf: '16552030029', 
             phone: '62912341234'
         })
+        //4
+        tutorRepository.createTutor({
+            sequence: '3',
+            name: 'lopes',
+            email: 'lopes@email.com', 
+            cpf: '16552030029', 
+            phone: '62912341734'
+        })
+        //5
+        tutorRepository.createTutor({
+            sequence: '3',
+            name: 'lopes',
+            email: 'lopes@email.com', 
+            cpf: '16552030029', 
+            phone: '62912341334'
+        })
+        //6
+        tutorRepository.createTutor({
+            sequence: '3',
+            name: 'lopes',
+            email: 'lopes@email.com', 
+            cpf: '16552030029', 
+            phone: '62912341534'
+        })
+        //7
+        tutorRepository.createTutor({
+            sequence: '3',
+            name: 'lopes',
+            email: 'lopes@email.com', 
+            cpf: '16552030029', 
+            phone: '62912344334'
+        })
     })
 
-    it('Creating a Tutor with all data', async () => {
-        const tutor = await getAllTutorsTest.execute(1, 2)
-        const tutor1 = await getAllTutorsTest.execute(2, 2)
+    it('Getting all Tutors', async () => {
+        const tutor = await getAllTutorsTest.execute(1, 2) //pick page 1, 2 by 2 tutors
+        
+ 
+        //check if exists the number of items and the tutors
+        expect(tutor.tutor[0].name).toEqual('jonas')
+ 
+        //check if the number of pages are correctly
+        expect(tutor.numberOfPages).toEqual(4)
+ 
+        //check if the 2 tutors solicited is in return
+        expect(tutor.tutor).toHaveLength(2)
+        
+        const tutor1 = await getAllTutorsTest.execute(1, 7)//pick page 7, 7 by 2 tutors
+        expect(tutor1.numberOfPages).toEqual(1)
+        expect(tutor1.tutor).toHaveLength(7)
+        
 
-
-        expect(tutor).toHaveLength(2)
-        expect(tutor1).toHaveLength(1)
-        expect(tutor[0].name).toEqual('jonas')
     })
 
     
     it('show error getAllTutorsError when have no tutor in page select', async () => {
-        await expect(getAllTutorsTest.execute(3, 2)).rejects.toBeInstanceOf(getAllTutorsError)
+        await expect(getAllTutorsTest.execute(2, 10)).rejects.toBeInstanceOf(getAllTutorsError)
     })
 })
 
