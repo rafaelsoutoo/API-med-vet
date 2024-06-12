@@ -1,32 +1,27 @@
 import { Vaccination } from '@prisma/client'
-import { TutorNotExistsError } from '../errors/tutor-error'
+import {vaccinationNotExistsError } from '@/use-cases/errors/vaccination-errors'
 import { VaccinationRepository } from '@/repositories/vaccination-repository'
 
-interface UpdateUseCaseRequest {
-  vaccinations: any
-}
 
 export class UpdateVaccinationUseCase {
 
   constructor(private vaccinationRepository: VaccinationRepository) { }
 
-  async execute( vaccinations  : UpdateUseCaseRequest) {
-
-    // const vaccinationExists = await this.vaccinationRepository.findById(id)
-
-    // if (!vaccinationExists) {
-    //   throw new TutorNotExistsError()
-
-    // }
-
-
+  async execute( vaccinations  : any) {
     
-
 
 
     if (vaccinations && Array.isArray(vaccinations)) {
       const updatedVaccinations = await Promise.all(vaccinations.map(async (vaccine: any) => {
         const { id, date, name } = vaccine;
+
+         //verific id exist
+         const vaccinationExists = await this.vaccinationRepository.findById(id);
+          if (!vaccinationExists) {
+            throw new vaccinationNotExistsError;
+          }
+
+
         await this.vaccinationRepository.updateVaccination(id, { date, name });
         return { id, date, name};
       }));
@@ -35,7 +30,6 @@ export class UpdateVaccinationUseCase {
     return [];
   }
 }
-
 
 
 

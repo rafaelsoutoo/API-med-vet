@@ -1,5 +1,5 @@
 
-import { EnchiridionNotExitsError } from '@/use-cases/errors/enchiridion-errors';
+import { vaccinationNotExistsError } from '@/use-cases/errors/vaccination-errors';
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeUpdateUseCase } from '@/use-cases/factories/vaccination/make-update-vaccination';
@@ -23,7 +23,7 @@ export async function updateVaccination(request: FastifyRequest, reply: FastifyR
         return Returnvaccinations
 
     } catch (err) {
-        if (err instanceof EnchiridionNotExitsError) {
+        if (err instanceof vaccinationNotExistsError) {
             return reply.status(409).send({ message: err.message })
         }
 

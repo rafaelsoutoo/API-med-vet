@@ -26,6 +26,10 @@ export class InMemoryVaccinationRepository implements VaccinationRepository {
     return this.items.find(item => item.enchiridion_id === enchiridionId) ?? null;
   }
 
+  async findById(id: string) {
+    return this.items.find((item) => item.id === id) ?? null
+  }
+
   async updateVaccination(id: string, data: Prisma.VaccinationUpdateInput): Promise<Vaccination> {
     const vaccinationIndex = this.items.findIndex((item) => item.id === id)
 

@@ -39,6 +39,17 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
   }
 
 
+  async findById(id: string) {
+    const vaccination = await prisma.vaccination.findUnique({
+      where: {
+        id: id,
+      },
+    })
+
+    return vaccination
+  }
+
+
   async updateVaccination(id:string, data: Prisma.VaccinationUpdateInput) {
 
     const vaccination = await prisma.vaccination.update({
