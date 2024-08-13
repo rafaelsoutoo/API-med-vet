@@ -13,4 +13,16 @@ export class PrismaWeightRepository implements WeightRepository{
 
         return weight
     }
+
+    async  findByEnchiridionIds(enchiridionIds: string[]) {
+        const enchiridions = await prisma.weight.findMany({
+          where: {
+            enchiridion_id: {
+              in: enchiridionIds,
+            },
+          },
+        })
+    
+        return enchiridions
+      }
 }
