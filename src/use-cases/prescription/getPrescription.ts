@@ -6,6 +6,22 @@ import { PrescriptionNoExist } from "../errors/prescription-errors";
 import { AnimalNoexists } from "../errors/animal-errors";
 import { TutorRepository } from "@/repositories/tutors-repository";
 
+
+export class GetAllPrescription{
+    constructor(private prescriptionRepository: PrescriptionRepository){}
+
+    async execute(page: number){
+        const prescription = await this.prescriptionRepository.getAllPrescription(page)
+
+        if(prescription.length == 0){
+            throw new PrescriptionNoExist()
+        }
+
+        return prescription
+    }
+}
+
+
 export class GetPrescriptionByIdUseCase {
     constructor(
         private prescriptionRepository: PrescriptionRepository,

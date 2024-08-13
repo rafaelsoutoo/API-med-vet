@@ -5,7 +5,29 @@ import { generatePrescriptionPDF } from "@/service/generatePrescriptionPDF";
 import { PrescriptionNoExist } from "@/use-cases/errors/prescription-errors";
 import { makeGetPrescriptionByAnimalIdUseCase } from "@/use-cases/factories/prescription/make-get-prescription-animalID";
 import { AnimalNoexists } from "@/use-cases/errors/animal-errors";
+import { makeGetAllPrescriptionUseCase } from "@/use-cases/factories/prescription/make-get-all-prescription";
 
+
+export async function getAllPrescription(request: FastifyRequest, reply: FastifyReply) {
+    const prescriptionQuerySchema = z.object({
+        page: z.coerce.number().default(1),
+    })
+
+    const { page } = prescriptionQuerySchema.parse(request.query);
+
+    try {
+        const prescriptionUseCase = makeGetAllPrescriptionUseCase()
+        const prescription = await prescriptionUseCase.execute(page)
+
+        return reply.status(200).send(prescription)
+    } catch (error) {
+        if(error instanceof PrescriptionNoExist){
+            return reply.status(404).send({ message: error.message })
+        }
+        
+    }
+    
+}
 export async function PDFPrescriptionById(request: FastifyRequest, reply: FastifyReply) {
     const validateIdParamsSchema = z.object({
         prescription_id: z.string(),

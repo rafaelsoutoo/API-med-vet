@@ -152,7 +152,7 @@ export class searchAnimalByNameOrSequnce {
     ) { }
 
     async execute(q: string, page: number){
-        const animals = await this.animalRepository.searchByNameAnimalorSequnce(q, page)
+        const animals = await this.animalRepository.searchByNameAnimalorSequence(q, page)
 
         if(!animals){
             throw new AnimalNoexists()

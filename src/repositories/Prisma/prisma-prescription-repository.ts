@@ -40,4 +40,13 @@ export class PrismaPrescriptionRepository implements PrescriptionRepository {
         return prescription
     }
 
+    async getAllPrescription(page: number){
+        const prescription = await prisma.prescription.findMany({
+            take: 10,
+            skip: (page - 1) * 10,
+        })
+
+        return prescription;
+    }
+
 }
