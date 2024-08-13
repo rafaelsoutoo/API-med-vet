@@ -7,8 +7,8 @@ interface PrescriptionWithMedications extends Prescription {
     species: string;
     age: string;
     gender: string;
-    race: string;
-    teacherName: string;
+    race: string | null;
+    teacherName: string | undefined;
     tutorName: string
 }
 
@@ -43,7 +43,7 @@ export async function generatePrescriptionPDF(prescription: PrescriptionWithMedi
             doc.font('Helvetica').text(prescription.gender, startX, startY + 16);
 
             doc.font('Helvetica-Bold').text('Raça:', startX + spacing, startY);
-            doc.font('Helvetica').text(prescription.race, startX + spacing, startY + 16);
+            doc.font('Helvetica').text(prescription.race || "", startX + spacing, startY + 16);
 
             doc.font('Helvetica-Bold').text('Idade:', startX + spacing * 2, startY);
             doc.font('Helvetica').text(prescription.age, startX + spacing * 2, startY + 16);
