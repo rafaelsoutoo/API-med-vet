@@ -111,6 +111,7 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
     private animalRepository: AnimalRepository,
     private vaccinationRepository: VaccinationRepository,
     private tutorRepository: TutorRepository,
+    private weightRepository: WeightRepository
   ) { }   //receber as dependencia dentro do construtor
   //retorna isso
   async execute({ animal_id }: EnchiridionAnimalUseCaseRequest): Promise<AnimalIdEnchiridionResponse> {
@@ -138,12 +139,17 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
 
     const vaccinations = await this.vaccinationRepository.findByEnchiridionIds(enchiridionIds);
 
+    const weights = await  this.weightRepository.findByEnchiridionIds(enchiridionIds)
+
 
 
     const enchiridionsWithVaccinations = enchiridions.map((enchiridion) => {
       return {
         ...enchiridion,
-        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
+        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id),
+        weights: weights
+          .filter((weight) => weight.enchiridion_id === enchiridion.id)
+          .map((weight) => weight.weight), 
       };
     });
 
