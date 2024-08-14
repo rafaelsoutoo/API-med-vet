@@ -177,7 +177,8 @@ export class getAnimalIdEnchiridionUseCase {  //cada classe tem um método
 
 export class getAllEnchiridionUseCase {
   constructor(private enchiridionRepository: EnchiridionRepository,
-    private vaccinationRepository: VaccinationRepository
+    private vaccinationRepository: VaccinationRepository,
+    private weightRepository: WeightRepository
 
   ) { }
 
@@ -190,12 +191,17 @@ export class getAllEnchiridionUseCase {
 
     const vaccinations = await this.vaccinationRepository.findByEnchiridionIds(enchiridionIds);
 
+    const weights = await  this.weightRepository.findByEnchiridionIds(enchiridionIds)
+
 
 
     const enchiridionsWithVaccinations = enchiridions.map((enchiridion) => {
       return {
         ...enchiridion,
-        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id)
+        vaccinations: vaccinations.filter((vaccination) => vaccination.enchiridion_id === enchiridion.id),
+        weights: weights
+          .filter((weight) => weight.enchiridion_id === enchiridion.id)
+          .map((weight) => weight.weight), 
       };
     });
 
@@ -208,7 +214,8 @@ export class getAllEnchiridionUseCase {
 
 export class GetSequenceByEnchiridionUseCase {
   constructor(private enchiridionRepository: EnchiridionRepository,
-    private vaccinationRepository: VaccinationRepository
+    private vaccinationRepository: VaccinationRepository,
+    private weightRepository: WeightRepository
   ) { }
 
   async execute(sequence: string) {
@@ -221,10 +228,14 @@ export class GetSequenceByEnchiridionUseCase {
 
     const vaccinations = await this.vaccinationRepository.findByEnchiridionId(enchiridion.id);
 
+    const returnWeight = await  this.weightRepository.findByEnchiridionId(enchiridion.id)
+ 
+    const weight = returnWeight?.weight
 
     const enchiridionWithVaccinations = {
       ...enchiridion,
-      vaccinations
+      weight,
+      
     };
 
     return enchiridionWithVaccinations;

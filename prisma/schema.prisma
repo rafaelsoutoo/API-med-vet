@@ -200,7 +200,7 @@ model Weight {
   weight Float
   created_at  DateTime @default(now())
   animal_id String @db.ObjectId
-  enchiridion_id String @db.ObjectId
+  enchiridion_id String @db.ObjectId @unique
   animal Animal @relation(fields: [animal_id], references: [id])
   enchiridion Enchiridion @relation("EnchiridionWeights", fields: [enchiridion_id], references: [id])
 
