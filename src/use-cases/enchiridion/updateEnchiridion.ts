@@ -7,6 +7,7 @@ import { Enchiridion } from '@prisma/client'  //tipagem propria do prisma
 import { EnchiridionNotExitsError } from '@/use-cases/errors/enchiridion-errors';
 
 import { validDate } from '@/utils/date-validation';
+import { WeightRepository } from '@/repositories/weight-repository';
 
 
 interface UpdateEnchiridionUseCaseRequest {
@@ -42,12 +43,14 @@ interface UpdateEnchiridionUseCaseRequest {
 
 interface RegisterUseCaseResponse {
     enchiridion: Enchiridion
+    weight: number
 }
 
 
 
-export class UpdateEnchiridionUseCase {  
+export class UpdateEnchiridionUseCase {
     constructor(private enchiridionRepository: EnchiridionRepository,
+        private weightRepository: WeightRepository
     ) { }
     async execute({ id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight }: UpdateEnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
@@ -61,12 +64,19 @@ export class UpdateEnchiridionUseCase {
 
         const date = validDate(stringDate)
 
+        
+
         const enchiridion = await this.enchiridionRepository.updateEnchiridion(id, {
-            animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight
+            animal_id, teacher_id, date, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations,
+        })
+
+        const updatedWeight = await this.weightRepository.updateWeight(id, {
+            weight
         })
 
         return {
-            enchiridion
+            enchiridion, 
+            weight: updatedWeight.weight
         };
     }
 }
