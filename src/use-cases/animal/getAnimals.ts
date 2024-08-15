@@ -1,19 +1,22 @@
 import { AnimalRepository } from "@/repositories/animal-repository"
+import { WeightRepository } from "@/repositories/weight-repository";
 import { AnimalNoexists } from "../errors/animal-errors";
 import { TutorNotExistsError } from "../errors/tutor-error";
 import { TutorRepository } from "@/repositories/tutors-repository";
 import { PrismaAnimalsRepository } from "@/repositories/Prisma/prisma-animals-repository";
+import { toZonedTime, format } from 'date-fns-tz';
 
 
 
 export class GetAllAnimalsUseCase {
     constructor(
         private animalRepository: AnimalRepository,
-        private tutorRepository: TutorRepository
+        private tutorRepository: TutorRepository,
+        private weightRepository: WeightRepository
     ) { }
 
     async execute(page: number, numberOfItems: number) {
-        const animals = await this.animalRepository.getAllAnimals(page, numberOfItems);
+        const animals = await this.animalRepository.getAllAnimals(page, numberOfItems);    
 
         if (animals.length === 0) {
             throw new AnimalNoexists();
@@ -22,12 +25,20 @@ export class GetAllAnimalsUseCase {
         if (animals && Array.isArray(animals)) {
             const dataPromises = animals.map(async (animal) => {
                 const tutor = await this.tutorRepository.findById(animal.tutor_id);
+                const weights = await this.weightRepository.getWeightsByAnimalId(animal.id);  
 
                 return {
                     sequence: animal.sequence,
                     animal_id: animal.id,
                     animal_name: animal.name,
-                    tutor_name: tutor?.name
+                    tutor_name: tutor?.name,
+                    weights: weights.map(weight => {
+                        const zonedDate = toZonedTime(weight.created_at, 'America/Sao_Paulo');
+                        return {
+                            value: weight.weight,
+                            created_at: format(zonedDate, 'dd-MM-yyyy HH:mm:ss')
+                        };
+                    })
                 };
             });
 

@@ -50,4 +50,15 @@ export class PrismaWeightRepository implements WeightRepository{
     
         return vaccination
       }
+
+
+      async getWeightsByAnimalId(animal_id: string) {
+        const enchiridion = await prisma.weight.findMany({
+          where: {
+            animal_id: animal_id
+          },
+        })
+    
+        return enchiridion
+      }
 }

@@ -9,6 +9,7 @@ import { TutorNotExistsError } from "@/use-cases/errors/tutor-error";
 import { makeGetAnimalSequence } from "@/use-cases/factories/animals/make-get-animal-sequence";
 import { makeGetAnimalByNameTutor } from "@/use-cases/factories/animals/make-get-animal-by-name-tutor";
 import { PrismaTutorsRepository } from "@/repositories/Prisma/prisma-tutors-repository"
+import { PrismaWeightRepository } from "@/repositories/Prisma/prisma-weight-repository";
 import { makeSearchAnimalByTutorBySequnce } from "@/use-cases/factories/animals/make-search-animal-sequence";
 
 
@@ -30,7 +31,8 @@ export async function getAllAnimals(request: FastifyRequest, reply: FastifyReply
     try {
         const prismaAnimalsRepository = new PrismaAnimalsRepository()
         const prismaTutorsRepository = new PrismaTutorsRepository()
-        const getAnimalsUseCase = new GetAllAnimalsUseCase(prismaAnimalsRepository, prismaTutorsRepository)
+        const prismaWeightRepository = new PrismaWeightRepository()
+        const getAnimalsUseCase = new GetAllAnimalsUseCase(prismaAnimalsRepository, prismaTutorsRepository, prismaWeightRepository)
 
         const users = await getAnimalsUseCase.execute(page, numberOfItems)
 
