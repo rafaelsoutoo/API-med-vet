@@ -16,7 +16,7 @@ import { getTeacherByIdSchema } from "@/docs/swagger/getTeacherByIdSchema";
 import { getTeachersByRegistrationSchema } from "@/docs/swagger/getTeachersByRegistrationSchema";
 
 import { FastifyInstance } from "fastify";
-import { getAllStudent, getStudentById, getStudentByRegistration } from "./student/getStudent";
+import { getAllStudent, getStudentById, searchStudentByRegistration } from "./student/getStudent";
 import { getAllTeachers, getTeacherById, getTeacherByName, getTeachersByRegistration } from "./teacher/getTeachers";
 import { updateSecretary } from "./secretary/updateSecretary";
 import { updateStudent } from "./student/updateStudent";
@@ -37,7 +37,7 @@ export async function usersRoutes(app: FastifyInstance) {
 
   app.get("/get/student", getAllStudent);
   app.get("/get/student/id/:id", getStudentById); // buscar Student pelo id
-  app.get("/get/student/registration", getStudentByRegistration); // buscar student pelo registration
+  app.get("/get/student/registration", searchStudentByRegistration); // buscar student pelo registration
 
 
   app.get("/get/teacher", getAllTeachers);

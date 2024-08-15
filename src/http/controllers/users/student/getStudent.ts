@@ -4,7 +4,7 @@ import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-reposi
 import { z } from "zod";
 import { NoExistsUsersError } from "@/use-cases/errors/user-error";
 import { studentNotFound } from "@/use-cases/errors/student-errors";
-import { searchStudentByRegistration } from "@/use-cases/factories/users/student/make-search-student";
+import { makeSearchStudentByRegistration } from "@/use-cases/factories/users/student/make-search-student";
 
 interface Params {
   id: string;
@@ -58,7 +58,9 @@ export async function getStudentById(request: FastifyRequest<{ Params: Params }>
     throw error
   }
 }
-export async function getStudentByRegistration(request: FastifyRequest, reply: FastifyReply) {
+
+
+export async function searchStudentByRegistration(request: FastifyRequest, reply: FastifyReply) {
 
   const searchStudentQuerySchema = z.object({
     q: z.string(),
@@ -67,13 +69,11 @@ export async function getStudentByRegistration(request: FastifyRequest, reply: F
 
   try {
     const { q, page } = searchStudentQuerySchema.parse(request.query)
-    const searchStudentByRegistrationUseCase = searchStudentByRegistration()
+    const searchStudentByRegistrationUseCase = makeSearchStudentByRegistration()
 
-    const user = await searchStudentByRegistrationUseCase.execute({
-      query: q,
-      page,
-    });
+   const user = await searchStudentByRegistrationUseCase.execute(q, page);
 
+   console.log(q)
     return reply.status(200).send(user);
   } catch (error) {
     if (error instanceof studentNotFound) {

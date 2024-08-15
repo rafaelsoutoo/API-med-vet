@@ -6,10 +6,10 @@ import { Student } from "@prisma/client";
 
 
 
-interface SearchStudentUseCaseRequest {
-  query: string
-  page: number
-}
+// interface SearchStudentUseCaseRequest {
+//   query: string
+//   page: number
+// }
 
 export class GetAllStudentsUseCase {
   constructor(private usersRepository: UsersRepository) { }
@@ -44,8 +44,8 @@ export class GetStudentByIdUseCase {
 export class GetStudentByRegistrationUseCase {
   constructor(private usersRepository: UsersRepository) { }
 
-  async execute( query: string, page:number ): Promise<Student[]> {
-    const user = await this.usersRepository.searchStudentByRegistration(query, page)
+  async execute( q: string, page:number ){
+    const user = await this.usersRepository.searchStudentByRegistration(q, page)
 
     if (user.length === 0) {
       throw new studentNotFound()

@@ -5,7 +5,6 @@ export interface UsersRepository {
   findTeacherById(id: string): Promise<Teacher | null>
   findByRegistrationTeachers(registration: string): Promise<Teacher | null>
   searchByRegistrationTeachers(query: string, page: number): Promise<Teacher[]>
-  searchStudentByRegistration(query: string, page: number): Promise<Student[]>
   findAllTeachers(page: number, numberOfItems: number): Promise<Teacher[]>;
   findByCpfTeacher(cpf: string): Promise<Teacher | null>
   createTeachers(data: Prisma.TeacherCreateInput): Promise<Teacher>
@@ -13,13 +12,14 @@ export interface UsersRepository {
   findTeacherByName(query: string, page: number): Promise<Teacher[]>
   markTeacherAsDelete(id: string): any
   findAllTeachersDeleted(): Promise<Teacher[]>
-
+  
   //student
   findStudentById(id: string): Promise<Student | null>
   findByRegistrationStudent(registration: string): Promise<Student | null>
   findAllStudent(page: number, numberOfItems: number): Promise<Student[]>;
   findByCpfStudent(cpf: string): Promise<Student | null>
   createStudent(data: Prisma.StudentCreateInput): Promise<Student>
+  searchStudentByRegistration(q: string, page: number): Promise<Student[]>
 
   updateStudent(id: string, data: Prisma.StudentUpdateInput): Promise<Student>
   markStudentAsDelete(id: string): any
