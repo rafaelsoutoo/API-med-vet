@@ -1,5 +1,5 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { GetAllStudentsUseCase, GetStudentByIdUseCase, GetStudentByRegistrationUseCase } from "@/use-cases/users/student/getStudent";
+import { GetAllStudentsUseCase, GetStudentByIdUseCase, searchStudentByRegistrationUseCase } from "@/use-cases/users/student/getStudent";
 import { PrismaUsersRepository } from "@/repositories/Prisma/prisma-users-repository";
 import { z } from "zod";
 import { NoExistsUsersError } from "@/use-cases/errors/user-error";
@@ -73,7 +73,6 @@ export async function searchStudentByRegistration(request: FastifyRequest, reply
 
    const user = await searchStudentByRegistrationUseCase.execute(q, page);
 
-   console.log(q)
     return reply.status(200).send(user);
   } catch (error) {
     if (error instanceof studentNotFound) {
