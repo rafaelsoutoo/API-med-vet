@@ -5,5 +5,5 @@ export interface WeightRepository {
     findByEnchiridionIds(enchiridionIds: string[]): Promise<Weight[]>
     findByEnchiridionId(id: string): Promise<Weight | null>
     updateWeight(enchiridionid: string, data: Prisma.WeightUpdateInput): Promise<Weight>
-
+    getWeightsByAnimalId(animal_id: string): Promise<Weight[]>
 }
