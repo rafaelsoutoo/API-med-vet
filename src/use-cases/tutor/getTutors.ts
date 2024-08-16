@@ -3,11 +3,6 @@ import { Tutor } from '@prisma/client'
 import { getAllTutorsError } from '../errors/tutor-error'
 import { dataGetAll } from '@/@types/tutor-return-type'
 
-//buscar academias pelo nome
-
-
-
-
 export class GetAllTutorsUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
@@ -20,8 +15,6 @@ export class GetAllTutorsUseCase {
 
     return tutors
   };
-
-
 }
 
 export class SearchPhoneTutorUseCase {

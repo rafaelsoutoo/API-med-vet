@@ -87,6 +87,9 @@ export class PrismaTutorsRepository implements TutorRepository {
     const skipItens = (page - 1) * numberOfItems
 
     const alltutors = await prisma.tutor.findMany({
+			where: {
+				status_delete: false
+			},
       take: numberOfItems,
       skip: skipItens
     })
@@ -95,8 +98,6 @@ export class PrismaTutorsRepository implements TutorRepository {
       numberOfPages: numberOfPages + 1,
       tutor: alltutors
     }
-
-
     return data
   }
 
