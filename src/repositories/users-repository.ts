@@ -1,3 +1,4 @@
+import { dataGetAllStudent, dataGetAllTeacher } from '@/@types/return-type';
 import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
 
 export interface UsersRepository {
@@ -5,7 +6,7 @@ export interface UsersRepository {
   findTeacherById(id: string): Promise<Teacher | null>
   findByRegistrationTeachers(registration: string): Promise<Teacher | null>
   searchByRegistrationTeachers(query: string, page: number): Promise<Teacher[]>
-  findAllTeachers(page: number, numberOfItems: number): Promise<Teacher[]>;
+  findAllTeachers(page: number, numberOfItems: number): Promise<dataGetAllTeacher>;
   findByCpfTeacher(cpf: string): Promise<Teacher | null>
   createTeachers(data: Prisma.TeacherCreateInput): Promise<Teacher>
   updateTeacher(id: string, data: Prisma.TeacherUpdateInput): Promise<Teacher>
@@ -16,7 +17,7 @@ export interface UsersRepository {
   //student
   findStudentById(id: string): Promise<Student | null>
   findByRegistrationStudent(registration: string): Promise<Student | null>
-  findAllStudent(page: number, numberOfItems: number): Promise<Student[]>;
+  findAllStudent(page: number, numberOfItems: number): Promise<dataGetAllStudent>;
   findByCpfStudent(cpf: string): Promise<Student | null>
   createStudent(data: Prisma.StudentCreateInput): Promise<Student>
   searchStudentByRegistration(q: string, page: number): Promise<Student[]>

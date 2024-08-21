@@ -1,5 +1,5 @@
 import { Prisma, Tutor } from '@prisma/client'
-import { dataGetAll } from '@/@types/tutor-return-type'
+import { dataGetAllTutor } from '@/@types/return-type'
 
 export interface TutorRepository {
   sequence(): Promise<string>
@@ -14,7 +14,7 @@ export interface TutorRepository {
   searchByNameTutor(query: string, page: number): Promise<Tutor[]>
   searchManyPhone(query: string, page: number): Promise<Tutor[]>
 
-  getAllTutors(page: number, numberOfItems: number): Promise<dataGetAll>
+  getAllTutors(page: number, numberOfItems: number): Promise<dataGetAllTutor>
 
   updateTutor(id: string, data: Prisma.TutorUpdateInput): Promise<Tutor>
 

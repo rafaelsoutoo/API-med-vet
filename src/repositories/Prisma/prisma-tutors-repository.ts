@@ -1,7 +1,7 @@
 import { TutorRepository } from '@/repositories/tutors-repository';
 import { prisma } from '@/lib/prisma'
 import { Prisma, Tutor } from '@prisma/client'
-import { dataGetAll } from '@/@types/tutor-return-type';
+import { dataGetAllTutor } from '@/@types/return-type';
 
 
 export class PrismaTutorsRepository implements TutorRepository {
@@ -79,7 +79,7 @@ export class PrismaTutorsRepository implements TutorRepository {
   }
 
 
-  async getAllTutors(page: number, numberOfItems: number): Promise<dataGetAll> {
+  async getAllTutors(page: number, numberOfItems: number): Promise<dataGetAllTutor> {
     const count = await prisma.tutor.count()
 
     const numberOfPages = Math.floor((count - 1) / (numberOfItems))
@@ -91,7 +91,7 @@ export class PrismaTutorsRepository implements TutorRepository {
       skip: skipItens
     })
 
-    const data: dataGetAll = {
+    const data: dataGetAllTutor = {
       numberOfPages: numberOfPages + 1,
       tutor: alltutors
     }

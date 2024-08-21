@@ -1,6 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository'
 import { prisma } from '@/lib/prisma'
 import { Prisma, Secretary, Student, Teacher } from '@prisma/client'
+import { dataGetAllStudent, dataGetAllTeacher } from '@/@types/return-type'
 
 
 
@@ -38,7 +39,10 @@ export class PrismaUsersRepository implements UsersRepository {
     return user
   }
 
-  async findAllStudent(page: number, numberOfItems: number) {
+  async findAllStudent(page: number, numberOfItems: number): Promise<dataGetAllStudent> {
+    const numberCount = await prisma.student.count()
+
+    const numberOfPages = Math.floor((numberCount - 1) / (numberOfItems))
 
     const skipItens = (page - 1) * numberOfItems
 
@@ -52,7 +56,12 @@ export class PrismaUsersRepository implements UsersRepository {
       password_hash: '',
     }));
 
-    return usersWithPasswordHash;
+    const data : dataGetAllStudent = {
+      numberOfPages: numberOfPages + 1,
+      student: usersWithPasswordHash
+    }
+
+    return data;
   }
 
   async findByCpfStudent(cpf: string) {
@@ -133,7 +142,11 @@ export class PrismaUsersRepository implements UsersRepository {
   }
 
 
-  async findAllTeachers(page: number, numberOfItems: number) {
+  async findAllTeachers(page: number, numberOfItems: number): Promise<dataGetAllTeacher> {
+    const count = await prisma.teacher.count()
+
+    const numberOfPages = Math.floor((count - 1) / (numberOfItems))
+    
     const skipItems = (page - 1) * numberOfItems;
 
     const users = await prisma.teacher.findMany({
@@ -146,7 +159,12 @@ export class PrismaUsersRepository implements UsersRepository {
       password_hash: '',
     }));
 
-    return usersWithPasswordHash;
+    const data: dataGetAllTeacher = {
+      numberOfPages: numberOfPages + 1,
+      teacher: usersWithPasswordHash
+    }
+
+    return data;
   }
 
   async findByCpfTeacher(cpf: string) {
