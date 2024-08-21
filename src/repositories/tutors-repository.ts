@@ -1,5 +1,5 @@
 import { Prisma, Tutor } from '@prisma/client'
-import { dataGetAll } from '@/@types/tutor-return-type'
+import { dataGetAllTutor } from '@/@types/return-type'
 
 export interface TutorRepository {
   sequence(): Promise<string>
