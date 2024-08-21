@@ -14,8 +14,8 @@ export interface TutorRepository {
   searchByNameTutor(query: string, page: number): Promise<Tutor[]>
   searchManyPhone(query: string, page: number): Promise<Tutor[]>
 
-  getAllTutors(page: number, numberOfItems: number): Promise<dataGetAllTutor>
-
+  getAllTutors(page: number, numberOfItems: number): Promise<dataGetAll>
+	getUndeletedTutors(page:number, numberOfItems: number): Promise<dataGetAllUndeleted>
   updateTutor(id: string, data: Prisma.TutorUpdateInput): Promise<Tutor>
 
   markAsDelete(id: string): any
