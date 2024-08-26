@@ -29,7 +29,7 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
 
 
   async findByEnchiridionId(enchiridionId: string) {
-    const vaccination = await prisma.vaccination.findFirst({
+    const vaccination = await prisma.vaccination.findMany({
       where: {
         enchiridion_id: enchiridionId,
       },

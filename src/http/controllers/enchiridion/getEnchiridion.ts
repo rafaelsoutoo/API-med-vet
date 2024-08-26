@@ -7,6 +7,7 @@ import { makegetTutorIdEnchiridionUseCase} from '@/use-cases/factories/enchiridi
 import { makegetAnimalIdEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-by-animal'
 import {makegetAllEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-all-enchiridion'
 import {makegetSequenceEnchiridionUseCase} from '@/use-cases/factories/enchiridion/make-get-enchridiun-sequence'
+import { makegetIdEnchiridionUseCase } from '@/use-cases/factories/enchiridion/make-get-encchiridion-id';
 
 
 
@@ -109,6 +110,30 @@ export async function getSequenceEnchiridion(request: FastifyRequest, reply: Fas
 
 		const getEnchiridionUseCase = makegetSequenceEnchiridionUseCase();
 		const data = await getEnchiridionUseCase.execute(sequence);
+
+		return data;
+
+	} catch (err) {
+
+		if (err instanceof EnchiridionNotExitsError) {
+			return reply.status(409).send({ message: err.message })
+		}
+
+		throw err
+	};
+}
+
+export async function getIdEnchiridion(request: FastifyRequest, reply: FastifyReply) {
+	const  validateSequenceParamsSchema = z.object({
+		id: z.string(),
+	})
+
+	const { id} =  validateSequenceParamsSchema.parse(request.params)
+
+	try {
+
+		const getEnchiridionUseCase = makegetIdEnchiridionUseCase();
+		const data = await getEnchiridionUseCase.execute(id);
 
 		return data;
 

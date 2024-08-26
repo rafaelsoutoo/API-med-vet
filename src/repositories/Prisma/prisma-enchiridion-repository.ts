@@ -114,6 +114,18 @@ export class PrismaEnchiridionRepository implements EnchiridionRepository {
     return tutorUpdated
   }
 
+
+
+  async findEnchiridionById(id: string) {
+    const user = await prisma.enchiridion.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    return user
+  }
+
   async markAsDelete(id: string) {
     await prisma.enchiridion.update({
       where: {
