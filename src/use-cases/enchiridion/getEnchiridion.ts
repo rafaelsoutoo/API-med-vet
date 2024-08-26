@@ -235,6 +235,39 @@ export class GetSequenceByEnchiridionUseCase {
     const enchiridionWithVaccinations = {
       ...enchiridion,
       weight,
+      vaccinations
+      
+    };
+
+    return enchiridionWithVaccinations;
+  }
+}
+
+
+
+
+export class GetEnchiridionByIdUseCase {
+  constructor(private enchiridionRepository: EnchiridionRepository,   private vaccinationRepository: VaccinationRepository,
+    private weightRepository: WeightRepository) { }
+
+  async execute(id: string) {
+    const enchiridion = await this.enchiridionRepository.findEnchiridionById(id)
+
+    if (!enchiridion) {
+      throw new EnchiridionNotExitsError()
+    }
+
+    const vaccinations = await this.vaccinationRepository.findByEnchiridionId(id);
+
+    const returnWeight = await  this.weightRepository.findByEnchiridionId(id)
+ 
+    const weight = returnWeight?.weight
+
+    const enchiridionWithVaccinations = {
+      ...enchiridion,
+      weight,
+      vaccinations
+     
       
     };
 

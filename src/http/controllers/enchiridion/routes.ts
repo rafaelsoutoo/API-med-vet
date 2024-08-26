@@ -8,7 +8,8 @@ import {
     getEnchiridionByTutor,
     getEnchiridionByAnimal,
     getAllEnchiridion,
-    getSequenceEnchiridion
+    getSequenceEnchiridion,
+    getIdEnchiridion
     } from '@/http/controllers/enchiridion/getEnchiridion'
 
 
@@ -27,6 +28,7 @@ export async function enchiridionRoutes(app: FastifyInstance) {
     app.get('/get/enchiridion/animal/:animal_id', getEnchiridionByAnimal)
     app.get('/get/enchiridion', getAllEnchiridion)
     app.get('/get/enchiridion/sequence/:sequence', getSequenceEnchiridion)
+    app.get('/get/enchiridion/:id', getIdEnchiridion)
     app.put('/put/enchiridion',updateEnchiridion)
 
     app.patch('/delete/enchiridion', DeleteEnchiridion)
