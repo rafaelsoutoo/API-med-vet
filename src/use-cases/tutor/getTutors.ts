@@ -1,12 +1,12 @@
 import { TutorRepository } from '@/repositories/tutors-repository'
 import { Tutor } from '@prisma/client'
 import { getAllTutorsError } from '../errors/tutor-error'
-import { dataGetAll } from '@/@types/tutor-return-type'
+import { dataGetAllTutor } from '@/@types/return-type'
 
 export class GetAllTutorsUseCase {
   constructor(private tutorsRepository: TutorRepository) { }
 
-  async execute(page: number, numberOfItems: number): Promise<dataGetAll> {
+  async execute(page: number, numberOfItems: number): Promise<dataGetAllTutor> {
     const tutors = await this.tutorsRepository.getAllTutors(page, numberOfItems)
 
     if (tutors.tutor.length === 0) {
@@ -26,7 +26,7 @@ export class SearchPhoneTutorUseCase {
   ): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchManyPhone(query, page)
 
-    if (query.length === 0 || tutors === null || tutors.length === 0) {
+    if (tutors.length === 0) {
       throw new getAllTutorsError()
     }
 
@@ -43,7 +43,7 @@ export class SearchTutorByNameUseCase {
   ): Promise<Tutor[]> {
     const tutors = await this.tutorsRepository.searchByNameTutor(query, page)
 
-    if (tutors === null || tutors.length === 0) {
+    if (tutors.length === 0) {
       throw new getAllTutorsError()
     }
 
