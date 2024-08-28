@@ -1,5 +1,5 @@
 import { createTutor } from '@/http/controllers/tutors/createTutor'
-import { getAllTutors, getTutorByName, searchPhoneTutors } from '@/http/controllers/tutors/getTutors'
+import { getAllTutors, getIdTutor, getTutorByName, searchPhoneTutors } from '@/http/controllers/tutors/getTutors'
 
 import { FastifyInstance } from 'fastify'
 
@@ -19,6 +19,8 @@ export async function tutorRoutes(app: FastifyInstance) {
     app.get('/get/tutor/name', getTutorByName)
 
     app.get('/get/tutor/searchphone', searchPhoneTutors)
+
+    app.get('/get/tutor/id/:id', getIdTutor)
 
     app.put('/put/tutor', updateTutor)
 

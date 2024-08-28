@@ -1,6 +1,6 @@
 import { TutorRepository } from '@/repositories/tutors-repository'
 import { Tutor } from '@prisma/client'
-import { getAllTutorsError } from '../errors/tutor-error'
+import { getAllTutorsError, TutorNotExistsError } from '../errors/tutor-error'
 import { dataGetAllTutor } from '@/@types/return-type'
 
 export class GetAllTutorsUseCase {
@@ -48,5 +48,21 @@ export class SearchTutorByNameUseCase {
     }
 
     return tutors
+  }
+}
+
+
+
+export class GetTutorByIdUseCase {
+  constructor(private tutorRepository: TutorRepository) { }
+
+  async execute(id: string) {
+    const tutor = await this.tutorRepository.findById(id)
+
+    if (!tutor) {
+      throw new TutorNotExistsError()
+    }
+
+    return tutor;
   }
 }

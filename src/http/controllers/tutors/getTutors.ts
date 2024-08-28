@@ -1,9 +1,10 @@
 import { getAllTutorUseCase } from '@/use-cases/factories/tutor/make-getall-tutors';
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { getAllTutorsError } from '@/use-cases/errors/tutor-error';
+import { getAllTutorsError, TutorNotExistsError } from '@/use-cases/errors/tutor-error';
 import { z } from 'zod';
 import { getNameTutors } from '@/use-cases/factories/tutor/make-get-name-tutor';
 import { getPhoneTutors } from '@/use-cases/factories/tutor/make-getPhoneTutors'
+import { getidTutors } from '@/use-cases/factories/tutor/make-get-id-tutor';
 
 
 export async function getAllTutors(request: FastifyRequest, reply: FastifyReply) {
@@ -87,5 +88,33 @@ export async function searchPhoneTutors(request: FastifyRequest, reply: FastifyR
 		throw err
 
 	}
+
+}
+
+
+
+	export async function getIdTutor(request: FastifyRequest, reply: FastifyReply) {
+		const  validateSequenceParamsSchema = z.object({
+			id: z.string(),
+		})
+	
+		const { id } =  validateSequenceParamsSchema.parse(request.params)
+	
+		try {
+	
+			const getTutorUseCase = getidTutors();
+			const data = await getTutorUseCase.execute(id);
+	
+			return data;
+	
+		} catch (err) {
+	
+			if (err instanceof TutorNotExistsError) {
+				return reply.status(409).send({ message: err.message })
+			}
+	
+			throw err
+		};
+	
 
 }
