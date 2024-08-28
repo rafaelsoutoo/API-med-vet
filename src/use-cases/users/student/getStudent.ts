@@ -8,7 +8,7 @@ export class GetAllStudentsUseCase {
   async execute(page: number, numberOfItems: number) {
     const users = await this.usersRepository.findAllStudent(page, numberOfItems);
 
-    if (users.length === 0) {
+    if (!users) {
       throw new NoExistsUsersError()
     }
 
