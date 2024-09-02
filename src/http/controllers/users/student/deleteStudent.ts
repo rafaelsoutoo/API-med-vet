@@ -15,9 +15,9 @@ export async function deleteStudent(request: FastifyRequest, reply: FastifyReply
 	try {
 		const deleteUserCase = makeMarkAsDeleteUseCase()
 
-		await deleteUserCase.execute({
+		await deleteUserCase.execute(
 			id
-		})
+		)
 	} catch (err) {
 		if (err instanceof NoExistsUsersError) {
 			return reply.status(409).send({ message: err.message })
