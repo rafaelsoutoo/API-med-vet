@@ -16,17 +16,19 @@ export async function createPrescription(request: FastifyRequest, reply: Fastify
     try {
         const createPrescriptionUseCase = makeCreatePrescriptionUseCase();
 
-        await createPrescriptionUseCase.execute({
+        const {prescription} = await createPrescriptionUseCase.execute({
             animal_id,
             teacher_id,
             medications
         });
 
+
+        return reply.status(201).send(prescription.id);
+        
     } catch (error) {
         if (error instanceof teacherNoexists || error instanceof AnimalNoexists){
             return reply.status(409).send({ message: error.message });
         }
         throw error;
     }
-    return reply.status(201).send();
 }
