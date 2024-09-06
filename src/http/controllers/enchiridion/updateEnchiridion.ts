@@ -37,17 +37,18 @@ export async function updateEnchiridion(request: FastifyRequest, reply: FastifyR
         complementary_exams: z.string().nullable(),
         diagnosis: z.string().nullable(),
         trataments: z.string().nullable(),
-        observations: z.string().nullable()
+        observations: z.string().nullable(),
+        vaccination: z.any(),
     });
 
-    const { id,  animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight} = registerBodySchema.parse(request.body);
+    const { id,  animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight, vaccination} = registerBodySchema.parse(request.body);
 
 
     try {
         const updateUserCase = makeUpdateUseCase()
 
         await updateUserCase.execute({
-           id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight 
+           id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight, vaccination 
         })
     } catch (err) {
         if (err instanceof EnchiridionNotExitsError) {

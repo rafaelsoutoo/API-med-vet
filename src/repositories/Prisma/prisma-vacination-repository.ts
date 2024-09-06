@@ -50,7 +50,7 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
   }
 
 
-  async updateVaccination(id:string, data: Prisma.VaccinationUpdateInput) {
+  async updateVaccination(id:string, data: Prisma.VaccinationUncheckedUpdateInput) {
 
     const vaccination = await prisma.vaccination.update({
       where: {

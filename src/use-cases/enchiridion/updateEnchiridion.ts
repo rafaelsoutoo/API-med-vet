@@ -39,6 +39,7 @@ interface UpdateEnchiridionUseCaseRequest {
     diagnosis: string | null;
     trataments: string | null;
     observations: string | null;
+    vaccination: string | null | any;
 }
 
 interface RegisterUseCaseResponse {
@@ -47,12 +48,16 @@ interface RegisterUseCaseResponse {
 }
 
 
+import { VaccinationRepository } from '@/repositories/vaccination-repository'
+
+
 
 export class UpdateEnchiridionUseCase {
     constructor(private enchiridionRepository: EnchiridionRepository,
-        private weightRepository: WeightRepository
+        private weightRepository: WeightRepository,
+        private vaccinationRepository: VaccinationRepository
     ) { }
-    async execute({ id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight }: UpdateEnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
+    async execute({ id, animal_id, teacher_id, stringDate, history, reason_consult, deworming, date_deworming, temperature, frequency_cardiac, frequency_respiratory, dehydration, lymph_node, type_mucous, whats_mucous, skin_annex, system_circulatory, system_respiratory, system_digestive, system_locomotor, system_nervous, system_genitourinary, others, complementary_exams, diagnosis, trataments, observations, weight, vaccination }: UpdateEnchiridionUseCaseRequest): Promise<RegisterUseCaseResponse> {
 
 
         const enchiridionExists = await this.enchiridionRepository.findById(id)
@@ -73,6 +78,20 @@ export class UpdateEnchiridionUseCase {
         const updatedWeight = await this.weightRepository.updateWeight(id, {
             weight
         })
+
+
+        if (vaccination && Array.isArray(vaccination)) {
+            await Promise.all(vaccination.map(async (vaccine) => {
+                const { id, date, name, enchiridion_id } = vaccine;
+                await this.vaccinationRepository.updateVaccination(id, {
+                    date,
+                    name,
+                    enchiridion_id,
+                });
+            }));
+        }
+
+
 
         return {
             enchiridion, 
