@@ -83,11 +83,20 @@ export class UpdateEnchiridionUseCase {
         if (vaccination && Array.isArray(vaccination)) {
             await Promise.all(vaccination.map(async (vaccine) => {
                 const { id, date, name, enchiridion_id } = vaccine;
-                await this.vaccinationRepository.updateVaccination(id, {
-                    date,
-                    name,
-                    enchiridion_id,
-                });
+                if (id) {
+                    
+                    await this.vaccinationRepository.updateVaccination(id, {
+                        date,
+                        name,
+                        enchiridion_id,
+                    });
+                } else {
+                    await this.vaccinationRepository.createVaccination({
+                        date,
+                        name,
+                        enchiridion_id,
+                    });
+                }
             }));
         }
 
