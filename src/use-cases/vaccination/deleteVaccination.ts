@@ -7,13 +7,16 @@ export class deleteVaccinationUseCase {
     private vaccinationRepository: VaccinationRepository
   ) {}
 
-  async execute(id: string) {
-    const vaccination = await this.vaccinationRepository.findById(id)
+  async execute(ids: string[]) {
+    const vaccinations = await Promise.all(ids.map(id => this.vaccinationRepository.findById(id)));
 
-    if(!vaccination) {
-      throw new vaccinationNotExistsError()
+    // Filtrar IDs que não foram encontrados
+    const missingVaccinationIds = ids.filter((id, index) => !vaccinations[index]);
+
+    // Se houver vacinações faltando, lançar um erro
+    if (missingVaccinationIds.length > 0) {
+      throw new vaccinationNotExistsError;
     }
-
-    await this.vaccinationRepository.deleteVaccination(id)
+    await this.vaccinationRepository.deleteVaccination(ids)
   }
 }

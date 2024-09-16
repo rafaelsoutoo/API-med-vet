@@ -64,15 +64,27 @@ export class PrismaVaccinationRepository implements VaccinationRepository {
 
 
 
-  async deleteVaccination(id: string): Promise<Vaccination> {
-    const vaccination = await prisma.vaccination.delete({
-        where: {
-            id: id
+  async deleteVaccination(ids: string[]): Promise<Vaccination[]> {
+
+    const vaccinations = await prisma.vaccination.findMany({
+      where: {
+        id: {
+          in: ids
         }
+      }
     });
 
-    return vaccination;  
-}
 
+
+   await prisma.vaccination.deleteMany({
+      where: {
+        id: {
+          in: ids
+        }
+      }
+    });
+  
+    return vaccinations;  
+  }
 
 }

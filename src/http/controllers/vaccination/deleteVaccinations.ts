@@ -8,17 +8,17 @@ import { makeDeleteUseCase } from '@/use-cases/factories/vaccination/make-delete
 export async function deleteVaccination(request: FastifyRequest, reply: FastifyReply) {
 
     const registerBodySchema = z.object({
-     id: z.string()
+        ids: z.array(z.string())
     });
 
-    const { id } = registerBodySchema.parse(request.body);
+    const { ids } = registerBodySchema.parse(request.body);
 
 
     try {
         const deleteUserCase = makeDeleteUseCase()
 
      const Returnvaccinations = await deleteUserCase.execute(
-            id
+            ids
         )
 
         return Returnvaccinations
