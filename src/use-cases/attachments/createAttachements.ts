@@ -7,7 +7,6 @@ interface UploadedFile {
     buffer: Buffer;       // Contém os dados do arquivo como um buffer
     mimetype: string;     // Define o tipo MIME do arquivo (ex.: 'image/jpeg', 'image/png')
     originalname?: string; // Opcional: Nome original do arquivo
-    size?: number;         // Opcional: Tamanho do arquivo em bytes
   }
 
 

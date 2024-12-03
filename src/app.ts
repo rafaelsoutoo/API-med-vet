@@ -2,6 +2,7 @@ import fastify from "fastify";
 
 import fastifyJwt from '@fastify/jwt'
 import fastifyCookie from '@fastify/cookie'
+import fastifyMultipart from '@fastify/multipart';
 
 import { ZodError } from 'zod'
 import { env } from '@/env'
@@ -11,6 +12,7 @@ import { tutorRoutes } from '@/http/controllers/tutors/routes'
 import { consultRoutes } from '@/http/controllers/consults/routes'
 import { enchiridionRoutes } from '@/http/controllers/enchiridion/routes'
 import { animalsRoutes } from '@/http/controllers/animals/routes'
+import { attachmentRoutes } from '@/http/controllers/attachement/routes'  
 
 
 
@@ -34,7 +36,8 @@ app.register(fastifyJwt, {
 })
 
 
-app.register(fastifyCookie)
+app.register(fastifyCookie);
+app.register(fastifyMultipart);
 
 
 
@@ -45,6 +48,7 @@ app.register(enchiridionRoutes)
 app.register(animalsRoutes)
 app.register(prescriptionRoutes)
 app.register(vaccinationRoutes)
+app.register(attachmentRoutes)
 
 
 
