@@ -1,14 +1,6 @@
-import { CreateAttchementController } from "./createAttachement";
-import { FastifyInstance } from 'fastify'
-import multer from 'fastify-multer';
+import { FastifyInstance } from 'fastify';
+import { CreateAttchementController } from './createAttachement';
 
-const upload = multer(); // Middleware de upload
 export async function attachmentRoutes(app: FastifyInstance) {
-  app.post(
-    '/create/attachments',
-    {
-      preHandler: upload.single('archive'), 
-    },
-    CreateAttchementController
-  );
+  app.post('/create/attachments', CreateAttchementController);
 }

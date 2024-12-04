@@ -37,7 +37,10 @@ app.register(fastifyJwt, {
 
 
 app.register(fastifyCookie);
-app.register(fastifyMultipart);
+
+app.register(fastifyMultipart, {
+  attachFieldsToBody: true, 
+});
 
 
 
