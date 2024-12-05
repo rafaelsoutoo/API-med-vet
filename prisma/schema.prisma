@@ -97,6 +97,7 @@ model Animal {
   enchiridion  Enchiridion[]
   prescription Prescription[]
   weight Weight[]
+  attachements Attachment[]
   @@map("animals")
 }
 
@@ -205,4 +206,11 @@ model Weight {
   enchiridion Enchiridion @relation("EnchiridionWeights", fields: [enchiridion_id], references: [id])
 
   @@map("weights")
+}
+
+model Attachment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  animal_id String @db.ObjectId
+  url_archive String
+  animal Animal @relation(fields: [animal_id], references: [id])
 }
