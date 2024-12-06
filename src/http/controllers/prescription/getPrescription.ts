@@ -8,7 +8,7 @@ import { AnimalNoexists } from "@/use-cases/errors/animal-errors";
 import { makeGetAllPrescriptionUseCase } from "@/use-cases/factories/prescription/make-get-all-prescription";
 
 
-export async function getAllPrescription(request: FastifyRequest, reply: FastifyReply) {
+export async function getAllPrescription(request: FastifyRequest, reply: FastifyReply) { // mudar essa rota
     const prescriptionQuerySchema = z.object({
         page: z.coerce.number().default(1),
     })

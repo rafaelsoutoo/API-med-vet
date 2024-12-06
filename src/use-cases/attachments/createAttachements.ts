@@ -13,6 +13,7 @@ interface UploadedFile {
 interface AttachementUseCaseRequest {
     animal_id: string,
     archive: UploadedFile
+    name: string
 
 }
 
@@ -26,7 +27,8 @@ export class CreateAttachmentUseCase {
 
     async execute({
         animal_id,
-        archive
+        archive,
+        name
     }: AttachementUseCaseRequest): Promise<Attachment> {
 
         if (!archive) {
@@ -39,7 +41,8 @@ export class CreateAttachmentUseCase {
         const url_archive = url
         const attachment = await this.attachmentRepository.createAttachment({
             animal_id,
-            url_archive
+            url_archive,
+            name
 
         });
 
